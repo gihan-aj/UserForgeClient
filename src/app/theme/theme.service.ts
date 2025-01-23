@@ -3,13 +3,14 @@ import {
   effect,
   inject,
   Injectable,
-  Signal,
   signal,
   WritableSignal,
 } from '@angular/core';
 import { AppTheme } from './app-theme.enum';
 import { Theme } from './theme.interface';
 import { MessageService } from '../shared/messages/message.service';
+import { SettingsService } from '../shared/settings/settings.service';
+import { Setting } from '../shared/settings/setting.enum';
 
 @Injectable({
   providedIn: 'root',
@@ -40,6 +41,14 @@ export class ThemeService {
   selectedTheme = computed(() => {
     return this.themes.find((theme) => theme.label === this.appTheme());
   });
+
+  constructor(private settings: SettingsService) {
+    this.settings.settings$.subscribe({
+      next: (settings) => {
+        this.appTheme.set(settings[Setting.Theme]);
+      },
+    });
+  }
 
   getThemes(): Theme[] {
     return this.themes;
