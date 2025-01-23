@@ -1,1 +1,15 @@
-<p>side-nav works!</p>
+<mat-toolbar>
+  <strong>User Forge</strong>
+</mat-toolbar>
+
+<mat-nav-list>
+  @for (item of menuItems; track $index) {
+  <mat-list-item [activated]="item.isActive" class="mb-1">
+    <a matListItemTitle routerLink="{{ item.route }}">
+      <div class="d-flex flex-row align-items-center gap-2">
+        <mat-icon>{{ item.icon }} </mat-icon><span>{{ item.name }}</span>
+      </div>
+    </a>
+  </mat-list-item>
+  }
+</mat-nav-list>

@@ -2,6 +2,17 @@ export type Messages = {
   app: {
     title: string;
     menu: {
+      sideMenu: {
+        dashboard: string;
+        userManagement: string;
+        softwarePackages: string;
+        permissionManagement: string;
+        auditLogs: string;
+        ssoSettings: string;
+        intergrations: string;
+        support: string;
+        settings: string;
+      };
       themeSelect: {
         light: string;
         dark: string;
@@ -21,6 +32,17 @@ export type Messages = {
         user: string;
         sideMenu: string;
       };
+    };
+    footer: {
+      footerText: string;
+    };
+  };
+  page: {
+    notFound: {
+      title404: string;
+      titleNotFount: string;
+      textNotFound: string;
+      buttonHome: string;
     };
   };
 };
