@@ -1,3 +1,18 @@
 <mat-toolbar>
-  <p>top-bar works!</p>
+  <strong>{{ appName }}</strong>
+
+  <div class="flex-stretch"></div>
+
+  <button mat-icon-button [matMenuTriggerFor]="themeMenu">
+    <mat-icon>{{ themeService.selectedTheme()?.icon }}</mat-icon>
+  </button>
+
+  <mat-menu #themeMenu="matMenu">
+    @for (theme of themeService.getThemes(); track theme.label) {
+    <button mat-menu-item (click)="themeService.setTheme(theme.label)">
+      <mat-icon>{{ theme.icon }}</mat-icon>
+      <span>{{ theme.name }}</span>
+    </button>
+    }
+  </mat-menu>
 </mat-toolbar>

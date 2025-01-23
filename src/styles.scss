@@ -5,10 +5,10 @@
 @use "bootstrap/scss/bootstrap-utilities.scss"; // Add the grid system
 
 html {
+  color-scheme: light dark;
   @include mat.theme(
     (
       color: (
-        theme-type: light,
         primary: mat.$azure-palette,
         tertiary: mat.$blue-palette,
       ),
