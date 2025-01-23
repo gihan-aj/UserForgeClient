@@ -1,18 +1,69 @@
 <mat-toolbar>
+  <button
+    class="mx-1"
+    mat-icon-button
+    matTooltip="{{ sideMenuToggleToolTip }}"
+    aria-label="Side menu toggle button"
+  >
+    <!-- <i class="bi bi-list"></i> -->
+    <mat-icon>menu</mat-icon>
+  </button>
+
   <strong>{{ appName }}</strong>
 
   <div class="flex-stretch"></div>
 
-  <button mat-icon-button [matMenuTriggerFor]="themeMenu">
-    <mat-icon>{{ themeService.selectedTheme()?.icon }}</mat-icon>
+  <button
+    mat-icon-button
+    class="mx-1"
+    matTooltip="{{ userMenuToolTip }}"
+    aria-label="User menu button"
+    [mat-menu-trigger-for]="userMenu"
+  >
+    <mat-icon>person</mat-icon>
   </button>
 
-  <mat-menu #themeMenu="matMenu">
-    @for (theme of themeService.getThemes(); track theme.label) {
-    <button mat-menu-item (click)="themeService.setTheme(theme.label)">
-      <mat-icon>{{ theme.icon }}</mat-icon>
-      <span>{{ theme.name }}</span>
-    </button>
-    }
-  </mat-menu>
+  <button
+    mat-icon-button
+    [matMenuTriggerFor]="themeMenu"
+    matTooltip="{{ themeSelectToolTip }}"
+    aria-label="Select theme button"
+  >
+    <mat-icon>{{ themeService.selectedTheme()?.icon }}</mat-icon>
+  </button>
 </mat-toolbar>
+
+<mat-menu #themeMenu="matMenu">
+  @for (theme of themeService.getThemes(); track theme.label) {
+  <button mat-menu-item (click)="themeService.setTheme(theme.label)">
+    <mat-icon>{{ theme.icon }}</mat-icon>
+    <span>{{ theme.name }}</span>
+  </button>
+  }
+</mat-menu>
+
+<mat-menu #userMenu="matMenu">
+  @if (user) {
+  <button mat-menu-item routerLink="{{ userRouterLinks.userProfile }}">
+    <mat-icon>person</mat-icon>
+    <span>{{ msgService.getMessage("app.menu.user.profile") }}</span>
+  </button>
+  <button mat-menu-item routerLink="{{ userRouterLinks.userSettings }}">
+    <mat-icon>settings</mat-icon>
+    <span>{{ msgService.getMessage("app.menu.user.settings") }}</span>
+  </button>
+  <button mat-menu-item>
+    <mat-icon>logout</mat-icon>
+    <span>{{ msgService.getMessage("app.menu.user.logout") }}</span>
+  </button>
+  }@else {
+  <button mat-menu-item routerLink="{{ userRouterLinks.userLogin }}">
+    <mat-icon>login</mat-icon>
+    <span>{{ msgService.getMessage("app.menu.user.login") }}</span>
+  </button>
+  <button mat-menu-item routerLink="{{ userRouterLinks.userRegistration }}">
+    <mat-icon>person_add</mat-icon>
+    <span>{{ msgService.getMessage("app.menu.user.register") }}</span>
+  </button>
+  }
+</mat-menu>

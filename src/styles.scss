@@ -3,6 +3,7 @@
 @use "@angular/material" as mat;
 @use "bootstrap/scss/bootstrap-grid.scss"; // Add .container and .container-fluid classes
 @use "bootstrap/scss/bootstrap-utilities.scss"; // Add the grid system
+@use "bootstrap-icons/font/bootstrap-icons.css";
 
 html {
   color-scheme: light dark;
