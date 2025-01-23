@@ -14,6 +14,7 @@ import { AuthService } from '../../shared/services/auth.service';
 import { User } from '../../user/models/user.model';
 import { RouterLink } from '@angular/router';
 import { ROUTE_STRINGS } from '../../shared/constants/route-strings';
+import { SideNavService } from '../side-nav/side-nav.service';
 
 @Component({
   selector: 'app-top-bar',
@@ -32,6 +33,7 @@ import { ROUTE_STRINGS } from '../../shared/constants/route-strings';
 export class TopBarComponent {
   msgService = inject(MessageService);
   themeService = inject(ThemeService);
+  sideNavService = inject(SideNavService);
 
   appName = this.msgService.getMessage('app.title');
   themeSelectToolTip = this.msgService.getMessage(

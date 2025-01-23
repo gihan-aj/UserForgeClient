@@ -1,5 +1,10 @@
 <mat-drawer-container class="h-100">
-  <mat-drawer class="w-auto" [mode]="'side'" [opened]="true">
+  <mat-drawer
+    class="w-auto"
+    [mode]="sideNavService.sideNavModeStaus()"
+    [opened]="sideNavService.sideNavStatus()"
+    (openedChange)="sideNavStatusChanged($event)"
+  >
     <div class="p-1">
       <app-side-nav></app-side-nav>
     </div>

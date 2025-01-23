@@ -4,12 +4,15 @@
     mat-icon-button
     matTooltip="{{ sideMenuToggleToolTip }}"
     aria-label="Side menu toggle button"
+    (click)="sideNavService.toggleNavBar()"
   >
     <!-- <i class="bi bi-list"></i> -->
     <mat-icon>menu</mat-icon>
   </button>
 
+  @if (!sideNavService.sideNavStatus()) {
   <strong>{{ appName }}</strong>
+  }
 
   <div class="flex-stretch"></div>
 
