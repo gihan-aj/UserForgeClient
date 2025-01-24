@@ -5,6 +5,7 @@ export class User {
   private _email: string | undefined;
   private _firstName: string;
   private _lastName: string;
+  private _permissions: string[] = [];
 
   constructor(id: string, email: string, firstName: string, lastName: string) {
     this._id = id;
@@ -17,7 +18,6 @@ export class User {
   dateOfBirth: string | null | undefined;
   userSettings: UserSetting[] = [];
   roles: string[] = [];
-  permissions: string[] = [];
 
   get id() {
     return this._id;
@@ -53,8 +53,16 @@ export class User {
     )}`;
   }
 
+  get permissions(): string[] {
+    return this._permissions;
+  }
+
   updateEmail(newEmail: string): void {
     this._email = newEmail;
+  }
+
+  updatePermissions(permissions: string[]) {
+    this._permissions = permissions;
   }
 
   updateUserSettings(setting: UserSetting): void {

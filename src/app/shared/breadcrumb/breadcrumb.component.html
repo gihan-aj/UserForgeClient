@@ -1,0 +1,16 @@
+<div class="d-flex flex-row">
+  <div>
+    <button mat-icon-button routerLink="/dashboard">
+      <mat-icon>home</mat-icon>
+    </button>
+  </div>
+  <div
+    class="d-flex align-items-center"
+    *ngFor="let breadcrumb of breadcrumbs$ | async; let i = index"
+  >
+    <mat-icon>chevron_right</mat-icon>
+    <button routerLink="{{ breadcrumb.url }}" mat-button>
+      {{ breadcrumb.name }}
+    </button>
+  </div>
+</div>

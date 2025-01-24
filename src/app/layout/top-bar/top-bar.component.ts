@@ -15,6 +15,7 @@ import { User } from '../../user/models/user.model';
 import { RouterLink } from '@angular/router';
 import { ROUTE_STRINGS } from '../../shared/constants/route-strings';
 import { SideNavService } from '../side-nav/side-nav.service';
+import { BreadcrumbComponent } from '../../shared/breadcrumb/breadcrumb.component';
 
 @Component({
   selector: 'app-top-bar',
@@ -26,6 +27,7 @@ import { SideNavService } from '../side-nav/side-nav.service';
     MatToolbarModule,
     MatMenuModule,
     MatTooltipModule,
+    BreadcrumbComponent,
   ],
   templateUrl: './top-bar.component.html',
   styleUrl: './top-bar.component.scss',

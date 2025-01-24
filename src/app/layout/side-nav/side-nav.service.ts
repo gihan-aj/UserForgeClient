@@ -18,10 +18,7 @@ export class SideNavService {
   }
 
   toggleNavBar(): void {
-    console.log('dfh', this.sideNavOpened());
-
     this.sideNavOpened.set(!this.sideNavOpened());
-    console.log('dfh', this.sideNavOpened());
   }
 
   setSideNavOpenedStatus(status: boolean) {

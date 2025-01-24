@@ -1,39 +1,47 @@
 <mat-toolbar>
-  <button
-    class="mx-1"
-    mat-icon-button
-    matTooltip="{{ sideMenuToggleToolTip }}"
-    aria-label="Side menu toggle button"
-    (click)="sideNavService.toggleNavBar()"
-  >
-    <!-- <i class="bi bi-list"></i> -->
-    <mat-icon>menu</mat-icon>
-  </button>
+  <mat-toolbar-row>
+    <button
+      class="mx-1"
+      mat-icon-button
+      matTooltip="{{ sideMenuToggleToolTip }}"
+      aria-label="Side menu toggle button"
+      (click)="sideNavService.toggleNavBar()"
+    >
+      <!-- <i class="bi bi-list"></i> -->
+      <mat-icon>menu</mat-icon>
+    </button>
 
-  @if (!sideNavService.sideNavStatus()) {
-  <strong>{{ appName }}</strong>
-  }
+    @if (!sideNavService.sideNavStatus()) {
+    <strong>{{ appName }}</strong>
+    }
 
-  <div class="flex-stretch"></div>
+    <div class="flex-stretch"></div>
 
-  <button
-    mat-icon-button
-    class="mx-1"
-    matTooltip="{{ userMenuToolTip }}"
-    aria-label="User menu button"
-    [mat-menu-trigger-for]="userMenu"
-  >
-    <mat-icon>person</mat-icon>
-  </button>
+    <button
+      mat-icon-button
+      class="mx-1"
+      matTooltip="{{ userMenuToolTip }}"
+      aria-label="User menu button"
+      [mat-menu-trigger-for]="userMenu"
+    >
+      <mat-icon>person</mat-icon>
+    </button>
 
-  <button
-    mat-icon-button
-    [matMenuTriggerFor]="themeMenu"
-    matTooltip="{{ themeSelectToolTip }}"
-    aria-label="Select theme button"
-  >
-    <mat-icon>{{ themeService.selectedTheme()?.icon }}</mat-icon>
-  </button>
+    <button
+      mat-icon-button
+      [matMenuTriggerFor]="themeMenu"
+      matTooltip="{{ themeSelectToolTip }}"
+      aria-label="Select theme button"
+    >
+      <mat-icon>{{ themeService.selectedTheme()?.icon }}</mat-icon>
+    </button>
+  </mat-toolbar-row>
+
+  <mat-toolbar-row>
+    <div class="mx-1">
+      <app-breadcrumb></app-breadcrumb>
+    </div>
+  </mat-toolbar-row>
 </mat-toolbar>
 
 <mat-menu #themeMenu="matMenu">

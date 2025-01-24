@@ -9,10 +9,18 @@ import { SideMenuItem } from './side-menu-item.interface';
 import { MessageService } from '../../shared/messages/message.service';
 import { ROUTE_STRINGS } from '../../shared/constants/route-strings';
 import { MatToolbarModule } from '@angular/material/toolbar';
+import { SideNavService } from './side-nav.service';
+import { SideNavMode } from './side-nav-mode.enum';
 
 @Component({
   selector: 'app-side-nav',
-  imports: [RouterLink, MatListModule, MatIconModule, MatButtonModule, MatToolbarModule],
+  imports: [
+    RouterLink,
+    MatListModule,
+    MatIconModule,
+    MatButtonModule,
+    MatToolbarModule,
+  ],
   templateUrl: './side-nav.component.html',
   styleUrl: './side-nav.component.scss',
 })
@@ -78,12 +86,17 @@ export class SideNavComponent implements OnInit {
     },
   ];
 
-  constructor(private router: Router) {}
+  constructor(private router: Router, private sideNav: SideNavService) {}
 
   ngOnInit(): void {
     this.router.events.subscribe((event) => {
       if (event instanceof NavigationEnd) {
         this.updateActiveLink(event.urlAfterRedirects);
+        if (
+          this.sideNav.sideNavModeStaus() === SideNavMode.Over &&
+          this.sideNav.sideNavStatus() === true
+        )
+          this.sideNav.closeSideNav();
       }
     });
   }

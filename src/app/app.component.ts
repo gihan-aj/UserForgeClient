@@ -16,6 +16,7 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { SideNavService } from './layout/side-nav/side-nav.service';
 import { SideNavMode } from './layout/side-nav/side-nav-mode.enum';
 import { LARGE_SCREEN_LOWER_LIMIT } from './shared/constants/screen-size';
+import { BreadcrumbService } from './shared/breadcrumb/breadcrumb.service';
 
 @Component({
   selector: 'app-root',
@@ -34,6 +35,8 @@ export class AppComponent implements OnInit {
   screenWidth = signal<number>(window.innerWidth);
 
   title = 'user-forge-client';
+
+  constructor(breadcrumbService: BreadcrumbService) {}
 
   ngOnInit(): void {
     this.setSideNav();
