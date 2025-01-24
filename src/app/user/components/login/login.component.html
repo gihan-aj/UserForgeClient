@@ -1,1 +1,13 @@
-<p>login works!</p>
+<div class="row m-1">
+  <div class="col-md-5 col-12 text-md-start text-center">
+    <h2>Sign in</h2>
+  </div>
+  <div class="col-md-7 col-12 text-md-end text-center">
+    <p>Sign in form</p>
+    <button [disabled]="loading" mat-flat-button (click)="load()">
+      <app-loading-container [loading]="loading" [size]="20"
+        >Sign in</app-loading-container
+      >
+    </button>
+  </div>
+</div>

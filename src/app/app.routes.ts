@@ -12,9 +12,6 @@ export const routes: Routes = [
   {
     path: 'dashboard',
     component: DashboardComponent,
-    // data: {
-    //   breadcrumb: 'Dashboard',
-    // },
   },
   {
     path: 'not-found',
@@ -27,9 +24,6 @@ export const routes: Routes = [
     path: 'user',
     component: UserComponent,
     loadChildren: () => import('./user/user.routes').then((u) => u.routes),
-    data: {
-      breadcrumb: 'User',
-    },
   },
   {
     path: '**',
