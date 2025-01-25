@@ -3,6 +3,7 @@ import {
   HostListener,
   inject,
   model,
+  OnDestroy,
   OnInit,
   signal,
 } from '@angular/core';
@@ -17,6 +18,9 @@ import { SideNavService } from './layout/side-nav/side-nav.service';
 import { SideNavMode } from './layout/side-nav/side-nav-mode.enum';
 import { LARGE_SCREEN_LOWER_LIMIT } from './shared/constants/screen-size';
 import { BreadcrumbService } from './shared/breadcrumb/breadcrumb.service';
+import { AuthService } from './shared/services/auth.service';
+import { User } from './user/models/user.model';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-root',
@@ -30,13 +34,22 @@ import { BreadcrumbService } from './shared/breadcrumb/breadcrumb.service';
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
 })
-export class AppComponent implements OnInit {
+export class AppComponent implements OnInit, OnDestroy {
   sideNavService = inject(SideNavService);
   screenWidth = signal<number>(window.innerWidth);
 
   title = 'user-forge-client';
 
-  constructor(breadcrumbService: BreadcrumbService) {}
+  private userSubscription: Subscription;
+
+  constructor(
+    breadcrumbService: BreadcrumbService,
+    private authService: AuthService
+  ) {
+    this.userSubscription = this.authService.user$.subscribe(() => {
+      this.setSideNav();
+    });
+  }
 
   ngOnInit(): void {
     this.setSideNav();
@@ -53,12 +66,18 @@ export class AppComponent implements OnInit {
       this.sideNavService.closeSideNav();
       this.sideNavService.setSideNavMode(SideNavMode.Over);
     } else {
-      this.sideNavService.openSideNav();
+      if (this.authService.getUser()) this.sideNavService.openSideNav();
       this.sideNavService.setSideNavMode(SideNavMode.Side);
     }
   }
 
   sideNavStatusChanged($event: boolean) {
     this.sideNavService.setSideNavOpenedStatus($event);
+  }
+
+  ngOnDestroy(): void {
+    if (this.userSubscription) {
+      this.userSubscription.unsubscribe();
+    }
   }
 }

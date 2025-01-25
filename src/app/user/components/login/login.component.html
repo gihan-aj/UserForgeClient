@@ -1,13 +1,90 @@
 <div class="row m-1">
   <div class="col-md-5 col-12 text-md-start text-center">
     <h2>Sign in</h2>
+
+    <p>
+      Welcome back! <br />
+      Please login to your account.
+    </p>
   </div>
   <div class="col-md-7 col-12 text-md-end text-center">
-    <p>Sign in form</p>
-    <button [disabled]="loading" mat-flat-button (click)="load()">
+    <form [formGroup]="form" (ngSubmit)="onSubmit()">
+      <div class="my-3">
+        <mat-form-field class="w-100">
+          <mat-label>Email</mat-label>
+          <input matInput type="email" formControlName="email" />
+          <mat-icon matSuffix>email</mat-icon>
+          @if (email?.invalid) {
+          <mat-error>{{ emailErrorMessage() }}</mat-error>
+          }
+        </mat-form-field>
+      </div>
+
+      <div class="my-1">
+        <mat-form-field class="w-100">
+          <mat-label>Password</mat-label>
+          <input
+            formControlName="password"
+            matInput
+            [type]="hidePassword() ? 'password' : 'text'"
+          />
+          <button
+            class="mx-2"
+            mat-icon-button
+            matSuffix
+            (click)="passwordVisibiltyToggle($event)"
+            [attr.aria-label]="'Hide password'"
+            [attr.aria-pressed]="hidePassword()"
+          >
+            <mat-icon>{{
+              hidePassword() ? "visibility_off" : "visibility"
+            }}</mat-icon>
+          </button>
+
+          @if (password?.invalid) {
+          <mat-error>{{ passwordErrorMessage() }}</mat-error>
+          }
+        </mat-form-field>
+      </div>
+      <div class="text-start">
+        <button
+          mat-button
+          routerLink="/user/send-email/forgot-password"
+          [disabled]="loading()"
+        >
+          Forgot password?
+        </button>
+      </div>
+
+      <div
+        class="d-flex flex-md-row justify-content-end flex-column-reverse mb-3"
+      >
+        <button
+          class="me-lg-2 mt-lg-0 mt-2"
+          mat-button
+          routerLink="/user/registration"
+          [disabled]="loading()"
+        >
+          Create account
+        </button>
+
+        <button
+          class="mt-lg-0 mt-2"
+          mat-flat-button
+          type="submit"
+          [disabled]="loading()"
+        >
+          <app-loading-container [loading]="loading()" [size]="20"
+            >Sign in</app-loading-container
+          >
+        </button>
+      </div>
+    </form>
+
+    <!-- <button [disabled]="loading" mat-flat-button (click)="load()">
       <app-loading-container [loading]="loading" [size]="20"
         >Sign in</app-loading-container
       >
-    </button>
+    </button> -->
   </div>
 </div>

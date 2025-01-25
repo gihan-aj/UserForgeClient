@@ -47,4 +47,17 @@ export const MESSAGES: Messages = {
       buttonHome: 'Go to Dashboard',
     },
   },
+  user: {
+    login: {
+      validation: {
+        email: {
+          required: 'Email is required.',
+          invalid: 'Email is invalid.'
+        },
+        password: {
+          required: 'Password is required.'
+        }
+      }
+    }
+  }
 };

@@ -1,12 +1,13 @@
 import { computed, HostListener, Injectable, signal } from '@angular/core';
 import { LARGE_SCREEN_LOWER_LIMIT } from '../../shared/constants/screen-size';
 import { SideNavMode } from './side-nav-mode.enum';
+import { AuthService } from '../../shared/services/auth.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class SideNavService {
-  private sideNavOpened = signal<boolean>(true);
+  private sideNavOpened = signal<boolean>(false);
   private sideNavMode = signal<SideNavMode>(SideNavMode.Side);
 
   openSideNav(): void {

@@ -37,6 +37,19 @@ export type Messages = {
       footerText: string;
     };
   };
+  user: {
+    login: {
+      validation: {
+        email: {
+          required: string;
+          invalid: string;
+        };
+        password: {
+          required: string;
+        };
+      };
+    };
+  };
   page: {
     notFound: {
       title404: string;

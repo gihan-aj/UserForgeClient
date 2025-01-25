@@ -1,5 +1,6 @@
 <mat-toolbar>
   <mat-toolbar-row>
+    @if (user) {
     <button
       class="mx-1"
       mat-icon-button
@@ -10,8 +11,7 @@
       <!-- <i class="bi bi-list"></i> -->
       <mat-icon>menu</mat-icon>
     </button>
-
-    @if (!sideNavService.sideNavStatus()) {
+    } @if (!sideNavService.sideNavStatus()) {
     <strong>{{ appName }}</strong>
     }
 
@@ -37,11 +37,13 @@
     </button>
   </mat-toolbar-row>
 
+  @if (user) {
   <mat-toolbar-row>
     <div class="mx-1">
       <app-breadcrumb></app-breadcrumb>
     </div>
   </mat-toolbar-row>
+  }
 </mat-toolbar>
 
 <mat-menu #themeMenu="matMenu">
