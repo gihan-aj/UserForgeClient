@@ -1,0 +1,21 @@
+<!-- <h2 mat-dialog-title>Delete all elements?</h2> -->
+<mat-dialog-content [ngClass]="[data.type]" class="text-center">
+  <h1 [ngClass]="[data.type]">{{ data.title }}</h1>
+  <p [ngClass]="[data.type]">
+    {{ data.message }}
+  </p>
+
+  @if (data.details && data.details.length > 0) {
+  <ul [ngClass]="[data.type]">
+    <li class="mb-1"><h3>Details</h3></li>
+    @for (error of data.details; track $index) {
+    <li>{{ error }}</li>
+    }
+  </ul>
+  }
+</mat-dialog-content>
+<mat-dialog-actions [ngClass]="[data.type]">
+  <button [ngClass]="[data.type]" mat-raised-button [mat-dialog-close]="true">
+    Ok
+  </button>
+</mat-dialog-actions>

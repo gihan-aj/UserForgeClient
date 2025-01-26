@@ -1,0 +1,19 @@
+.danger {
+  background-color: var(--mat-sys-on-error-container);
+  color: var(--mat-sys-on-error);
+}
+
+.success {
+  background-color: var(--mat-sys-primary-container);
+  color: var(--mat-sys-on-primary-container);
+}
+
+.info {
+  background-color: var(--mat-sys-tertiary-container);
+  color: var(--mat-sys-on-tertiary-container);
+}
+
+.warning {
+  background-color: var(--mat-sys-secondary-container);
+  color: var(--mat-sys-on-secondary-container);
+}

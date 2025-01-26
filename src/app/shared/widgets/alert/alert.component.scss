@@ -1,0 +1,25 @@
+@use "@angular/material" as mat;
+@use "../../../theme/theme.scss";
+
+:host {
+  @include mat.dialog-overrides(
+    (
+      actions-alignment: center,
+    )
+  );
+}
+
+ul {
+  text-decoration: none;
+  padding-left: 0;
+}
+
+h3 {
+    margin: 0;
+}
+
+li {
+  text-decoration: none;
+  list-style: none;
+  margin-left: 0;
+}
