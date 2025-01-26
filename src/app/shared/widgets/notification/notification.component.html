@@ -1,0 +1,14 @@
+<span [style.color]="color" matSnackBarLabel>
+  <mat-icon class="inline-icon">{{ icon }}</mat-icon>
+  {{ data.message }}</span
+>
+<span matSnackBarActions>
+  <button
+    [style.color]="color"
+    mat-button
+    matSnackBarAction
+    (click)="snackBarRef.dismissWithAction()"
+  >
+    Ok
+  </button>
+</span>

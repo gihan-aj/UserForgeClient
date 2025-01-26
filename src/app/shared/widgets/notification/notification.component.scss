@@ -1,0 +1,60 @@
+@use "@angular/material" as mat;
+
+:host {
+  @include mat.snack-bar-overrides(
+    (
+      supporting-text-weight: 500,
+    )
+  );
+}
+
+:host {
+  display: flex;
+}
+
+span {
+  display: flex;
+  flex-direction: row;
+  align-content: center;
+  align-items: center;
+}
+
+.inline-icon {
+  margin-right: 1rem;
+}
+
+.danger {
+  color: var(--mat-sys-error-container);
+}
+
+.danger-btn {
+  background-color: var(--mat-sys-on-error-container);
+  color: var(--mat-sys-error-container);
+}
+
+.success {
+  color: var(--mat-sys-on-primary);
+}
+
+.success-btn {
+  background-color: var(--mat-sys-primary-container);
+  color: var(--mat-sys-on-primary);
+}
+
+.info {
+  color: var(--mat-sys-on-tertiary);
+}
+
+.info-btn {
+  background-color: var(--mat-sys-tertiary-container);
+  color: var(--mat-sys-on-tertiary);
+}
+
+.warning {
+  color: var(--mat-sys-on-secondary);
+}
+
+.warning-btn {
+  background-color: var(--mat-sys-secondary-container);
+  color: var(--mat-sys-on-secondary);
+}
