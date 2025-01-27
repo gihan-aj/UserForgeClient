@@ -17,7 +17,7 @@ export const authGuard: CanActivateFn = (route, state) => {
 
   const loginUrl = ABSOLUTE_ROUTES.user.userLogin;
 
-  console.log('auth guard chacking authentication ', accessToken, refreshToken);
+  console.log('auth guard checking authentication');
 
   if (accessToken && !jwtTokenService.isTokenExpired(accessToken)) {
     console.log('has a valid access token. authenticated.');
@@ -28,6 +28,7 @@ export const authGuard: CanActivateFn = (route, state) => {
     return userService.refreshUser(refreshToken).pipe(
       map((response) => {
         if (response) {
+          console.log('user authenticated at guard');
           return true;
         } else {
           console.log('authentication failed refreshing user at guard.');

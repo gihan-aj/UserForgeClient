@@ -1,4 +1,8 @@
-import { ApplicationConfig, provideZoneChangeDetection } from '@angular/core';
+import {
+  ApplicationConfig,
+  provideAppInitializer,
+  provideZoneChangeDetection,
+} from '@angular/core';
 import { provideRouter } from '@angular/router';
 
 import { routes } from './app.routes';
@@ -11,6 +15,7 @@ import {
   withInterceptorsFromDi,
 } from '@angular/common/http';
 import { authInterceptor } from './shared/interceptors/auth.interceptor';
+import { appInitializer } from './app.init';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -18,6 +23,7 @@ export const appConfig: ApplicationConfig = {
     provideRouter(routes),
     provideAnimationsAsync(),
     provideHttpClient(withInterceptors([authInterceptor])),
+    provideAppInitializer(appInitializer()),
     {
       provide: MAT_FORM_FIELD_DEFAULT_OPTIONS,
       useValue: { appearance: 'outline' },
