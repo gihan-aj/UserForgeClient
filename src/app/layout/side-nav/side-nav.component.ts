@@ -1,16 +1,17 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { NavigationEnd, Router, RouterLink } from '@angular/router';
+import { Subscription } from 'rxjs';
 
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
-import { SideMenuItem } from './side-menu-item.interface';
 
-import { MessageService } from '../../shared/messages/message.service';
-import { ROUTE_STRINGS } from '../../shared/constants/route-strings';
+import { SideMenuItem } from './side-menu-item.interface';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { SideNavService } from './side-nav.service';
 import { SideNavMode } from './side-nav-mode.enum';
+import { SIDE_MENU } from './side-menu';
+import { ABSOLUTE_ROUTES } from '../../shared/constants/absolute-routes';
 
 @Component({
   selector: 'app-side-nav',
@@ -24,72 +25,71 @@ import { SideNavMode } from './side-nav-mode.enum';
   templateUrl: './side-nav.component.html',
   styleUrl: './side-nav.component.scss',
 })
-export class SideNavComponent implements OnInit {
-  msgService = inject(MessageService);
+export class SideNavComponent implements OnInit, OnDestroy {
+  sideMenu = SIDE_MENU;
+  routes = ABSOLUTE_ROUTES;
 
   menuItems: SideMenuItem[] = [
     {
-      name: this.msgService.getMessage('app.menu.sideMenu.dashboard'),
+      name: this.sideMenu.dashboard,
       icon: 'dashboard',
-      route: ROUTE_STRINGS.dashboard,
+      route: this.routes.dashboard,
       isActive: false,
     },
     {
-      name: this.msgService.getMessage('app.menu.sideMenu.userManagement'),
+      name: this.sideMenu.userManagement,
       icon: 'groups',
-      route: ROUTE_STRINGS.userManagement.base,
+      route: this.routes.userManagement.base,
       isActive: false,
     },
     {
-      name: this.msgService.getMessage('app.menu.sideMenu.softwarePackages'),
+      name: this.sideMenu.softwarePackages,
       icon: 'app_shortcut',
-      route: ROUTE_STRINGS.softwarePackages.base,
+      route: this.routes.softwarePackages.base,
       isActive: false,
     },
     {
-      name: this.msgService.getMessage(
-        'app.menu.sideMenu.permissionManagement'
-      ),
+      name: this.sideMenu.permissionManagement,
       icon: 'admin_panel_settings',
-      route: ROUTE_STRINGS.permissionManagement.base,
+      route: this.routes.permissionManagement.base,
       isActive: false,
     },
     {
-      name: this.msgService.getMessage('app.menu.sideMenu.auditLogs'),
+      name: this.sideMenu.auditLogs,
       icon: 'summarize',
-      route: ROUTE_STRINGS.auditLogs.base,
+      route: this.routes.auditLogs.base,
       isActive: false,
     },
     {
-      name: this.msgService.getMessage('app.menu.sideMenu.ssoSettings'),
+      name: this.sideMenu.ssoSettings,
       icon: 'manufacturing',
-      route: ROUTE_STRINGS.ssoSettings.base,
+      route: this.routes.ssoSettings.base,
       isActive: false,
     },
     {
-      name: this.msgService.getMessage('app.menu.sideMenu.intergrations'),
+      name: this.sideMenu.intergrations,
       icon: 'api',
-      route: ROUTE_STRINGS.intergrations.base,
+      route: this.routes.intergrations.base,
       isActive: false,
     },
     {
-      name: this.msgService.getMessage('app.menu.sideMenu.support'),
+      name: this.sideMenu.support,
       icon: 'help',
-      route: ROUTE_STRINGS.support.base,
+      route: this.routes.support.base,
       isActive: false,
     },
     {
-      name: this.msgService.getMessage('app.menu.sideMenu.settings'),
+      name: this.sideMenu.settings,
       icon: 'settings',
-      route: ROUTE_STRINGS.settings.base,
+      route: this.routes.settings.base,
       isActive: false,
     },
   ];
 
-  constructor(private router: Router, private sideNav: SideNavService) {}
+  routerSubscription: Subscription;
 
-  ngOnInit(): void {
-    this.router.events.subscribe((event) => {
+  constructor(private router: Router, private sideNav: SideNavService) {
+    this.routerSubscription = this.router.events.subscribe((event) => {
       if (event instanceof NavigationEnd) {
         this.updateActiveLink(event.urlAfterRedirects);
         if (
@@ -101,9 +101,26 @@ export class SideNavComponent implements OnInit {
     });
   }
 
+  ngOnInit(): void {
+    // this.routerSubscription = this.router.events.subscribe((event) => {
+    //   if (event instanceof NavigationEnd) {
+    //     this.updateActiveLink(event.urlAfterRedirects);
+    //     if (
+    //       this.sideNav.sideNavModeStaus() === SideNavMode.Over &&
+    //       this.sideNav.sideNavStatus() === true
+    //     )
+    //       this.sideNav.closeSideNav();
+    //   }
+    // });
+  }
+
   updateActiveLink(route: string): void {
     this.menuItems.forEach((menuItem) => {
       menuItem.isActive = menuItem.route === route;
     });
+  }
+
+  ngOnDestroy(): void {
+    this.routerSubscription.unsubscribe();
   }
 }

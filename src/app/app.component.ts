@@ -2,25 +2,25 @@ import {
   Component,
   HostListener,
   inject,
-  model,
   OnDestroy,
   OnInit,
   signal,
 } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
+import { Subscription } from 'rxjs';
+
+import { MatSidenavModule } from '@angular/material/sidenav';
 
 import { TopBarComponent } from './layout/top-bar/top-bar.component';
 import { SideNavComponent } from './layout/side-nav/side-nav.component';
 import { FooterComponent } from './layout/footer/footer.component';
 
-import { MatSidenavModule } from '@angular/material/sidenav';
 import { SideNavService } from './layout/side-nav/side-nav.service';
 import { SideNavMode } from './layout/side-nav/side-nav-mode.enum';
 import { LARGE_SCREEN_LOWER_LIMIT } from './shared/constants/screen-size';
 import { BreadcrumbService } from './shared/breadcrumb/breadcrumb.service';
 import { AuthService } from './shared/services/auth.service';
-import { User } from './user/models/user.model';
-import { Subscription } from 'rxjs';
+import { APP_TITLE } from './shared/constants/app-title';
 
 @Component({
   selector: 'app-root',
@@ -38,7 +38,7 @@ export class AppComponent implements OnInit, OnDestroy {
   sideNavService = inject(SideNavService);
   screenWidth = signal<number>(window.innerWidth);
 
-  title = 'user-forge-client';
+  title = APP_TITLE;
 
   private userSubscription: Subscription;
 
@@ -61,7 +61,7 @@ export class AppComponent implements OnInit, OnDestroy {
     this.setSideNav();
   }
 
-  setSideNav(): void {
+  private setSideNav(): void {
     if (this.screenWidth() < LARGE_SCREEN_LOWER_LIMIT) {
       this.sideNavService.closeSideNav();
       this.sideNavService.setSideNavMode(SideNavMode.Over);

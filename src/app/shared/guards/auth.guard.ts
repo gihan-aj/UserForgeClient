@@ -3,8 +3,8 @@ import { CanActivateFn, Router } from '@angular/router';
 import { UserService } from '../../user/services/user.service';
 import { JwtTokenService } from '../services/jwt-token.service';
 import { AuthService } from '../services/auth.service';
-import { ROUTE_STRINGS } from '../constants/route-strings';
 import { catchError, map, of } from 'rxjs';
+import { ABSOLUTE_ROUTES } from '../constants/absolute-routes';
 
 export const authGuard: CanActivateFn = (route, state) => {
   const authService = inject(AuthService);
@@ -14,6 +14,8 @@ export const authGuard: CanActivateFn = (route, state) => {
 
   const accessToken = authService.getAccessToken();
   const refreshToken = authService.getRefreshToken();
+
+  const loginUrl = ABSOLUTE_ROUTES.user.userLogin;
 
   console.log('auth guard chacking authentication ', accessToken, refreshToken);
 
@@ -29,7 +31,7 @@ export const authGuard: CanActivateFn = (route, state) => {
           return true;
         } else {
           console.log('authentication failed refreshing user at guard.');
-          router.navigate([ROUTE_STRINGS.user.userLogin], {
+          router.navigate([loginUrl], {
             queryParams: { returnUrl: state.url },
           });
           return false;
@@ -39,7 +41,7 @@ export const authGuard: CanActivateFn = (route, state) => {
         console.log(
           'authentication failed. catching error refreshing user at guard.'
         );
-        router.navigate([ROUTE_STRINGS.user.userLogin], {
+        router.navigate([loginUrl], {
           queryParams: { returnUrl: state.url },
         });
         return of(false);
@@ -47,7 +49,7 @@ export const authGuard: CanActivateFn = (route, state) => {
     );
   }
 
-  router.navigate([ROUTE_STRINGS.user.userLogin], {
+  router.navigate([loginUrl], {
     queryParams: { returnUrl: state.url },
   });
 

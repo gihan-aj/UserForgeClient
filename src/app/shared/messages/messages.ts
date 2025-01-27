@@ -1,63 +1,37 @@
 import { Messages } from './messages.type';
 
 export const MESSAGES: Messages = {
-  app: {
-    title: 'User Forge',
-    menu: {
-      themeSelect: {
-        light: 'Light',
-        dark: 'Dark',
-        system: 'System',
-      },
-      user: {
-        login: 'Log in',
-        register: 'Create new account',
-        profile: 'View profile',
-        settings: 'Settings',
-        logout: 'Log out',
-      },
-      sideMenu: {
-        dashboard: 'Dashboard',
-        userManagement: 'User Management',
-        softwarePackages: 'Software Packages',
-        permissionManagement: 'Permission Management',
-        auditLogs: 'Audit Logs',
-        ssoSettings: 'SSO Settings',
-        intergrations: 'Intergrations',
-        support: 'Support',
-        settings: 'Settings',
-      },
-    },
-    topBar: {
-      tooltip: {
-        themeSelect: 'Select theme',
-        user: 'User menu',
-        sideMenu: 'Toggle side menu',
-      },
-    },
-    footer: {
-      footerText: 'UserForge. All rights reserved.',
-    },
-  },
-  page: {
-    notFound: {
-      title404: '404',
-      titleNotFount: 'Not Found!',
-      textNotFound: "Looks like this page doesn't exist!",
-      buttonHome: 'Go to Dashboard',
-    },
-  },
   user: {
     login: {
       validation: {
         email: {
           required: 'Email is required.',
-          invalid: 'Email is invalid.'
+          invalid: 'Email is invalid.',
         },
         password: {
-          required: 'Password is required.'
-        }
-      }
-    }
-  }
+          required: 'Password is required.',
+        },
+      },
+      notification: {
+        login: {
+          success: 'Welcome! {firstName} {lastName}',
+          fail: 'Sorry! Login failed.',
+        },
+        refresh: {
+          fail: 'Authentication falied. Please log in again.',
+        },
+        logout: {
+          success: 'Log out successful!',
+          fail: 'Log out failed!',
+        },
+      },
+      confirmation: {
+        logout: {
+          title: 'Log Out Confirmation',
+          message: 'Are you sure you want to log out from this device?',
+          action: 'Log out',
+        },
+      },
+    },
+  },
 };

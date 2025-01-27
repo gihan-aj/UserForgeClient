@@ -3,7 +3,6 @@ import { RouterLink } from '@angular/router';
 
 import { MatButtonModule } from '@angular/material/button';
 import { MatDividerModule } from '@angular/material/divider';
-import { MessageService } from '../../messages/message.service';
 
 @Component({
   selector: 'app-not-found',
@@ -11,6 +10,4 @@ import { MessageService } from '../../messages/message.service';
   templateUrl: 'not-found.component.html',
   styleUrl: 'not-found.component.scss',
 })
-export class NotFoundComponent {
-  msgService = inject(MessageService);
-}
+export class NotFoundComponent {}

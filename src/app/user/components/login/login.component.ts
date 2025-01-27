@@ -1,4 +1,4 @@
-import { Component, inject, signal } from '@angular/core';
+import { Component, inject, OnDestroy, signal } from '@angular/core';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import {
@@ -7,6 +7,7 @@ import {
   FormBuilder,
   Validators,
 } from '@angular/forms';
+import { merge, Subscription } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 import { MatButtonModule } from '@angular/material/button';
@@ -18,9 +19,12 @@ import { LoadingContainerComponent } from '../../../shared/widgets/loading-conta
 import { MessageService } from '../../../shared/messages/message.service';
 import { RETURN_URL } from '../../../shared/constants/query-params';
 import { EMAIL_MAX_LENGTH } from '../../../shared/constants/constraints';
-import { merge, takeUntil } from 'rxjs';
 import { UserService } from '../../services/user.service';
-import { ROUTE_STRINGS } from '../../../shared/constants/route-strings';
+import { ABSOLUTE_ROUTES } from '../../../shared/constants/absolute-routes';
+import { NotificationService } from '../../../shared/widgets/notification/notification.service';
+import { ErrorHandlingService } from '../../../shared/error-handling/error-handling.service';
+import { AuthService } from '../../../shared/services/auth.service';
+import { AlertType } from '../../../shared/widgets/alert/alert-type.enum';
 
 @Component({
   selector: 'app-login',
@@ -38,7 +42,7 @@ import { ROUTE_STRINGS } from '../../../shared/constants/route-strings';
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss',
 })
-export class LoginComponent {
+export class LoginComponent implements OnDestroy {
   msgService = inject(MessageService);
   fb = inject(FormBuilder);
 
@@ -48,6 +52,7 @@ export class LoginComponent {
   emailErrorMessage = signal('');
   passwordErrorMessage = signal('');
 
+  defaultReturnUrl = ABSOLUTE_ROUTES.dashboard;
   returnUrl: string | null = null;
   emailMaxLength = EMAIL_MAX_LENGTH;
 
@@ -70,10 +75,16 @@ export class LoginComponent {
     return this.form.get('password');
   }
 
+  passwordErrorSubscription: Subscription;
+  emailErrorSubscription: Subscription;
+
   constructor(
     private activatedRoute: ActivatedRoute,
     private userService: UserService,
-    private router: Router
+    private router: Router,
+    private errorHandling: ErrorHandlingService,
+    private authService: AuthService,
+    private notificationService: NotificationService
   ) {
     this.activatedRoute.queryParamMap.subscribe((params) => {
       if (params) {
@@ -81,11 +92,17 @@ export class LoginComponent {
       }
     });
 
-    merge(this.email!.statusChanges, this.email!.valueChanges)
+    this.emailErrorSubscription = merge(
+      this.email!.statusChanges,
+      this.email!.valueChanges
+    )
       .pipe(takeUntilDestroyed())
       .subscribe(() => this.updateEmailErrorMessages());
 
-    merge(this.password!.statusChanges, this.password!.valueChanges)
+    this.passwordErrorSubscription = merge(
+      this.password!.statusChanges,
+      this.password!.valueChanges
+    )
       .pipe(takeUntilDestroyed())
       .subscribe(() => this.updatePasswordErrorMessages());
   }
@@ -126,7 +143,16 @@ export class LoginComponent {
           if (this.returnUrl) {
             this.router.navigateByUrl(this.returnUrl);
           } else {
-            this.router.navigateByUrl(ROUTE_STRINGS.dashboard);
+            this.router.navigateByUrl(this.defaultReturnUrl);
+          }
+
+          const user = this.authService.getUser();
+          if (user) {
+            const message = this.msgService.getMessage(
+              'user.login.notification.login.success',
+              { firstName: user.firstName, lastName: user.lastName }
+            );
+            this.notificationService.notify(AlertType.Success, message);
           }
 
           this.form.reset();
@@ -134,9 +160,20 @@ export class LoginComponent {
         },
         error: (error) => {
           console.error('login error: ', error);
+
+          const message = this.msgService.getMessage('user.login.notification.login.fail');
+          this.notificationService.notify(AlertType.Danger, message);
+          
+          this.errorHandling.handle(error);
           this.loading.set(false);
         },
       });
     }
+  }
+
+  ngOnDestroy(): void {
+    if (this.emailErrorSubscription) this.emailErrorSubscription.unsubscribe();
+    if (this.passwordErrorSubscription)
+      this.passwordErrorSubscription.unsubscribe();
   }
 }

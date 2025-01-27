@@ -1,5 +1,7 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, OnDestroy, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { Router, RouterLink } from '@angular/router';
+import { Subscription } from 'rxjs';
 
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
@@ -7,15 +9,21 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatTooltipModule } from '@angular/material/tooltip';
 
-import { MessageService } from '../../shared/messages/message.service';
 import { ThemeService } from '../../theme/theme.service';
 import { AuthService } from '../../shared/services/auth.service';
-
 import { User } from '../../user/models/user.model';
-import { RouterLink } from '@angular/router';
-import { ROUTE_STRINGS } from '../../shared/constants/route-strings';
 import { SideNavService } from '../side-nav/side-nav.service';
 import { BreadcrumbComponent } from '../../shared/breadcrumb/breadcrumb.component';
+import { ABSOLUTE_ROUTES } from '../../shared/constants/absolute-routes';
+import { APP_TITLE } from '../../shared/constants/app-title';
+import { TOP_BAR_TOOL_TIPS } from './top-bar-tool-tips';
+import { USER_MENU } from './user-menu';
+import { ConfirmationService } from '../../shared/widgets/confirmation-dialog/confirmation.service';
+import { AlertType } from '../../shared/widgets/alert/alert-type.enum';
+import { MessageService } from '../../shared/messages/message.service';
+import { UserService } from '../../user/services/user.service';
+import { NotificationService } from '../../shared/widgets/notification/notification.service';
+import { ErrorHandlingService } from '../../shared/error-handling/error-handling.service';
 
 @Component({
   selector: 'app-top-bar',
@@ -32,32 +40,84 @@ import { BreadcrumbComponent } from '../../shared/breadcrumb/breadcrumb.componen
   templateUrl: './top-bar.component.html',
   styleUrl: './top-bar.component.scss',
 })
-export class TopBarComponent {
-  msgService = inject(MessageService);
+export class TopBarComponent implements OnDestroy {
   themeService = inject(ThemeService);
   sideNavService = inject(SideNavService);
 
-  appName = this.msgService.getMessage('app.title');
-  themeSelectToolTip = this.msgService.getMessage(
-    'app.topBar.tooltip.themeSelect'
-  );
-  userMenuToolTip = this.msgService.getMessage('app.topBar.tooltip.user');
-  sideMenuToggleToolTip = this.msgService.getMessage(
-    'app.topBar.tooltip.sideMenu'
-  );
+  appName = APP_TITLE;
+  tooltips = TOP_BAR_TOOL_TIPS;
+  userMenuNames = USER_MENU;
+  userRoutes = ABSOLUTE_ROUTES.user;
 
-  user: User | null = null;
-  userRouterLinks = ROUTE_STRINGS.user;
+  user = signal<User | null>(null);
 
-  constructor(private authService: AuthService) {
-    this.authService.user$.subscribe({
+  userSubscription: Subscription;
+  logoutConfirmSubscription: Subscription | undefined;
+
+  constructor(
+    private router: Router,
+    private authService: AuthService,
+    private userService: UserService,
+    private confirmationService: ConfirmationService,
+    private msgService: MessageService,
+    private notificationService: NotificationService,
+    private errorHandling: ErrorHandlingService
+  ) {
+    this.userSubscription = this.authService.user$.subscribe({
       next: (user) => {
         if (user) {
-          this.user = user;
+          this.user.set(user);
         } else {
-          this.user = null;
+          this.user.set(null);
         }
       },
     });
+  }
+
+  onLogout() {
+    const confirmTitle = this.msgService.getMessage(
+      'user.login.confirmation.logout.title'
+    );
+    const confirmMessage = this.msgService.getMessage(
+      'user.login.confirmation.logout.message'
+    );
+    const confirmAction = this.msgService.getMessage(
+      'user.login.confirmation.logout.action'
+    );
+
+    this.logoutConfirmSubscription = this.confirmationService
+      .confirm(AlertType.Warning, confirmTitle, confirmMessage, confirmAction)
+      .subscribe((accepted) => {
+        if (accepted) {
+          this.userService.logoutFromServer().subscribe({
+            next: () => {
+              this.authService.clearUserAndTokens();
+              const message = this.msgService.getMessage(
+                'user.login.notification.logout.success'
+              );
+              this.notificationService.notify(AlertType.Success, message);
+
+              this.router.navigateByUrl(this.userRoutes.userLogin);
+              this.sideNavService.closeSideNav();
+            },
+            error: (error) => {
+              this.authService.clearUserAndTokens();
+              this.errorHandling.handle(error);
+              const message = this.msgService.getMessage(
+                'user.login.notification.logout.fail'
+              );
+              this.notificationService.notify(AlertType.Danger, message);
+              this.router.navigateByUrl(this.userRoutes.userLogin);
+              this.sideNavService.closeSideNav();
+            },
+          });
+        }
+      });
+  }
+
+  ngOnDestroy(): void {
+    if (this.userSubscription) this.userSubscription.unsubscribe();
+    if (this.logoutConfirmSubscription)
+      this.logoutConfirmSubscription.unsubscribe();
   }
 }

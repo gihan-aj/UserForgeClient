@@ -1,5 +1,7 @@
-import { Component, inject, signal, WritableSignal } from '@angular/core';
-import { MessageService } from '../../shared/messages/message.service';
+import { Component, signal, WritableSignal } from '@angular/core';
+
+import { APP_TITLE } from '../../shared/constants/app-title';
+import { FOOTER_TEXT } from './footer-text';
 
 @Component({
   selector: 'app-footer',
@@ -8,7 +10,8 @@ import { MessageService } from '../../shared/messages/message.service';
   styleUrl: './footer.component.scss',
 })
 export class FooterComponent {
-  msgService = inject(MessageService);
+  appTitle = APP_TITLE;
+  footerText = FOOTER_TEXT;
 
   year: WritableSignal<number> = signal(0);
 

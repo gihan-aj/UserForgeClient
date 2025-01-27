@@ -13,6 +13,14 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
   const accessToken = authService.getAccessToken();
   const refreshToken = authService.getRefreshToken();
 
+  console.log('entered interceptor');
+  console.log('access token', accessToken);
+  console.log('refresh token', refreshToken);
+  console.log(
+    'access token expired',
+    jwtTokenService.isTokenExpired(accessToken!)
+  );
+
   if (
     refreshToken &&
     accessToken &&

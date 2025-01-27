@@ -1,39 +1,38 @@
 import {
   computed,
   effect,
-  inject,
   Injectable,
   signal,
   WritableSignal,
 } from '@angular/core';
+
 import { AppTheme } from './app-theme.enum';
 import { Theme } from './theme.interface';
-import { MessageService } from '../shared/messages/message.service';
 import { SettingsService } from '../shared/settings/settings.service';
 import { Setting } from '../shared/settings/setting.enum';
+import { APP_THEMES } from './app-themes';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ThemeService {
-  private msgService = inject(MessageService);
-
   appTheme: WritableSignal<AppTheme> = signal<AppTheme>(AppTheme.System);
+  private themeNames = APP_THEMES;
 
   themes: Theme[] = [
     {
       label: AppTheme.Light,
-      name: this.msgService.getMessage('app.menu.themeSelect.light'),
+      name: this.themeNames.light,
       icon: 'light_mode',
     },
     {
       label: AppTheme.Dark,
-      name: this.msgService.getMessage('app.menu.themeSelect.dark'),
+      name: this.themeNames.dark,
       icon: 'dark_mode',
     },
     {
       label: AppTheme.System,
-      name: this.msgService.getMessage('app.menu.themeSelect.system'),
+      name: this.themeNames.system,
       icon: 'desktop_windows',
     },
   ];
