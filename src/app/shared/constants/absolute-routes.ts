@@ -31,3 +31,5 @@ export const ABSOLUTE_ROUTES = {
     userRegistration: '/user/registration',
   },
 };
+
+export const DEFAULT_RETURN_URL = ABSOLUTE_ROUTES.dashboard;

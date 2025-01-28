@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import {  Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { User } from '../../user/models/user.model';
 import { REFRESH_TOKEN } from '../constants/refresh-token';
@@ -7,7 +7,6 @@ import { REFRESH_TOKEN } from '../constants/refresh-token';
   providedIn: 'root',
 })
 export class AuthService {
-  mockUser = new User('1', 'gihan@gmail.com', 'gihan', 'akila');
   private userSubject = new BehaviorSubject<User | null>(null);
   private accessTokenSubject = new BehaviorSubject<string | null>(null);
 

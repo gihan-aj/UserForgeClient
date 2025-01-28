@@ -1,3 +1,4 @@
+import { Observable } from 'rxjs';
 import { UserSetting } from '../../shared/settings/user-setting.interface';
 
 export class User {
@@ -7,11 +8,20 @@ export class User {
   private _lastName: string;
   private _permissions: string[] = [];
 
-  constructor(id: string, email: string, firstName: string, lastName: string) {
+  constructor(
+    id: string,
+    email: string,
+    firstName: string,
+    lastName: string,
+    roles: string[],
+    userSettings: UserSetting[]
+  ) {
     this._id = id;
     this._email = email;
     this._firstName = firstName;
     this._lastName = lastName;
+    this.roles = roles;
+    this.userSettings = userSettings;
   }
 
   phoneNumber: string | null | undefined;

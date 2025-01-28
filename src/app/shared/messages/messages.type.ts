@@ -22,6 +22,7 @@ export type Messages = {
           success: string;
           fail: string;
         };
+        alreadyLoggedIn: string;
       };
       confirmation: {
         logout: {

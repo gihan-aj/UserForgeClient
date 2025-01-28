@@ -14,6 +14,7 @@ import { NotificationService } from '../../shared/widgets/notification/notificat
 import { ABSOLUTE_ROUTES } from '../../shared/constants/absolute-routes';
 import { MessageService } from '../../shared/messages/message.service';
 import { AlertType } from '../../shared/widgets/alert/alert-type.enum';
+import { SettingsService } from '../../shared/settings/settings.service';
 
 @Injectable({
   providedIn: 'root',
@@ -28,7 +29,8 @@ export class UserService {
     private authService: AuthService,
     private deviceId: DeviceIdentifierService,
     private notificationService: NotificationService,
-    private msgService: MessageService
+    private msgService: MessageService,
+    private setttingsService: SettingsService
   ) {}
 
   private persistUser(response: LoginResponse): User {
@@ -36,13 +38,14 @@ export class UserService {
       response.user.id,
       response.user.email,
       response.user.firstName,
-      response.user.lastName
+      response.user.lastName,
+      response.roles,
+      response.userSettings
     );
 
-    user.roles = response.roles;
-    user.userSettings = response.userSettings;
-
     console.log('logged in user: ', user);
+
+    this.setttingsService.loadSettings(response.userSettings);
 
     this.authService.persistUserWithTokens(
       user,
@@ -105,4 +108,6 @@ export class UserService {
 
     return this.http.put<void>(url, body, {});
   }
+
+  // saveUserSettings(settings: {[key: string]})
 }

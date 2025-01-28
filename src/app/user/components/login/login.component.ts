@@ -20,7 +20,10 @@ import { MessageService } from '../../../shared/messages/message.service';
 import { RETURN_URL } from '../../../shared/constants/query-params';
 import { EMAIL_MAX_LENGTH } from '../../../shared/constants/constraints';
 import { UserService } from '../../services/user.service';
-import { ABSOLUTE_ROUTES } from '../../../shared/constants/absolute-routes';
+import {
+  ABSOLUTE_ROUTES,
+  DEFAULT_RETURN_URL,
+} from '../../../shared/constants/absolute-routes';
 import { NotificationService } from '../../../shared/widgets/notification/notification.service';
 import { ErrorHandlingService } from '../../../shared/error-handling/error-handling.service';
 import { AuthService } from '../../../shared/services/auth.service';
@@ -52,7 +55,7 @@ export class LoginComponent implements OnDestroy {
   emailErrorMessage = signal('');
   passwordErrorMessage = signal('');
 
-  defaultReturnUrl = ABSOLUTE_ROUTES.dashboard;
+  defaultReturnUrl = DEFAULT_RETURN_URL;
   returnUrl: string | null = null;
   emailMaxLength = EMAIL_MAX_LENGTH;
 
@@ -161,9 +164,11 @@ export class LoginComponent implements OnDestroy {
         error: (error) => {
           console.error('login error: ', error);
 
-          const message = this.msgService.getMessage('user.login.notification.login.fail');
+          const message = this.msgService.getMessage(
+            'user.login.notification.login.fail'
+          );
           this.notificationService.notify(AlertType.Danger, message);
-          
+
           this.errorHandling.handle(error);
           this.loading.set(false);
         },

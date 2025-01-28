@@ -24,6 +24,7 @@ export const MESSAGES: Messages = {
           success: 'Log out successful!',
           fail: 'Log out failed!',
         },
+        alreadyLoggedIn: 'You have already logged in.',
       },
       confirmation: {
         logout: {

@@ -1,21 +1,42 @@
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
+import { BehaviorSubject } from 'rxjs';
+
 import { AppTheme } from '../../theme/app-theme.enum';
 import { UserSetting } from './user-setting.interface';
-import { BehaviorSubject } from 'rxjs';
+import { AuthService } from '../services/auth.service';
+import { DATE_FORMAT } from './date-format';
+import { TIME_FORMAT } from './time-format';
+import { PAGE_SIZES } from './page-sizes';
+import { SETTING_KEYS } from './setting-keys';
 
 @Injectable({
   providedIn: 'root',
 })
 export class SettingsService {
+  settingKeys = SETTING_KEYS;
+
+  // dateFormats = DATE_FORMAT;
+  // timeFormats = TIME_FORMAT;
+  pageSizes = PAGE_SIZES;
+
   private defaultSettings: { [key: string]: any } = {
-    theme: AppTheme.System,
-    pageSize: 10,
+    [this.settingKeys.theme]: AppTheme.System,
+    [this.settingKeys.pageSize]: this.pageSizes[1],
   };
 
   private settingsSubject = new BehaviorSubject<{ [key: string]: any }>({
     ...this.defaultSettings,
   });
   settings$ = this.settingsSubject.asObservable();
+
+  constructor(private authService: AuthService) {
+    this.authService.user$.subscribe((user) => {
+      if (user) {
+        if (user.userSettings && user.userSettings.length > 0)
+          this.loadSettings(user.userSettings);
+      }
+    });
+  }
 
   loadSettings(userSettings: UserSetting[]): void {
     const mergedSettings = { ...this.defaultSettings };
@@ -30,14 +51,67 @@ export class SettingsService {
     this.settingsSubject.next(mergedSettings);
   }
 
-  updateSetting(key: string, value: any): void {
+  // updateSetting(key: string, value: any): void {
+  //   const currentSettings = this.settingsSubject.getValue();
+  //   currentSettings[key] = value;
+  //   this.settingsSubject.next(currentSettings);
+  // }
+
+  updateSettings(settings: { [key: string]: any }) {
     const currentSettings = this.settingsSubject.getValue();
-    currentSettings[key] = value;
+
+    currentSettings[this.settingKeys.theme] = settings[this.settingKeys.theme];
+    currentSettings[this.settingKeys.pageSize] =
+      settings[this.settingKeys.pageSize];
+
     this.settingsSubject.next(currentSettings);
+
+    this.persistSettingsInUser(settings);
   }
 
   getSettingsSnapshot(): { [key: string]: any } {
     return this.settingsSubject.getValue();
+  }
+
+  private persistSettingsInUser(settings: { [key: string]: any }) {
+    const user = this.authService.getUser();
+    if (user) {
+      const existingUserSettings: UserSetting[] = user.userSettings;
+
+      // theme
+      const themeSetting = existingUserSettings.find(
+        (s) => s.key === this.settingKeys.theme
+      );
+      if (themeSetting) {
+        themeSetting.value = settings[this.settingKeys.theme];
+      } else {
+        const newSetting: UserSetting = {
+          key: this.settingKeys.theme,
+          value: settings[this.settingKeys.theme],
+          dataType: 'string',
+          userId: user.id,
+        };
+        existingUserSettings.push(newSetting);
+      }
+
+      // pageSize
+      const pageSizeSetting = existingUserSettings.find(
+        (s) => s.key === this.settingKeys.pageSize
+      );
+      if (pageSizeSetting) {
+        pageSizeSetting.value = settings[this.settingKeys.pageSize];
+      } else {
+        const newSetting: UserSetting = {
+          key: this.settingKeys.pageSize,
+          value: `${settings[this.settingKeys.pageSize]}`,
+          dataType: 'number',
+          userId: user.id,
+        };
+        existingUserSettings.push(newSetting);
+      }
+
+      user.userSettings = existingUserSettings;
+    }
   }
 
   private parseValue(value: any, dataType: string): any {

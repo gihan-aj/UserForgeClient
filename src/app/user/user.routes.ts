@@ -6,6 +6,8 @@ import { SendEmailComponent } from './components/send-email/send-email.component
 import { ResetPasswordComponent } from './components/reset-password/reset-password.component';
 import { UserProfileComponent } from './components/user-profile/user-profile.component';
 import { UserSettingsComponent } from './components/user-settings/user-settings.component';
+import { loginGuard } from '../shared/guards/login.guard';
+import { authGuard } from '../shared/guards/auth.guard';
 
 export const routes: Routes = [
   {
@@ -14,6 +16,7 @@ export const routes: Routes = [
     data: {
       breadcrumb: 'Login',
     },
+    canActivate: [loginGuard],
   },
   {
     path: 'registration',
@@ -21,6 +24,7 @@ export const routes: Routes = [
     data: {
       breadcrumb: 'Registration',
     },
+    canActivate: [loginGuard],
   },
   {
     path: 'confirm-email',
@@ -28,6 +32,7 @@ export const routes: Routes = [
     data: {
       breadcrumb: 'Confirm Email',
     },
+    canActivate: [loginGuard],
   },
   {
     path: 'send-email/:mode',
@@ -49,6 +54,7 @@ export const routes: Routes = [
     data: {
       breadcrumb: 'User Profile',
     },
+    canActivate: [authGuard],
   },
   {
     path: 'user-settings',
@@ -56,5 +62,6 @@ export const routes: Routes = [
     data: {
       breadcrumb: 'User Settings',
     },
+    canActivate: [authGuard],
   },
 ];
