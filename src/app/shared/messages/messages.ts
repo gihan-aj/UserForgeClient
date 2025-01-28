@@ -29,6 +29,9 @@ export const MESSAGES: Messages = {
           success: 'Settings have been saved successfully.',
           fail: 'Saving settings failed.',
         },
+        fetchPermissions: {
+          fail: 'Sorry! Could not fetch you permissions.',
+        },
       },
       confirmation: {
         logout: {

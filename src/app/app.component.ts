@@ -21,6 +21,7 @@ import { LARGE_SCREEN_LOWER_LIMIT } from './shared/constants/screen-size';
 import { BreadcrumbService } from './shared/breadcrumb/breadcrumb.service';
 import { AuthService } from './shared/services/auth.service';
 import { APP_TITLE } from './shared/constants/app-title';
+import { UserService } from './user/services/user.service';
 
 @Component({
   selector: 'app-root',
@@ -44,10 +45,12 @@ export class AppComponent implements OnInit, OnDestroy {
 
   constructor(
     breadcrumbService: BreadcrumbService,
-    private authService: AuthService
+    private authService: AuthService,
+    private userService: UserService
   ) {
     this.userSubscription = this.authService.user$.subscribe(() => {
       this.setSideNav();
+
     });
   }
 

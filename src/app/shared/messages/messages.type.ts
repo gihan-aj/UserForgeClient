@@ -27,6 +27,9 @@ export type Messages = {
           success: string;
           fail: string;
         };
+        fetchPermissions: {
+          fail: string;
+        };
       };
       confirmation: {
         logout: {

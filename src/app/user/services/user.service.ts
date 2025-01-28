@@ -69,6 +69,7 @@ export class UserService {
       map((response) => {
         if (response) {
           const user = this.persistUser(response);
+          this.fetchPermissions().subscribe();
         }
       })
     );
@@ -86,6 +87,7 @@ export class UserService {
     return this.http.post<LoginResponse>(url, request).pipe(
       tap((response) => {
         this.persistUser(response);
+        this.fetchPermissions().subscribe();
       }),
       catchError((error) => {
         this.authService.clearUserAndTokens();
@@ -113,5 +115,28 @@ export class UserService {
   saveUserSettings(settings: UserSetting[]): Observable<void> {
     const url = this.baseUrl + '/update-user-settings';
     return this.http.put<void>(url, settings, {});
+  }
+
+  fetchPermissions(): Observable<string[]> {
+    const url = this.baseUrl + '/permissions';
+    return this.http.get<string[]>(url).pipe(
+      tap((response) => {
+        console.log('user permissions: ', response);
+      }),
+      catchError((error) => {
+        this.logoutFromServer().subscribe();
+
+        this.authService.clearUserAndTokens();
+        this.router.navigateByUrl(this.loginUrl);
+
+        this.notificationService.notify(
+          AlertType.Danger,
+          this.msgService.getMessage(
+            'user.login.notification.fetchPermissions.fail'
+          )
+        );
+        return throwError(() => error);
+      })
+    );
   }
 }

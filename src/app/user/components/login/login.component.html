@@ -32,6 +32,7 @@
             class="mx-2"
             mat-icon-button
             matSuffix
+            type="button"
             (click)="passwordVisibiltyToggle($event)"
             [attr.aria-label]="'Hide password'"
             [attr.aria-pressed]="hidePassword()"
@@ -48,6 +49,7 @@
       </div>
       <div class="text-start">
         <button
+          type="button"
           mat-button
           routerLink="/user/send-email/forgot-password"
           [disabled]="loading()"
@@ -61,6 +63,7 @@
       >
         <button
           class="me-lg-2 mt-lg-0 mt-2"
+          type="button"
           mat-button
           routerLink="/user/registration"
           [disabled]="loading()"
