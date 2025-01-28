@@ -25,6 +25,10 @@ export const MESSAGES: Messages = {
           fail: 'Log out failed!',
         },
         alreadyLoggedIn: 'You have already logged in.',
+        saveUserSettings: {
+          success: 'Settings have been saved successfully.',
+          fail: 'Saving settings failed.',
+        },
       },
       confirmation: {
         logout: {

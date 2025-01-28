@@ -1,9 +1,10 @@
 <div class="row m-1">
-  <div class="col-md-5 col-12 text-md-start text-center">
+  <div class="col-md-4 col-12 text-md-start text-center">
     <h2>Settings</h2>
   </div>
-  <div class="col-md-7 col-12 text-md-end text-center">
+  <div class="col-md-8 col-12 text-md-end text-center">
     <div class="my-3">
+      <h4>Application Settings</h4>
       <mat-form-field class="w-100">
         <mat-label>{{ settingsKeys.theme | formatTitle }}</mat-label>
         <mat-select id="themeSelect" [(value)]="theme">
@@ -15,6 +16,7 @@
     </div>
 
     <div class="my-1">
+      <h4>Table Settings</h4>
       <mat-form-field class="w-100">
         <mat-label>{{ settingsKeys.pageSize | formatTitle }}</mat-label>
         <mat-select id="pageSizeSelect" [(value)]="pageSize">

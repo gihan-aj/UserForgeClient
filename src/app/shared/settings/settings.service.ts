@@ -34,6 +34,8 @@ export class SettingsService {
       if (user) {
         if (user.userSettings && user.userSettings.length > 0)
           this.loadSettings(user.userSettings);
+      } else {
+        this.settingsSubject.next({ ...this.defaultSettings });
       }
     });
   }
@@ -57,7 +59,7 @@ export class SettingsService {
   //   this.settingsSubject.next(currentSettings);
   // }
 
-  updateSettings(settings: { [key: string]: any }) {
+  updateSettings(settings: { [key: string]: any }): UserSetting[] {
     const currentSettings = this.settingsSubject.getValue();
 
     currentSettings[this.settingKeys.theme] = settings[this.settingKeys.theme];
@@ -66,14 +68,16 @@ export class SettingsService {
 
     this.settingsSubject.next(currentSettings);
 
-    this.persistSettingsInUser(settings);
+    return this.persistSettingsInUser(settings);
   }
 
   getSettingsSnapshot(): { [key: string]: any } {
     return this.settingsSubject.getValue();
   }
 
-  private persistSettingsInUser(settings: { [key: string]: any }) {
+  private persistSettingsInUser(settings: {
+    [key: string]: any;
+  }): UserSetting[] {
     const user = this.authService.getUser();
     if (user) {
       const existingUserSettings: UserSetting[] = user.userSettings;
@@ -89,7 +93,6 @@ export class SettingsService {
           key: this.settingKeys.theme,
           value: settings[this.settingKeys.theme],
           dataType: 'string',
-          userId: user.id,
         };
         existingUserSettings.push(newSetting);
       }
@@ -99,19 +102,20 @@ export class SettingsService {
         (s) => s.key === this.settingKeys.pageSize
       );
       if (pageSizeSetting) {
-        pageSizeSetting.value = settings[this.settingKeys.pageSize];
+        pageSizeSetting.value = settings[this.settingKeys.pageSize].toString();
       } else {
         const newSetting: UserSetting = {
           key: this.settingKeys.pageSize,
-          value: `${settings[this.settingKeys.pageSize]}`,
+          value: settings[this.settingKeys.pageSize].toString(),
           dataType: 'number',
-          userId: user.id,
         };
         existingUserSettings.push(newSetting);
       }
 
-      user.userSettings = existingUserSettings;
+      return user.userSettings;
     }
+
+    return [];
   }
 
   private parseValue(value: any, dataType: string): any {

@@ -15,6 +15,7 @@ import { ABSOLUTE_ROUTES } from '../../shared/constants/absolute-routes';
 import { MessageService } from '../../shared/messages/message.service';
 import { AlertType } from '../../shared/widgets/alert/alert-type.enum';
 import { SettingsService } from '../../shared/settings/settings.service';
+import { UserSetting } from '../../shared/settings/user-setting.interface';
 
 @Injectable({
   providedIn: 'root',
@@ -109,5 +110,8 @@ export class UserService {
     return this.http.put<void>(url, body, {});
   }
 
-  // saveUserSettings(settings: {[key: string]})
+  saveUserSettings(settings: UserSetting[]): Observable<void> {
+    const url = this.baseUrl + '/update-user-settings';
+    return this.http.put<void>(url, settings, {});
+  }
 }

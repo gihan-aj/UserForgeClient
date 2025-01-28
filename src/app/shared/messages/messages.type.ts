@@ -23,6 +23,10 @@ export type Messages = {
           fail: string;
         };
         alreadyLoggedIn: string;
+        saveUserSettings: {
+          success: string;
+          fail: string;
+        };
       };
       confirmation: {
         logout: {

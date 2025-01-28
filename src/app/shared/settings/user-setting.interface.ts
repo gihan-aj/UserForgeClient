@@ -1,7 +1,5 @@
 export interface UserSetting {
-  id?: number;
   key: string;
-  value: any;
+  value: string;
   dataType: string;
-  userId?: string;
 }

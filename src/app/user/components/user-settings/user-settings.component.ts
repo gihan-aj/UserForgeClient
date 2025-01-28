@@ -14,6 +14,11 @@ import { THEMES } from '../../../layout/top-bar/themes';
 import { FormatTitlePipe } from '../../../shared/pipes/format-title.pipe';
 import { LoadingContainerComponent } from '../../../shared/widgets/loading-container/loading-container.component';
 import { ThemeService } from '../../../theme/theme.service';
+import { UserService } from '../../services/user.service';
+import { NotificationService } from '../../../shared/widgets/notification/notification.service';
+import { ErrorHandlingService } from '../../../shared/error-handling/error-handling.service';
+import { MessageService } from '../../../shared/messages/message.service';
+import { AlertType } from '../../../shared/widgets/alert/alert-type.enum';
 
 @Component({
   selector: 'app-user-settings',
@@ -46,7 +51,12 @@ export class UserSettingsComponent {
   theme = model<string>();
   pageSize = model<number>();
 
-  constructor() {
+  constructor(
+    private userService: UserService,
+    private notificatioService: NotificationService,
+    private errorHandling: ErrorHandlingService,
+    private msgService: MessageService
+  ) {
     this.settingsService.settings$.subscribe((settings) => {
       this.theme.set(settings[this.settingsKeys.theme]);
       this.pageSize.set(settings[this.settingsKeys.pageSize]);
@@ -54,10 +64,30 @@ export class UserSettingsComponent {
   }
 
   onSave() {
-    this.settingsService.updateSettings({
+    this.loading.set(true);
+
+    const userSettings = this.settingsService.updateSettings({
       [this.settingsKeys.theme]: this.theme(),
       [this.settingsKeys.pageSize]: this.pageSize(),
     });
-    console.log(this.settingsService.getSettingsSnapshot());
+
+    console.log('before send: ', userSettings);
+    this.userService.saveUserSettings(userSettings).subscribe({
+      next: () => {
+        const message = this.msgService.getMessage(
+          'user.login.notification.saveUserSettings.success'
+        );
+        this.notificatioService.notify(AlertType.Success, message);
+        this.loading.set(false);
+      },
+      error: (error) => {
+        this.errorHandling.handle(error);
+        const message = this.msgService.getMessage(
+          'user.login.notification.saveUserSettings.fail'
+        );
+        this.notificatioService.notify(AlertType.Danger, message);
+        this.loading.set(false);
+      },
+    });
   }
 }
