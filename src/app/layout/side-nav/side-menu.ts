@@ -1,4 +1,5 @@
 export const SIDE_MENU = {
+  home: 'Home',
   dashboard: 'Dashboard',
   userManagement: 'User Management',
   softwarePackages: 'Software Packages',

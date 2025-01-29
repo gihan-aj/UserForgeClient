@@ -1,4 +1,5 @@
 export const ABSOLUTE_ROUTES = {
+  home: '/home',
   dashboard: '/dashboard',
   userManagement: {
     base: '/user-management',
@@ -32,4 +33,4 @@ export const ABSOLUTE_ROUTES = {
   },
 };
 
-export const DEFAULT_RETURN_URL = ABSOLUTE_ROUTES.dashboard;
+export const DEFAULT_RETURN_URL = ABSOLUTE_ROUTES.home;

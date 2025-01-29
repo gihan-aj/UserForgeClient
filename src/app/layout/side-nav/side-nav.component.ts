@@ -31,6 +31,12 @@ export class SideNavComponent implements OnInit, OnDestroy {
 
   menuItems: SideMenuItem[] = [
     {
+      name: this.sideMenu.home,
+      icon: 'home',
+      route: this.routes.home,
+      isActive: false,
+    },
+    {
       name: this.sideMenu.dashboard,
       icon: 'dashboard',
       route: this.routes.dashboard,

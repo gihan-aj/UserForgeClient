@@ -1,3 +1,15 @@
 .filled {
   min-height: 82vh;
 }
+
+.content-layout {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh; // Ensures full height of the viewport
+}
+
+.main-content {
+  flex: 1; // Pushes footer down when content is short
+  display: flex;
+  flex-direction: column;
+}

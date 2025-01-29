@@ -3,6 +3,7 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 import { NotFoundComponent } from './shared/components/not-found/not-found.component';
 import { UserComponent } from './user/user.component';
 import { authGuard } from './shared/guards/auth.guard';
+import { HomeComponent } from './home/home.component';
 
 export const routes: Routes = [
   {
@@ -11,9 +12,17 @@ export const routes: Routes = [
     pathMatch: 'full',
   },
   {
+    path: 'home',
+    component: HomeComponent,
+    canActivate: [authGuard],
+  },
+  {
     path: 'dashboard',
     component: DashboardComponent,
     canActivate: [authGuard],
+    data: {
+      breadcrumb: 'Dashboard',
+    },
   },
   {
     path: 'not-found',
