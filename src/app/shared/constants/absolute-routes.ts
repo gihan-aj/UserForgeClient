@@ -1,23 +1,23 @@
 export const ABSOLUTE_ROUTES = {
   home: '/home',
   dashboard: '/dashboard',
+  appPortal: {
+    base: '/app-portal',
+  },
   userManagement: {
     base: '/user-management',
   },
-  softwarePackages: {
-    base: '/software-packages',
+  roleManagement: {
+    base: '/role-management',
   },
   permissionManagement: {
     base: '/permission-management',
   },
+  appManagement: {
+    base: '/app-management',
+  },
   auditLogs: {
     base: '/audit-logs',
-  },
-  ssoSettings: {
-    base: '/sso-settings',
-  },
-  intergrations: {
-    base: '/intergrations',
   },
   support: {
     base: '/support',

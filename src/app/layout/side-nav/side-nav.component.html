@@ -4,7 +4,11 @@
 
 <mat-nav-list>
   @for (item of menuItems; track $index) {
-  <mat-list-item [activated]="item.isActive" class="mb-1">
+  <mat-list-item
+    *ngIf="permissionsService.hasAnyPermission(item.permissionPrefix)"
+    [activated]="item.isActive"
+    class="mb-1"
+  >
     <a matListItemTitle routerLink="{{ item.route }}">
       <div class="d-flex flex-row align-items-center gap-2">
         <mat-icon>{{ item.icon }} </mat-icon><span>{{ item.name }}</span>

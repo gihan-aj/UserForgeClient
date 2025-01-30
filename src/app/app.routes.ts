@@ -4,11 +4,12 @@ import { NotFoundComponent } from './shared/components/not-found/not-found.compo
 import { UserComponent } from './user/user.component';
 import { authGuard } from './shared/guards/auth.guard';
 import { HomeComponent } from './home/home.component';
+import { permissionGuard } from './shared/guards/permission.guard';
 
 export const routes: Routes = [
   {
     path: '',
-    redirectTo: 'dashboard',
+    redirectTo: 'home',
     pathMatch: 'full',
   },
   {
@@ -19,9 +20,10 @@ export const routes: Routes = [
   {
     path: 'dashboard',
     component: DashboardComponent,
-    canActivate: [authGuard],
+    canActivate: [authGuard, permissionGuard],
     data: {
       breadcrumb: 'Dashboard',
+      permission: 'dashboard.access',
     },
   },
   {

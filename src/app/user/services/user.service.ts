@@ -16,6 +16,7 @@ import { MessageService } from '../../shared/messages/message.service';
 import { AlertType } from '../../shared/widgets/alert/alert-type.enum';
 import { SettingsService } from '../../shared/settings/settings.service';
 import { UserSetting } from '../../shared/settings/user-setting.interface';
+import { PermissionService } from '../../shared/services/permission.service';
 
 @Injectable({
   providedIn: 'root',
@@ -31,7 +32,8 @@ export class UserService {
     private deviceId: DeviceIdentifierService,
     private notificationService: NotificationService,
     private msgService: MessageService,
-    private setttingsService: SettingsService
+    private setttingsService: SettingsService,
+    private permissionsService: PermissionService
   ) {}
 
   private persistUser(response: LoginResponse): User {
@@ -122,6 +124,7 @@ export class UserService {
     return this.http.get<string[]>(url).pipe(
       tap((response) => {
         console.log('user permissions: ', response);
+        this.permissionsService.setpermissions(response);
       }),
       catchError((error) => {
         this.logoutFromServer().subscribe();

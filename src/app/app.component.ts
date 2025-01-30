@@ -21,7 +21,7 @@ import { LARGE_SCREEN_LOWER_LIMIT } from './shared/constants/screen-size';
 import { BreadcrumbService } from './shared/breadcrumb/breadcrumb.service';
 import { AuthService } from './shared/services/auth.service';
 import { APP_TITLE } from './shared/constants/app-title';
-import { UserService } from './user/services/user.service';
+import { PermissionService } from './shared/services/permission.service';
 
 @Component({
   selector: 'app-root',
@@ -41,17 +41,22 @@ export class AppComponent implements OnInit, OnDestroy {
 
   title = APP_TITLE;
 
-  private userSubscription: Subscription;
+  // private userSubscription: Subscription;
+  private permissionsSubscription: Subscription;
 
   constructor(
     breadcrumbService: BreadcrumbService,
     private authService: AuthService,
-    private userService: UserService
+    private permissionsService: PermissionService
   ) {
-    this.userSubscription = this.authService.user$.subscribe(() => {
-      this.setSideNav();
+    // this.userSubscription = this.authService.user$.subscribe(() => {
+    //   this.setSideNav();
+    // });
 
-    });
+    this.permissionsSubscription =
+      this.permissionsService.permissions$.subscribe(() => {
+        this.setSideNav();
+      });
   }
 
   ngOnInit(): void {
@@ -69,7 +74,8 @@ export class AppComponent implements OnInit, OnDestroy {
       this.sideNavService.closeSideNav();
       this.sideNavService.setSideNavMode(SideNavMode.Over);
     } else {
-      if (this.authService.getUser()) this.sideNavService.openSideNav();
+      if (this.permissionsService.userHasPermissions())
+        this.sideNavService.openSideNav();
       this.sideNavService.setSideNavMode(SideNavMode.Side);
     }
   }
@@ -79,8 +85,11 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    if (this.userSubscription) {
-      this.userSubscription.unsubscribe();
+    // if (this.userSubscription) {
+    //   this.userSubscription.unsubscribe();
+    // }
+    if (this.permissionsSubscription) {
+      this.permissionsSubscription.unsubscribe();
     }
   }
 }
