@@ -30,6 +30,8 @@ export const ABSOLUTE_ROUTES = {
     userProfile: '/user/user-profile',
     userSettings: '/user/user-settings',
     userRegistration: '/user/registration',
+    resendEmailConfirmationLink:
+      '/user/send-email/resend-email-confirmation-link',
   },
 };
 

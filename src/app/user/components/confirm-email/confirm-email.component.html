@@ -1,1 +1,12 @@
-<p>confirm-email works!</p>
+<div class="text-center mb-3">
+  <h3>Email Confirmation</h3>
+
+  <p>{{ statusMessage() }}</p>
+  @if (!loading()) { @if (confirmationSuccessful()) {
+  <button mat-flat-button [routerLink]="loginUrl">Log in</button>
+  }@else {
+  <button mat-flat-button [routerLink]="resendLinkUrl">
+    Resend Confirmation Link
+  </button>
+  } }
+</div>

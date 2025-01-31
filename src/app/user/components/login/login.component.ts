@@ -1,4 +1,4 @@
-import { Component, inject, OnDestroy, signal } from '@angular/core';
+import { Component, effect, inject, OnDestroy, signal } from '@angular/core';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import {
@@ -15,19 +15,18 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatIconModule } from '@angular/material/icon';
 
-import { LoadingContainerComponent } from '../../../shared/widgets/loading-container/loading-container.component';
 import { MessageService } from '../../../shared/messages/message.service';
 import { RETURN_URL } from '../../../shared/constants/query-params';
 import { EMAIL_MAX_LENGTH } from '../../../shared/constants/constraints';
 import { UserService } from '../../services/user.service';
 import {
-  ABSOLUTE_ROUTES,
   DEFAULT_RETURN_URL,
 } from '../../../shared/constants/absolute-routes';
 import { NotificationService } from '../../../shared/widgets/notification/notification.service';
 import { ErrorHandlingService } from '../../../shared/error-handling/error-handling.service';
 import { AuthService } from '../../../shared/services/auth.service';
 import { AlertType } from '../../../shared/widgets/alert/alert-type.enum';
+import { UserPageLoadingService } from '../../services/user-page-loading.service';
 
 @Component({
   selector: 'app-login',
@@ -40,7 +39,6 @@ import { AlertType } from '../../../shared/widgets/alert/alert-type.enum';
     MatInputModule,
     MatButtonModule,
     MatIconModule,
-    LoadingContainerComponent,
   ],
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss',
@@ -87,7 +85,8 @@ export class LoginComponent implements OnDestroy {
     private router: Router,
     private errorHandling: ErrorHandlingService,
     private authService: AuthService,
-    private notificationService: NotificationService
+    private notificationService: NotificationService,
+    private loadingService: UserPageLoadingService
   ) {
     this.activatedRoute.queryParamMap.subscribe((params) => {
       if (params) {
@@ -175,6 +174,10 @@ export class LoginComponent implements OnDestroy {
       });
     }
   }
+
+  setLoading = effect(() => {
+    this.loadingService.loadingStatus(this.loading());
+  });
 
   ngOnDestroy(): void {
     if (this.emailErrorSubscription) this.emailErrorSubscription.unsubscribe();

@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject, OnDestroy, signal } from '@angular/core';
+import { Component, effect, inject, OnDestroy, signal } from '@angular/core';
 import {
   ReactiveFormsModule,
   FormsModule,
@@ -38,14 +38,13 @@ import {
 } from '../../../shared/constants/constraints';
 import { UserService } from '../../services/user.service';
 import { ErrorHandlingService } from '../../../shared/error-handling/error-handling.service';
-import { AuthService } from '../../../shared/services/auth.service';
 import { NotificationService } from '../../../shared/widgets/notification/notification.service';
-import { LoadingContainerComponent } from '../../../shared/widgets/loading-container/loading-container.component';
 import { DataValidationService } from '../../../shared/services/data-validation.service';
 import { DATE_FORMATS } from '../../../shared/constants/date-formats';
 import { RegistrationRequest } from './registration-request';
 import { AlertType } from '../../../shared/widgets/alert/alert-type.enum';
 import { AlertService } from '../../../shared/widgets/alert/alert.service';
+import { UserPageLoadingService } from '../../services/user-page-loading.service';
 
 const moment = _rollupMoment || _moment;
 
@@ -61,7 +60,6 @@ const moment = _rollupMoment || _moment;
     MatButtonModule,
     MatIconModule,
     MatDatepickerModule,
-    LoadingContainerComponent,
   ],
   templateUrl: './registration.component.html',
   styleUrl: './registration.component.scss',
@@ -198,7 +196,8 @@ export class RegistrationComponent implements OnDestroy {
     private router: Router,
     private errorHandling: ErrorHandlingService,
     private alerService: AlertService,
-    private notificationService: NotificationService
+    private notificationService: NotificationService,
+    private loadingService: UserPageLoadingService
   ) {
     this.firstNameErrorSubscription = merge(
       this.firstName!.statusChanges,
@@ -475,6 +474,10 @@ export class RegistrationComponent implements OnDestroy {
       });
     }
   }
+
+  setLoading = effect(() => {
+    this.loadingService.loadingStatus(this.loading());
+  });
 
   ngOnDestroy(): void {
     if (this.firstNameErrorSubscription)

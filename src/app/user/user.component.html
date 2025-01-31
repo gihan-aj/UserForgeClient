@@ -1,5 +1,13 @@
 <div class="d-flex justify-content-center">
   <div class="user-card">
+    <div class="progress-bar">
+      @if (loading()) {
+      <mat-progress-bar
+        class="w-auto mx-3"
+        mode="indeterminate"
+      ></mat-progress-bar>
+      }
+    </div>
     <router-outlet />
   </div>
 </div>

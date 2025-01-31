@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from '../../../environments/environment';
 import { Router } from '@angular/router';
@@ -18,6 +18,7 @@ import { SettingsService } from '../../shared/settings/settings.service';
 import { UserSetting } from '../../shared/settings/user-setting.interface';
 import { PermissionService } from '../../shared/services/permission.service';
 import { RegistrationRequest } from '../components/registration/registration-request';
+import { TOKEN, USER_ID } from '../../shared/constants/query-params';
 
 @Injectable({
   providedIn: 'root',
@@ -145,5 +146,15 @@ export class UserService {
   register(request: RegistrationRequest): Observable<{ message: string }> {
     const url = this.baseUrl + '/register';
     return this.http.post<{ message: string }>(url, request);
+  }
+
+  confirmEmail(userId: string, token: string): Observable<void> {
+    const url = `${this.baseUrl}/confirm-email`;
+
+    let queryParams = new HttpParams();
+    queryParams = queryParams.append(USER_ID, userId);
+    queryParams = queryParams.append(TOKEN, token);
+
+    return this.http.put<void>(url, null, { params: queryParams });
   }
 }
