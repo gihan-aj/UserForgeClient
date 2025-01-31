@@ -28,7 +28,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 const MODES = {
   sendEmailConfirmationLink: 'resend-email-confirmation-link',
-  forgotPasswordLink: 'forgot-password-link',
+  forgotPasswordLink: 'forgot-password',
 };
 
 @Component({
@@ -140,13 +140,15 @@ export class SendEmailComponent implements OnInit {
 
       const data = this.form.getRawValue();
 
-      if(this.mode === MODES.sendEmailConfirmationLink){
+      if (this.mode === MODES.sendEmailConfirmationLink) {
         this.resendEmailConfirmationLink(data.email);
+      } else if (this.mode === MODES.forgotPasswordLink) {
+        this.sendPasswordResetLink(data.email);
       }
     }
   }
 
-  private resendEmailConfirmationLink(email: string){
+  private resendEmailConfirmationLink(email: string) {
     this.userService.resendEmailConfirmationLink(email).subscribe({
       next: () => {
         this.alerService.showAlert(
@@ -156,6 +158,30 @@ export class SendEmailComponent implements OnInit {
           ),
           this.messageService.getMessage(
             'user.alert.sendEmail.emailConfirmationLink.success.message'
+          )
+        );
+
+        this.loading.set(false);
+        this.form.reset();
+        this.form.markAsPristine();
+      },
+      error: (error) => {
+        this.errorHandling.handle(error);
+        this.loading.set(false);
+      },
+    });
+  }
+
+  private sendPasswordResetLink(email: string) {
+    this.userService.sendPassowrdResetLink(email).subscribe({
+      next: () => {
+        this.alerService.showAlert(
+          AlertType.Success,
+          this.messageService.getMessage(
+            'user.alert.sendEmail.passwordResetLink.success.title'
+          ),
+          this.messageService.getMessage(
+            'user.alert.sendEmail.passwordResetLink.success.message'
           )
         );
 

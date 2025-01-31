@@ -108,6 +108,24 @@ export const MESSAGES: Messages = {
               'Email confirmation link was not sent. Please try again later.',
           },
         },
+        passwordResetLink: {
+          success: {
+            title: 'Sending Email Successful',
+            message:
+              'Password reseet link was sent successfully. Please check the inbox.',
+          },
+          failure: {
+            title: 'Sending Email Failed',
+            message:
+              'Password reset link was not sent. Please try again later.',
+          },
+        },
+        resetPassword: {
+          success: {
+            title: 'Password is reset',
+            message: 'You can login with the new password now.',
+          },
+        },
       },
     },
     confirmation: {

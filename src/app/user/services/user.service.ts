@@ -2,7 +2,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from '../../../environments/environment';
 import { Router } from '@angular/router';
-import { catchError, map, Observable, of, tap, throwError } from 'rxjs';
+import { catchError, map, Observable, tap, throwError } from 'rxjs';
 
 import { AuthService } from '../../shared/services/auth.service';
 import { DeviceIdentifierService } from '../../shared/services/device-identifier.service';
@@ -19,6 +19,7 @@ import { UserSetting } from '../../shared/settings/user-setting.interface';
 import { PermissionService } from '../../shared/services/permission.service';
 import { RegistrationRequest } from '../components/registration/registration-request';
 import { EMAIL, TOKEN, USER_ID } from '../../shared/constants/query-params';
+import { ResetPasswordRequest } from '../interfaces/reset-password-request.interface';
 
 @Injectable({
   providedIn: 'root',
@@ -165,5 +166,20 @@ export class UserService {
     queryParams = queryParams.append(EMAIL, email);
 
     return this.http.post<void>(url, {}, { params: queryParams });
+  }
+
+  sendPassowrdResetLink(email: string): Observable<void> {
+    const url = `${this.baseUrl}/send-password-reset-link`;
+
+    let queryParams = new HttpParams();
+    queryParams = queryParams.append(EMAIL, email);
+
+    return this.http.post<void>(url, {}, { params: queryParams });
+  }
+
+  resetPassword(request: ResetPasswordRequest): Observable<void> {
+    const url = `${this.baseUrl}/reset-password`;
+
+    return this.http.put<void>(url, request, {});
   }
 }

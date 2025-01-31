@@ -94,6 +94,22 @@ export type Messages = {
             message: string;
           };
         };
+        passwordResetLink: {
+          success: {
+            title: string;
+            message: string;
+          };
+          failure: {
+            title: string;
+            message: string;
+          };
+        };
+        resetPassword: {
+          success: {
+            title: string;
+            message: string;
+          };
+        };
       };
     };
     confirmation: {
