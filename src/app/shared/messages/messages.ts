@@ -86,7 +86,7 @@ export const MESSAGES: Messages = {
       emailConfirmation: {
         success: 'Email confirmed successfully.',
         fail: 'Email confirmation failed.',
-        loading: 'Please wait for confirmation.'
+        loading: 'Please wait for confirmation.',
       },
     },
     alert: {
@@ -94,6 +94,20 @@ export const MESSAGES: Messages = {
         title: 'Account Created',
         message:
           'Account is successfully created. Please check your mail inbox for email confirmation link.',
+      },
+      sendEmail: {
+        emailConfirmationLink: {
+          success: {
+            title: 'Sending Email Successful',
+            message:
+              'Email confirmation link was sent successfully. Please check the inbox.',
+          },
+          failure: {
+            title: 'Sending Email Failed',
+            message:
+              'Email confirmation link was not sent. Please try again later.',
+          },
+        },
       },
     },
     confirmation: {

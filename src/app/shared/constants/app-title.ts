@@ -1,1 +1,1 @@
-export const APP_TITLE = 'USER FORGE';
+export const APP_TITLE = 'User Forge';

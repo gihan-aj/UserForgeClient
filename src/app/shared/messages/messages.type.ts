@@ -83,6 +83,18 @@ export type Messages = {
         title: string;
         message: string;
       };
+      sendEmail: {
+        emailConfirmationLink: {
+          success: {
+            title: string;
+            message: string;
+          };
+          failure: {
+            title: string;
+            message: string;
+          };
+        };
+      };
     };
     confirmation: {
       logout: {

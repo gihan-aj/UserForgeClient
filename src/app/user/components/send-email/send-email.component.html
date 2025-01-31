@@ -1,1 +1,43 @@
-<p>send-email works!</p>
+<div class="row m-1">
+  <div class="col-md-5 col-12 text-md-start text-center">
+    <h3>{{ title() }}</h3>
+  </div>
+
+  <div class="col-md-7 col-12 text-md-end text-center">
+    <form [formGroup]="form" (ngSubmit)="onSubmit()">
+      <div class="my-3">
+        <mat-form-field class="w-100">
+          <mat-label>Email</mat-label>
+          <input matInput type="email" formControlName="email" />
+          <mat-icon matSuffix>email</mat-icon>
+          @if (email?.invalid) {
+          <mat-error>{{ emailErrorMessage() }}</mat-error>
+          }
+        </mat-form-field>
+      </div>
+
+      <div
+        class="d-flex flex-md-row justify-content-end flex-column-reverse mb-3"
+      >
+        <button
+          class="me-md-2 mt-md-0 mt-2"
+          type="button"
+          mat-button
+          [routerLink]="loginUrl"
+          [disabled]="loading()"
+        >
+          Go to login page
+        </button>
+
+        <button
+          class="mt-md-0 mt-2"
+          mat-flat-button
+          type="submit"
+          [disabled]="loading()"
+        >
+          Send
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

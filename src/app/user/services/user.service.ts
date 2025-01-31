@@ -18,7 +18,7 @@ import { SettingsService } from '../../shared/settings/settings.service';
 import { UserSetting } from '../../shared/settings/user-setting.interface';
 import { PermissionService } from '../../shared/services/permission.service';
 import { RegistrationRequest } from '../components/registration/registration-request';
-import { TOKEN, USER_ID } from '../../shared/constants/query-params';
+import { EMAIL, TOKEN, USER_ID } from '../../shared/constants/query-params';
 
 @Injectable({
   providedIn: 'root',
@@ -156,5 +156,14 @@ export class UserService {
     queryParams = queryParams.append(TOKEN, token);
 
     return this.http.put<void>(url, null, { params: queryParams });
+  }
+
+  resendEmailConfirmationLink(email: string): Observable<void> {
+    const url = `${this.baseUrl}/resend-email-confirmation-link`;
+
+    let queryParams = new HttpParams();
+    queryParams = queryParams.append(EMAIL, email);
+
+    return this.http.post<void>(url, {}, { params: queryParams });
   }
 }

@@ -25,6 +25,10 @@ export class ConfirmEmailComponent implements OnInit {
   private userId: string | null = null;
 
   loading = signal(true);
+  setLoading = effect(() => {
+    this.loadingService.loadingStatus(this.loading());
+  });
+  
   confirmationSuccessful = signal(false);
 
   statusMessage = signal('');
@@ -82,10 +86,12 @@ export class ConfirmEmailComponent implements OnInit {
       });
     } else {
       this.loading.set(false);
+
+      this.statusMessage.set(
+        this.messageService.getMessage(
+          'user.notification.emailConfirmation.fail'
+        )
+      );
     }
   }
-
-  setLoading = effect(() => {
-    this.loadingService.loadingStatus(this.loading());
-  });
 }
