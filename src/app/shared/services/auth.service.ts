@@ -1,7 +1,8 @@
-import {  Injectable } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { User } from '../../user/models/user.model';
 import { REFRESH_TOKEN } from '../constants/refresh-token';
+import { PermissionService } from './permission.service';
 
 @Injectable({
   providedIn: 'root',
@@ -13,7 +14,7 @@ export class AuthService {
   user$ = this.userSubject.asObservable();
   accessToken$ = this.accessTokenSubject.asObservable();
 
-  constructor() {}
+  constructor(private permissions: PermissionService) {}
 
   setUser(user: User): void {
     this.userSubject.next(user);
@@ -50,6 +51,7 @@ export class AuthService {
   }
 
   clearUserAndTokens(): void {
+    this.permissions.clearAllPermissions();
     this.userSubject.next(null);
     this.accessTokenSubject.next(null);
     localStorage.removeItem(REFRESH_TOKEN);

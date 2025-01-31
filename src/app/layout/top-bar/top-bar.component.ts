@@ -76,13 +76,13 @@ export class TopBarComponent implements OnDestroy {
 
   onLogout() {
     const confirmTitle = this.msgService.getMessage(
-      'user.login.confirmation.logout.title'
+      'user.confirmation.logout.title'
     );
     const confirmMessage = this.msgService.getMessage(
-      'user.login.confirmation.logout.message'
+      'user.confirmation.logout.message'
     );
     const confirmAction = this.msgService.getMessage(
-      'user.login.confirmation.logout.action'
+      'user.confirmation.logout.action'
     );
 
     this.logoutConfirmSubscription = this.confirmationService
@@ -93,7 +93,7 @@ export class TopBarComponent implements OnDestroy {
             next: () => {
               this.authService.clearUserAndTokens();
               const message = this.msgService.getMessage(
-                'user.login.notification.logout.success'
+                'user.notification.logout.success'
               );
               this.notificationService.notify(AlertType.Success, message);
 
@@ -104,7 +104,7 @@ export class TopBarComponent implements OnDestroy {
               this.authService.clearUserAndTokens();
               this.errorHandling.handle(error);
               const message = this.msgService.getMessage(
-                'user.login.notification.logout.fail'
+                'user.notification.logout.fail'
               );
               this.notificationService.notify(AlertType.Danger, message);
               this.router.navigateByUrl(this.userRoutes.userLogin);

@@ -17,6 +17,7 @@ import { AlertType } from '../../shared/widgets/alert/alert-type.enum';
 import { SettingsService } from '../../shared/settings/settings.service';
 import { UserSetting } from '../../shared/settings/user-setting.interface';
 import { PermissionService } from '../../shared/services/permission.service';
+import { RegistrationRequest } from '../components/registration/registration-request';
 
 @Injectable({
   providedIn: 'root',
@@ -96,7 +97,7 @@ export class UserService {
         this.router.navigateByUrl(this.loginUrl);
 
         const message = this.msgService.getMessage(
-          'user.login.notification.refresh.fail'
+          'user.notification.refresh.fail'
         );
         this.notificationService.notify(AlertType.Danger, message);
 
@@ -134,12 +135,15 @@ export class UserService {
 
         this.notificationService.notify(
           AlertType.Danger,
-          this.msgService.getMessage(
-            'user.login.notification.fetchPermissions.fail'
-          )
+          this.msgService.getMessage('user.notification.fetchPermissions.fail')
         );
         return throwError(() => error);
       })
     );
+  }
+
+  register(request: RegistrationRequest): Observable<{ message: string }> {
+    const url = this.baseUrl + '/register';
+    return this.http.post<{ message: string }>(url, request);
   }
 }

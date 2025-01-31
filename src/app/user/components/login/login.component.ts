@@ -113,11 +113,11 @@ export class LoginComponent implements OnDestroy {
   updateEmailErrorMessages(): void {
     if (this.email!.hasError('required')) {
       this.emailErrorMessage.set(
-        this.msgService.getMessage('user.login.validation.email.required')
+        this.msgService.getMessage('user.validation.login.email.required')
       );
     } else if (this.email!.hasError('email')) {
       this.emailErrorMessage.set(
-        this.msgService.getMessage('user.login.validation.email.invalid')
+        this.msgService.getMessage('user.validation.login.email.invalid')
       );
     } else {
       this.emailErrorMessage.set('');
@@ -127,7 +127,7 @@ export class LoginComponent implements OnDestroy {
   updatePasswordErrorMessages(): void {
     if (this.password!.hasError('required')) {
       this.passwordErrorMessage.set(
-        this.msgService.getMessage('user.login.validation.password.required')
+        this.msgService.getMessage('user.validation.login.password.required')
       );
     } else {
       this.passwordErrorMessage.set('');
@@ -152,7 +152,7 @@ export class LoginComponent implements OnDestroy {
           const user = this.authService.getUser();
           if (user) {
             const message = this.msgService.getMessage(
-              'user.login.notification.login.success',
+              'user.notification.login.success',
               { firstName: user.firstName, lastName: user.lastName }
             );
             this.notificationService.notify(AlertType.Success, message);
@@ -165,7 +165,7 @@ export class LoginComponent implements OnDestroy {
           console.error('login error: ', error);
 
           const message = this.msgService.getMessage(
-            'user.login.notification.login.fail'
+            'user.notification.login.fail'
           );
           this.notificationService.notify(AlertType.Danger, message);
 

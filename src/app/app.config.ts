@@ -9,13 +9,11 @@ import { routes } from './app.routes';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 
 import { MAT_FORM_FIELD_DEFAULT_OPTIONS } from '@angular/material/form-field';
-import {
-  provideHttpClient,
-  withInterceptors,
-  withInterceptorsFromDi,
-} from '@angular/common/http';
+import { provideHttpClient, withInterceptors } from '@angular/common/http';
 import { authInterceptor } from './shared/interceptors/auth.interceptor';
+import { provideMomentDateAdapter } from '@angular/material-moment-adapter';
 import { appInitializer } from './app.init';
+import { DATE_FORMATS } from './shared/constants/date-formats';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -24,6 +22,7 @@ export const appConfig: ApplicationConfig = {
     provideAnimationsAsync(),
     provideHttpClient(withInterceptors([authInterceptor])),
     provideAppInitializer(appInitializer()),
+    provideMomentDateAdapter(DATE_FORMATS),
     {
       provide: MAT_FORM_FIELD_DEFAULT_OPTIONS,
       useValue: { appearance: 'outline' },

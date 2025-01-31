@@ -14,6 +14,7 @@ import { SIDE_MENU } from './side-menu';
 import { ABSOLUTE_ROUTES } from '../../shared/constants/absolute-routes';
 import { PermissionService } from '../../shared/services/permission.service';
 import { CommonModule } from '@angular/common';
+import { APP_TITLE } from '../../shared/constants/app-title';
 
 @Component({
   selector: 'app-side-nav',
@@ -31,6 +32,7 @@ import { CommonModule } from '@angular/common';
 export class SideNavComponent implements OnInit, OnDestroy {
   permissionsService = inject(PermissionService);
 
+  appName = APP_TITLE;
   sideMenu = SIDE_MENU;
   routes = ABSOLUTE_ROUTES;
 

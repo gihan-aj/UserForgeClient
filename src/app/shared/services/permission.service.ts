@@ -25,4 +25,8 @@ export class PermissionService {
   hasAnyPermission(prefix: string): boolean {
     return this.permissionsSubject.value.some((p) => p.startsWith(prefix));
   }
+
+  clearAllPermissions() {
+    this.permissionsSubject.next([]);
+  }
 }

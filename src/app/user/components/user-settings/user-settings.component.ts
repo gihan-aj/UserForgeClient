@@ -75,7 +75,7 @@ export class UserSettingsComponent {
     this.userService.saveUserSettings(userSettings).subscribe({
       next: () => {
         const message = this.msgService.getMessage(
-          'user.login.notification.saveUserSettings.success'
+          'user.notification.saveUserSettings.success'
         );
         this.notificatioService.notify(AlertType.Success, message);
         this.loading.set(false);
@@ -83,7 +83,7 @@ export class UserSettingsComponent {
       error: (error) => {
         this.errorHandling.handle(error);
         const message = this.msgService.getMessage(
-          'user.login.notification.saveUserSettings.fail'
+          'user.notification.saveUserSettings.fail'
         );
         this.notificatioService.notify(AlertType.Danger, message);
         this.loading.set(false);

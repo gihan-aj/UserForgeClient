@@ -43,13 +43,13 @@
     </button>
   </mat-toolbar-row>
 
-  @if (user()) {
   <mat-toolbar-row>
+    @if (user()) {
     <div class="mx-1">
       <app-breadcrumb></app-breadcrumb>
     </div>
+    }
   </mat-toolbar-row>
-  }
 </mat-toolbar>
 
 <mat-menu #themeMenu="matMenu">
