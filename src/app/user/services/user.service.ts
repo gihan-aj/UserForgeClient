@@ -20,6 +20,8 @@ import { PermissionService } from '../../shared/services/permission.service';
 import { RegistrationRequest } from '../components/registration/registration-request';
 import { EMAIL, TOKEN, USER_ID } from '../../shared/constants/query-params';
 import { ResetPasswordRequest } from '../interfaces/reset-password-request.interface';
+import { UserInfo } from '../interfaces/user-info.interface';
+import { UpdateUserDetailsRequest } from '../interfaces/update-user-details-request.interface';
 
 @Injectable({
   providedIn: 'root',
@@ -179,6 +181,33 @@ export class UserService {
 
   resetPassword(request: ResetPasswordRequest): Observable<void> {
     const url = `${this.baseUrl}/reset-password`;
+
+    return this.http.put<void>(url, request, {});
+  }
+
+  getUserDetails(): Observable<User | null> {
+    const url = this.baseUrl;
+
+    return this.http.get<UserInfo>(url).pipe(
+      map((response) => {
+        const user = this.authService.getUser();
+        if (user) {
+          user.firstName = response.firstName;
+          user.lastName = response.lastName;
+          user.updateEmail(response.email);
+          user.phoneNumber = response.phoneNumber;
+          user.dateOfBirth = response.dateOfBirth;
+
+          this.authService.setUser(user);
+        }
+
+        return user;
+      })
+    );
+  }
+
+  updateUserDetails(request: UpdateUserDetailsRequest): Observable<void> {
+    const url = `${this.baseUrl}/update-user`;
 
     return this.http.put<void>(url, request, {});
   }

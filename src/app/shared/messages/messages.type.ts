@@ -77,6 +77,9 @@ export type Messages = {
         success: string;
         fail: string;
       };
+      userDetails: {
+        fail: string;
+      };
     };
     alert: {
       registration: {
@@ -111,9 +114,20 @@ export type Messages = {
           };
         };
       };
+      userProfileUpdated: {
+        success: {
+          title: string;
+          message: string;
+        };
+      };
     };
     confirmation: {
       logout: {
+        title: string;
+        message: string;
+        action: string;
+      };
+      editUserDetails: {
         title: string;
         message: string;
         action: string;

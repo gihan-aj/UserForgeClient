@@ -1,0 +1,27 @@
+.avatar {
+  //   width: 100px;
+  //   height: 100px;
+  //   box-sizing: border-box;
+  //   border-radius: 50%;
+  //   overflow: hidden;
+
+  img {
+    width: 100px;
+    height: auto;
+  }
+}
+
+.user {
+  h2 {
+    margin: 0;
+  }
+  p {
+    margin: 0;
+  }
+}
+
+.user-details {
+  mat-icon {
+    margin-right: 1rem;
+  }
+}

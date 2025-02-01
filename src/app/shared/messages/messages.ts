@@ -88,6 +88,9 @@ export const MESSAGES: Messages = {
         fail: 'Email confirmation failed.',
         loading: 'Please wait for confirmation.',
       },
+      userDetails: {
+        fail: 'Failed to fetch user details. Plase log out and log in again.',
+      },
     },
     alert: {
       registration: {
@@ -127,12 +130,23 @@ export const MESSAGES: Messages = {
           },
         },
       },
+      userProfileUpdated: {
+        success: {
+          title: 'User Profile Updated.',
+          message: 'Your user prfile details updated successfully.',
+        },
+      },
     },
     confirmation: {
       logout: {
-        title: 'Log Out Confirmation',
+        title: 'Log Out?',
         message: 'Are you sure you want to log out from this device?',
         action: 'Log out',
+      },
+      editUserDetails: {
+        title: 'Edit User Profile?',
+        message: 'Are you sure you want to edit your user profile?',
+        action: 'Yes',
       },
     },
   },
