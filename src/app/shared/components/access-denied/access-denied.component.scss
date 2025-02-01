@@ -1,0 +1,10 @@
+h1 {
+  margin: 0;
+}
+
+.contained {
+  display: inline-block;
+  border: 1px solid var(--sys-outline-variant);
+  padding: 2rem;
+  border-radius: 2rem;
+}

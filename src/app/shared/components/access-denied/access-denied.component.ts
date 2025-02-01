@@ -1,17 +1,15 @@
-import { Component, inject } from '@angular/core';
+import { Component } from '@angular/core';
 import { RouterLink } from '@angular/router';
-
+import { DEFAULT_RETURN_URL } from '../../constants/absolute-routes';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDividerModule } from '@angular/material/divider';
 
-import { DEFAULT_RETURN_URL } from '../../constants/absolute-routes';
-
 @Component({
-  selector: 'app-not-found',
+  selector: 'app-access-denied',
   imports: [RouterLink, MatButtonModule, MatDividerModule],
-  templateUrl: 'not-found.component.html',
-  styleUrl: 'not-found.component.scss',
+  templateUrl: './access-denied.component.html',
+  styleUrl: './access-denied.component.scss',
 })
-export class NotFoundComponent {
+export class AccessDeniedComponent {
   defaultReturnUrl = DEFAULT_RETURN_URL;
 }

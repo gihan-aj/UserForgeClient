@@ -1,9 +1,12 @@
 import { inject } from '@angular/core';
-import { CanActivateFn } from '@angular/router';
+import { CanActivateFn, Router } from '@angular/router';
 import { PermissionService } from '../services/permission.service';
+import { ABSOLUTE_ROUTES } from '../constants/absolute-routes';
 
 export const permissionGuard: CanActivateFn = (route, state) => {
   const permissionsService = inject(PermissionService);
+  const router = inject(Router);
+  const accessDeniedUrl = ABSOLUTE_ROUTES.accessDenied;
 
   const permissionPrefix = route.data['permission'];
   if (permissionPrefix) {
@@ -12,5 +15,6 @@ export const permissionGuard: CanActivateFn = (route, state) => {
     }
   }
 
+  router.navigateByUrl(accessDeniedUrl);
   return false;
 };

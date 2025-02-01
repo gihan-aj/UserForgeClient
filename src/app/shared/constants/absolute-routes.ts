@@ -33,6 +33,7 @@ export const ABSOLUTE_ROUTES = {
     resendEmailConfirmationLink:
       '/user/send-email/resend-email-confirmation-link',
   },
+  accessDenied: '/access-denied'
 };
 
 export const DEFAULT_RETURN_URL = ABSOLUTE_ROUTES.home;

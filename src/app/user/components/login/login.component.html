@@ -75,7 +75,7 @@
           class="mt-md-0 mt-2"
           mat-flat-button
           type="submit"
-          [disabled]="loading()"
+          [disabled]="loading() || form.invalid"
         >
           Sign in
         </button>
