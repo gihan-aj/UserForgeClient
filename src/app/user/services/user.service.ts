@@ -2,7 +2,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from '../../../environments/environment';
 import { Router } from '@angular/router';
-import { catchError, map, Observable, tap, throwError } from 'rxjs';
+import { catchError, map, Observable, switchMap, tap, throwError } from 'rxjs';
 
 import { AuthService } from '../../shared/services/auth.service';
 import { DeviceIdentifierService } from '../../shared/services/device-identifier.service';
@@ -41,7 +41,7 @@ export class UserService {
     private permissionsService: PermissionService
   ) {}
 
-  private persistUser(response: LoginResponse): User {
+  persistUser(response: LoginResponse): User {
     let user = new User(
       response.user.id,
       response.user.email,
@@ -51,7 +51,7 @@ export class UserService {
       response.userSettings
     );
 
-    console.log('logged in user: ', user);
+    console.log('user details persisted.');
 
     this.setttingsService.loadSettings(response.userSettings);
 
@@ -63,8 +63,8 @@ export class UserService {
     return user;
   }
 
-  login(loginFormData: { email: string; password: string }) {
-    const url = this.baseUrl + '/login';
+  loginUser(loginFormData: { email: string; password: string }) {
+    const url = `${this.baseUrl}/login`;
 
     const request: LoginRequest = {
       email: loginFormData.email,
@@ -72,18 +72,24 @@ export class UserService {
       deviceIdentifier: this.deviceId.getOrCreateDeviceIdentifier(),
     };
 
-    return this.http.post<LoginResponse>(url, request, {}).pipe(
+    return this.http.post<LoginResponse>(url, request).pipe(
       map((response) => {
         if (response) {
-          const user = this.persistUser(response);
-          this.fetchPermissions().subscribe();
+          this.persistUser(response);
         }
-      })
+      }),
+      switchMap(() =>
+        this.fetchUserPermissions().pipe(
+          map((response) => {
+            if (response) this.permissionsService.setpermissions(response);
+          })
+        )
+      )
     );
   }
 
-  refreshUser(refreshToken: string): Observable<LoginResponse> {
-    const url = this.baseUrl + '/refresh';
+  refresh(refreshToken: string): Observable<LoginResponse> {
+    const url = `${this.baseUrl}/refresh`;
     const deviceIdentifier = this.deviceId.getOrCreateDeviceIdentifier();
 
     const request: RefreshUserRequest = {
@@ -91,23 +97,7 @@ export class UserService {
       deviceIdentifier: deviceIdentifier,
     };
 
-    return this.http.post<LoginResponse>(url, request).pipe(
-      tap((response) => {
-        this.persistUser(response);
-        this.fetchPermissions().subscribe();
-      }),
-      catchError((error) => {
-        this.authService.clearUserAndTokens();
-        this.router.navigateByUrl(this.loginUrl);
-
-        const message = this.msgService.getMessage(
-          'user.notification.refresh.fail'
-        );
-        this.notificationService.notify(AlertType.Danger, message);
-
-        return throwError(() => error);
-      })
-    );
+    return this.http.post<LoginResponse>(url, request);
   }
 
   logoutFromServer(): Observable<void> {
@@ -124,26 +114,31 @@ export class UserService {
     return this.http.put<void>(url, settings, {});
   }
 
-  fetchPermissions(): Observable<string[]> {
-    const url = this.baseUrl + '/permissions';
-    return this.http.get<string[]>(url).pipe(
-      tap((response) => {
-        console.log('user permissions: ', response);
-        this.permissionsService.setpermissions(response);
-      }),
-      catchError((error) => {
-        this.logoutFromServer().subscribe();
+  // fetchPermissions(): Observable<string[]> {
+  //   const url = this.baseUrl + '/permissions';
+  //   return this.http.get<string[]>(url).pipe(
+  //     tap((response) => {
+  //       console.log('user permissions: ', response);
+  //       this.permissionsService.setpermissions(response);
+  //     }),
+  //     catchError((error) => {
+  //       this.logoutFromServer().subscribe();
 
-        this.authService.clearUserAndTokens();
-        this.router.navigateByUrl(this.loginUrl);
+  //       this.authService.clearUserAndTokens();
+  //       this.router.navigateByUrl(this.loginUrl);
 
-        this.notificationService.notify(
-          AlertType.Danger,
-          this.msgService.getMessage('user.notification.fetchPermissions.fail')
-        );
-        return throwError(() => error);
-      })
-    );
+  //       this.notificationService.notify(
+  //         AlertType.Danger,
+  //         this.msgService.getMessage('user.notification.fetchPermissions.fail')
+  //       );
+  //       return throwError(() => error);
+  //     })
+  //   );
+  // }
+
+  fetchUserPermissions(): Observable<string[]> {
+    const url = `${this.baseUrl}/permissions`;
+    return this.http.get<string[]>(url);
   }
 
   register(request: RegistrationRequest): Observable<{ message: string }> {

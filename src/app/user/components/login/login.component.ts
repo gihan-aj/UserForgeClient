@@ -142,7 +142,7 @@ export class LoginComponent implements OnDestroy {
     if (this.form.valid) {
       this.loading.set(true);
 
-      this.userService.login(data).subscribe({
+      this.userService.loginUser(data).subscribe({
         next: () => {
           if (this.returnUrl) {
             this.router.navigateByUrl(this.returnUrl);
