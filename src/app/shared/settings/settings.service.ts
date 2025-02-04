@@ -19,7 +19,7 @@ export class SettingsService {
   // timeFormats = TIME_FORMAT;
   pageSizes = PAGE_SIZES;
 
-  private defaultSettings: { [key: string]: any } = {
+  defaultSettings: { [key: string]: any } = {
     [this.settingKeys.theme]: AppTheme.System,
     [this.settingKeys.pageSize]: this.pageSizes[1],
   };

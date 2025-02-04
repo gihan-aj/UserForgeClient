@@ -1,1 +1,33 @@
-<p>user-management works!</p>
+<div
+  class="d-flex flex-md-row justify-content-between align-items-center mx-3 mb-3 flex-column gap-2"
+>
+  <h2>{{ pageTitle }}</h2>
+  <button mat-mini-fab><mat-icon>add</mat-icon></button>
+</div>
+
+<div class="d-flex flex-row justify-content-center overflow-x-auto mx-3">
+  <app-table
+    class="overflow-auto"
+    [dataSource]="dataSource"
+    [fields]="fields"
+    [columns]="columns"
+    [(page)]="page"
+    [(pageSize)]="pageSize"
+    [(searchTerm)]="searchTerm"
+    [(sortBy)]="sortColumn"
+    [(sortOrder)]="sortOrder"
+    [multipleSelectEnabled]="true"
+    [actionsEnabled]="true"
+    [canView]="permissionService.hasPermission(permissions.read)"
+    [canChangeStatus]="
+      permissionService.hasPermission(permissions.statusChange)
+    "
+    [canEdit]="permissionService.hasPermission(permissions.edit)"
+    [canDelete]="permissionService.hasPermission(permissions.delete)"
+    (onView)="view($event)"
+    (onEdit)="edit($event)"
+    (onDelete)="delete($event)"
+    (onActivate)="activate($event)"
+    (onDeactivate)="deactivate($event)"
+  ></app-table>
+</div>
