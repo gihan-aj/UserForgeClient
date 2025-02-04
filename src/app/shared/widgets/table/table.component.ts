@@ -27,6 +27,8 @@ import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
 import { TableDataSource } from './table-data-source.model';
 import { FormatTitlePipe } from '../../pipes/format-title.pipe';
 import { FormsModule } from '@angular/forms';
+import { PAGE_SIZE_OPTIONS } from './page-size-options';
+import { DEFAULT_COLUMNS } from './default-columns';
 
 @Component({
   selector: 'app-table',

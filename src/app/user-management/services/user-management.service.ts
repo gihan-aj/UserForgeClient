@@ -13,6 +13,8 @@ import {
   SORT_ORDER,
 } from '../../shared/constants/query-params';
 import { FetchDataSet } from '../../shared/interfaces/fetch-data-set.interface';
+import { BulkIdsRequest } from '../../shared/interfaces/bulk-ids-request.interface';
+import { HttpSuccessResponse } from '../../shared/interfaces/http-success-response.interface';
 
 @Injectable({
   providedIn: 'root',
@@ -47,5 +49,32 @@ export class UserManagementService implements FetchDataSet<UserDetails> {
     return this.http.get<PaginatedList<UserDetails>>(url, {
       params: queryParams,
     });
+  }
+
+  activate(ids: string[]) {
+    const url = `${this.baseUrl}/activate`;
+    const body: BulkIdsRequest<string> = {
+      ids: ids,
+    };
+
+    return this.http.put<HttpSuccessResponse>(url, body);
+  }
+
+  deactivate(ids: string[]) {
+    const url = `${this.baseUrl}/deactivate`;
+    const body: BulkIdsRequest<string> = {
+      ids: ids,
+    };
+
+    return this.http.put<HttpSuccessResponse>(url, body);
+  }
+
+  delete(ids: string[]) {
+    const url = `${this.baseUrl}/delete`;
+    const body: BulkIdsRequest<string> = {
+      ids: ids,
+    };
+
+    return this.http.put<HttpSuccessResponse>(url, body);
   }
 }

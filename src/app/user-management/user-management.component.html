@@ -1,8 +1,14 @@
-<div
-  class="d-flex flex-md-row justify-content-between align-items-center mx-3 mb-3 flex-column gap-2"
->
-  <h2>{{ pageTitle }}</h2>
-  <button mat-mini-fab><mat-icon>add</mat-icon></button>
+<div class="d-flex flex-md-row flex-column m-3">
+  <div class="text-start">
+    <h2>{{ pageTitle }}</h2>
+  </div>
+  <div class="d-md-flex flex-md-fill d-none"></div>
+  <div class="text-end mt-md-0 mt-2">
+    <button class="me-2" mat-flat-button [disabled]="selected().length === 0">
+      <mat-icon>work_update</mat-icon>Assign Roles
+    </button>
+    <button mat-flat-button><mat-icon>add</mat-icon>Add</button>
+  </div>
 </div>
 
 <div class="d-flex flex-row justify-content-center overflow-x-auto mx-3">
@@ -24,6 +30,7 @@
     "
     [canEdit]="permissionService.hasPermission(permissions.edit)"
     [canDelete]="permissionService.hasPermission(permissions.delete)"
+    (selectionChange)="getSelection($event)"
     (onView)="view($event)"
     (onEdit)="edit($event)"
     (onDelete)="delete($event)"

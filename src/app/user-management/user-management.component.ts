@@ -21,6 +21,10 @@ import { UserDetails } from './interfaces/user-details.interface';
 import { SortOrder } from '../shared/widgets/table/sort-order.enum';
 import { PermissionService } from '../shared/services/permission.service';
 import { PERMISSIONS } from '../shared/constants/permissions';
+import { ConfirmationService } from '../shared/widgets/confirmation-dialog/confirmation.service';
+import { MessageService } from '../shared/messages/message.service';
+import { AlertType } from '../shared/widgets/alert/alert-type.enum';
+import { AlertService } from '../shared/widgets/alert/alert.service';
 
 const PAGE_TITLE = 'User Management';
 
@@ -70,11 +74,19 @@ export class UserManagementComponent implements OnInit, OnDestroy {
   fields = FIELDS;
   columns = COLUMNS;
 
+  selected = signal<UserDetails[]>([]);
+
   settingsSubscription: Subscription;
+  deactivateConfirmSubscription: Subscription | undefined;
+  activateConfirmSubscription: Subscription | undefined;
+  deleteConfirmSubscription: Subscription | undefined;
 
   constructor(
     private userManagementService: UserManagementService,
-    private errorHandler: ErrorHandlingService
+    private errorHandler: ErrorHandlingService,
+    private confirmationService: ConfirmationService,
+    private msgService: MessageService,
+    private alertService: AlertService
   ) {
     this.settingsSubscription = this.settings.settings$.subscribe(
       (settings) => {
@@ -106,24 +118,157 @@ export class UserManagementComponent implements OnInit, OnDestroy {
     this.fetchTableData();
   });
 
-  // getSelection($event: any[]) {
-  //   console.log($event);
-  // }
-
-  view($event: any) {
-    console.log('view', $event);
+  getSelection(users: UserDetails[]) {
+    this.selected.set(users);
   }
 
-  deactivate($event: any) {
-    console.log('deactivate', $event);
+  view($event: any) {}
+
+  deactivate(userIds: string[]) {
+    const title = this.msgService.getMessage(
+      'userManagement.confirmation.deactivateUsers.title'
+    );
+
+    let message = '';
+    if (userIds.length === 1) {
+      const userEmail = this.dataSource.items.find(
+        (user) => user.id === userIds[0]
+      )?.email;
+
+      message = this.msgService.getMessage(
+        'userManagement.confirmation.deactivateUsers.messageSingle',
+        { email: userEmail! }
+      );
+    } else {
+      message = this.msgService.getMessage(
+        'userManagement.confirmation.deactivateUsers.message'
+      );
+    }
+
+    const action = this.msgService.getMessage(
+      'userManagement.confirmation.deactivateUsers.action'
+    );
+
+    this.deactivateConfirmSubscription = this.confirmationService
+      .confirm(AlertType.Warning, title, message, action)
+      .subscribe((accepted) => {
+        if (accepted) {
+          this.deactivateUsers(userIds);
+        }
+      });
   }
 
-  activate($event: any) {
-    console.log('activate', $event);
+  private deactivateUsers(ids: string[]) {
+    this.userManagementService.deactivate(ids).subscribe({
+      next: (res) => {
+        const title = this.msgService.getMessage(
+          'userManagement.alert.deactivate.success.title'
+        );
+        this.alertService.showAlert(AlertType.Success, title, res.message);
+        this.fetchTableData();
+      },
+      error: (error) => {
+        this.errorHandler.handle(error);
+      },
+    });
   }
 
-  delete($event: any) {
-    console.log('delete', $event);
+  activate(userIds: string[]) {
+    const title = this.msgService.getMessage(
+      'userManagement.confirmation.activateUsers.title'
+    );
+
+    let message = '';
+    if (userIds.length === 1) {
+      const userEmail = this.dataSource.items.find(
+        (user) => user.id === userIds[0]
+      )?.email;
+
+      message = this.msgService.getMessage(
+        'userManagement.confirmation.activateUsers.messageSingle',
+        { email: userEmail! }
+      );
+    } else {
+      message = this.msgService.getMessage(
+        'userManagement.confirmation.activateUsers.message'
+      );
+    }
+
+    const action = this.msgService.getMessage(
+      'userManagement.confirmation.activateUsers.action'
+    );
+
+    this.activateConfirmSubscription = this.confirmationService
+      .confirm(AlertType.Warning, title, message, action)
+      .subscribe((accepted) => {
+        if (accepted) {
+          this.activateUsers(userIds);
+        }
+      });
+  }
+
+  private activateUsers(ids: string[]) {
+    this.userManagementService.activate(ids).subscribe({
+      next: (res) => {
+        const title = this.msgService.getMessage(
+          'userManagement.alert.activate.success.title'
+        );
+        this.alertService.showAlert(AlertType.Success, title, res.message);
+        this.fetchTableData();
+      },
+      error: (error) => {
+        this.errorHandler.handle(error);
+      },
+    });
+  }
+
+  delete(userIds: string[]) {
+    const title = this.msgService.getMessage(
+      'userManagement.confirmation.deleteUsers.title'
+    );
+
+    let message = '';
+    if (userIds.length === 1) {
+      const userEmail = this.dataSource.items.find(
+        (user) => user.id === userIds[0]
+      )?.email;
+
+      message = this.msgService.getMessage(
+        'userManagement.confirmation.deleteUsers.messageSingle',
+        { email: userEmail! }
+      );
+    } else {
+      message = this.msgService.getMessage(
+        'userManagement.confirmation.deleteUsers.message'
+      );
+    }
+
+    const action = this.msgService.getMessage(
+      'userManagement.confirmation.deleteUsers.action'
+    );
+
+    this.deleteConfirmSubscription = this.confirmationService
+      .confirm(AlertType.Warning, title, message, action)
+      .subscribe((accepted) => {
+        if (accepted) {
+          this.deleteUsers(userIds);
+        }
+      });
+  }
+
+  private deleteUsers(ids: string[]) {
+    this.userManagementService.delete(ids).subscribe({
+      next: (res) => {
+        const title = this.msgService.getMessage(
+          'userManagement.alert.delete.success.title'
+        );
+        this.alertService.showAlert(AlertType.Success, title, res.message);
+        this.fetchTableData();
+      },
+      error: (error) => {
+        this.errorHandler.handle(error);
+      },
+    });
   }
 
   edit($event: any) {
@@ -132,5 +277,9 @@ export class UserManagementComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     if (this.settingsSubscription) this.settingsSubscription.unsubscribe();
+    if (this.deactivateConfirmSubscription)
+      this.deactivateConfirmSubscription.unsubscribe();
+    if (this.activateConfirmSubscription)
+      this.activateConfirmSubscription.unsubscribe();
   }
 }

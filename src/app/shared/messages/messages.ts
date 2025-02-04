@@ -150,4 +150,54 @@ export const MESSAGES: Messages = {
       },
     },
   },
+  userManagement: {
+    confirmation: {
+      activateUsers: {
+        title: 'Confirm Activation',
+        message: 'Are you sure you want to activate selected users?',
+        messageSingle:
+          'Are you sure you want to activate user with email: {email}?',
+        action: 'Activate',
+      },
+      deactivateUsers: {
+        title: 'Confirm Deactivation',
+        message: 'Are you sure you want to deactivate selected users?',
+        messageSingle:
+          'Are you sure you want to deactivate user with email: {email}?',
+        action: 'Deactivate',
+      },
+      editUser: {
+        title: 'Confiirm Edit',
+        message: 'Are you sure you want to edit user with email: {email}',
+        action: 'Edit',
+      },
+      deleteUsers: {
+        title: 'Confirm Delete',
+        message: 'Are you sure you want to activate selected users?',
+        messageSingle:
+          'Are you sure you want to activate user with email: {email}?',
+        action: 'Delete',
+      },
+    },
+    alert: {
+      activate: {
+        success: {
+          title: 'Successfully Activated!',
+          mssage: '',
+        },
+      },
+      deactivate: {
+        success: {
+          title: 'Successfully Deactivated!',
+          mssage: '',
+        },
+      },
+      delete: {
+        success: {
+          title: 'Successfully Deleted!',
+          mssage: '',
+        },
+      },
+    },
+  },
 };

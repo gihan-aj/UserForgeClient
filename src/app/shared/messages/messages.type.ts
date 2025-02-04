@@ -134,4 +134,51 @@ export type Messages = {
       };
     };
   };
+  userManagement: {
+    confirmation: {
+      activateUsers: {
+        title: string;
+        message: string;
+        messageSingle: string;
+        action: string;
+      };
+      deactivateUsers: {
+        title: string;
+        message: string;
+        messageSingle: string;
+        action: string;
+      };
+      editUser: {
+        title: string;
+        message: string;
+        action: string;
+      };
+      deleteUsers: {
+        title: string;
+        message: string;
+        messageSingle: string;
+        action: string;
+      };
+    };
+    alert:{
+      activate:{
+        success:{
+          title: string;
+          mssage: string;
+        }
+      };
+      deactivate:{
+        success:{
+          title: string;
+          mssage: string;
+        }
+      };
+      delete:{
+        success:{
+          title: string;
+          mssage: string;
+        }
+      };
+    }
+  };
 };
