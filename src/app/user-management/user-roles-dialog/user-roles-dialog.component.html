@@ -1,0 +1,15 @@
+<h2 mat-dialog-title>{{ data.title }}</h2>
+<mat-dialog-content>
+  @if (mode() === dialogMode.View) {
+  <mat-list role="list">
+    @for (role of data.roles; track $index) {
+    <mat-list-item role="listitem">{{
+      role.roleName | formatTitle
+    }}</mat-list-item>
+    }
+  </mat-list>
+  }
+</mat-dialog-content>
+<mat-dialog-actions>
+  <button type="button" mat-button mat-dialog-close>Cancel</button>
+</mat-dialog-actions>

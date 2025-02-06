@@ -11,6 +11,7 @@ import {
   SEARCH_TERM,
   SORT_COLUMN,
   SORT_ORDER,
+  USER_ID,
 } from '../../shared/constants/query-params';
 import { FetchDataSet } from '../../shared/interfaces/fetch-data-set.interface';
 import { BulkIdsRequest } from '../../shared/interfaces/bulk-ids-request.interface';
@@ -47,6 +48,23 @@ export class UserManagementService implements FetchDataSet<UserDetails> {
     queryParams = queryParams.append(PAGE_SIZE, pageSize.toString());
 
     return this.http.get<PaginatedList<UserDetails>>(url, {
+      params: queryParams,
+    });
+  }
+
+  getRoleNames(): Observable<string[]> {
+    const url = `${environment.baseUrl}/roles/role-names`;
+
+    return this.http.get<string[]>(url);
+  }
+
+  getUserRoles(userId: string): Observable<string[]> {
+    const url = `${this.baseUrl}/user-roles`;
+
+    let queryParams = new HttpParams();
+    queryParams = queryParams.append(USER_ID, userId);
+
+    return this.http.get<string[]>(url, {
       params: queryParams,
     });
   }

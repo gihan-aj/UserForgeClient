@@ -1,13 +1,21 @@
-<h2 mat-dialog-title>Edit your details</h2>
+<h2 mat-dialog-title>{{ data.title }}</h2>
 
 <form [formGroup]="form" (ngSubmit)="onSubmit()">
   <mat-dialog-content>
+    <div *ngIf="mode() !== dialogMode.Create" class="row mb-3">
+      <mat-form-field class="w-100">
+        <mat-label>Id</mat-label>
+        <input matInput type="text" readonly formControlName="id" />
+      </mat-form-field>
+    </div>
+
     <div class="row mb-3">
       <mat-form-field class="w-100">
         <mat-label>First Name</mat-label>
         <input
           matInput
           type="text"
+          [readonly]="viewOnly()"
           [minlength]="firstNameMinLength"
           [maxlength]="firstNameMaxLength"
           formControlName="firstName"
@@ -25,6 +33,7 @@
         <input
           matInput
           type="text"
+          [readonly]="viewOnly()"
           [minlength]="lastNameMinLength"
           [maxlength]="lastNameMaxLength"
           formControlName="lastName"
@@ -48,7 +57,12 @@
       <div class="col-md-6 mb-md-0 mb-3">
         <mat-form-field class="w-100">
           <mat-label>Phone Number</mat-label>
-          <input matInput type="text" formControlName="phoneNumber" />
+          <input
+            matInput
+            type="text"
+            [readonly]="viewOnly()"
+            formControlName="phoneNumber"
+          />
           <mat-icon matSuffix>phone</mat-icon>
           <mat-hint>Format: +1234567890</mat-hint>
           @if (phoneNumber?.invalid) {
@@ -63,6 +77,7 @@
           <input
             matInput
             type="text"
+            [readonly]="viewOnly()"
             formControlName="dateOfBirth"
             [matDatepicker]="dob"
           />
@@ -80,11 +95,50 @@
         </mat-form-field>
       </div>
     </div>
+
+    <div class="row mb-3">
+      <div class="col-md-6 mb-md-0 mb-3 text-end">
+        <p>
+          <mat-slide-toggle
+            formControlName="emailConfirmed"
+            labelPosition="before"
+            aria-label="email confirmed"
+            >Email confirmed</mat-slide-toggle
+          >
+        </p>
+      </div>
+
+      <div class="col-md-6 mb-md-0 mb-3 text-end">
+        <p>
+          <mat-slide-toggle
+            labelPosition="before"
+            formControlName="isActive"
+            aria-label="is active"
+            >Is active</mat-slide-toggle
+          >
+        </p>
+      </div>
+    </div>
   </mat-dialog-content>
   <mat-dialog-actions>
     <button type="button" mat-button mat-dialog-close>Cancel</button>
-    <button type="submit" mat-flat-button [disabled]="form.invalid">
+    <button
+      *ngIf="!viewOnly()"
+      type="submit"
+      mat-flat-button
+      [disabled]="form.invalid"
+    >
       Save
     </button>
+    @if (viewOnly() && !isDefaultUser()) {
+    <button
+      (click)="onEdit()"
+      *appHasPermission="editPermission"
+      type="button"
+      mat-flat-button
+    >
+      Edit
+    </button>
+    }
   </mat-dialog-actions>
 </form>

@@ -52,7 +52,13 @@
       {{ field | formatTitle }}
     </th>
     <td mat-cell *matCellDef="let entity">
+      @if (entity[field] === true) {
+      <mat-icon>check</mat-icon>
+      }@else if (entity[field] === false) {
+      <mat-icon>close</mat-icon>
+      }@else {
       {{ entity[field] }}
+      }
     </td>
   </ng-container>
   <!-- action button -->

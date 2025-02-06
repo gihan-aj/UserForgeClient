@@ -198,6 +198,10 @@ export const MESSAGES: Messages = {
           mssage: '',
         },
       },
+      restrictedAction: {
+        title: 'Restricted Action!',
+        mssage: 'You cannot {action} a default user.',
+      },
     },
   },
 };

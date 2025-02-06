@@ -160,25 +160,29 @@ export type Messages = {
         action: string;
       };
     };
-    alert:{
-      activate:{
-        success:{
+    alert: {
+      activate: {
+        success: {
           title: string;
           mssage: string;
-        }
+        };
       };
-      deactivate:{
-        success:{
+      deactivate: {
+        success: {
           title: string;
           mssage: string;
-        }
+        };
       };
-      delete:{
-        success:{
+      delete: {
+        success: {
           title: string;
           mssage: string;
-        }
+        };
       };
-    }
+      restrictedAction: {
+        title: string;
+        mssage: string;
+      };
+    };
   };
 };

@@ -19,6 +19,7 @@ export class PermissionService {
   }
 
   hasPermission(permission: string): boolean {
+    // console.log('user checked for permission: ', permission);
     return this.permissionsSubject.value.includes(permission);
   }
 
