@@ -6,7 +6,7 @@ import {
   OnInit,
   signal,
 } from '@angular/core';
-import { map, Subscription } from 'rxjs';
+import { map, Subscription, switchMap, tap } from 'rxjs';
 
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
@@ -32,6 +32,9 @@ import { UserDetailsDialogComponent } from './user-details-dialog/user-details-d
 import { HasPermissionDirective } from '../shared/directives/has-permission.directive';
 import { UserRolesDialog } from './user-roles-dialog/user-roles-dialog.interface';
 import { UserRolesDialogComponent } from './user-roles-dialog/user-roles-dialog.component';
+import { AssignRolesRequest } from './interfaces/assign-roles.interface';
+import { RoleAssignStatus } from './interfaces/role-assign-status.interface';
+import { BulkAssignRolesRequest } from './interfaces/bulk-assign-roles-request.interface';
 
 const PAGE_TITLE = 'User Management';
 
@@ -76,6 +79,8 @@ export class UserManagementComponent implements OnInit, OnDestroy {
   roleManagePermission = PERMISSIONS.users.manageRoles;
   roleReadPermission = PERMISSIONS.users.readRoles;
 
+  loading = signal(false);
+
   searchTerm = signal('');
   sortColumn = signal('');
   sortOrder = signal<SortOrder>(SortOrder.ascending);
@@ -97,6 +102,7 @@ export class UserManagementComponent implements OnInit, OnDestroy {
   deleteConfirmSubscription: Subscription | undefined;
   editConfirmSubscription: Subscription | undefined;
   dialogClosedSubscription: Subscription | undefined;
+  assignRolesDialogClosedSubscription: Subscription | undefined;
 
   constructor(
     private userManagementService: UserManagementService,
@@ -425,7 +431,6 @@ export class UserManagementComponent implements OnInit, OnDestroy {
         next: (response) => {
           const dialogData: UserRolesDialog = {
             mode: DialogMode.View,
-            title: `User(${user.email}) Roles`,
             user: user,
             roles: response.map((roleName) => ({
               roleName: roleName,
@@ -444,6 +449,244 @@ export class UserManagementComponent implements OnInit, OnDestroy {
     }
   }
 
+  assignUserRoles() {
+    if (this.selected().length === 1) {
+      const user = this.selected()[0];
+
+      if (this.isDefaultUser(user.id)) {
+        this.alertService.showAlert(
+          AlertType.Danger,
+          this.msgService.getMessage(
+            'userManagement.alert.restrictedAction.title'
+          ),
+          this.msgService.getMessage(
+            'userManagement.alert.restrictedAction.mssage',
+            { action: 'change roles of' }
+          )
+        );
+      } else {
+        const allRoles: { roleName: string; isAssigned: boolean }[] = [];
+
+        this.userManagementService
+          .getRoleNames()
+          .pipe(
+            tap((response) => {
+              response.forEach((roleName) => {
+                allRoles.push({ roleName: roleName, isAssigned: false });
+              });
+            }),
+            switchMap(() =>
+              this.userManagementService.getUserRoles(user.id).pipe(
+                tap((userRoleNames) => {
+                  userRoleNames.forEach((ur) => {
+                    const tempRole = allRoles.find((ar) => ar.roleName === ur);
+                    if (tempRole) {
+                      tempRole.isAssigned = true;
+                    }
+                  });
+                })
+              )
+            )
+          )
+          .subscribe({
+            next: () => {
+              const dialogData: UserRolesDialog = {
+                mode: DialogMode.Edit,
+                user: user,
+                roles: allRoles,
+              };
+
+              this.confirmChangeRoles(dialogData);
+            },
+            error: (error) => {
+              this.errorHandler.handle(error);
+            },
+          });
+      }
+    } else if (this.selected().length > 1) {
+      const userIds = this.selected().map((u) => u.id);
+      const userEmails = this.selected().map((u) => u.email);
+      if (this.hasDefaultUserSelected(userIds)) {
+        this.alertService.showAlert(
+          AlertType.Danger,
+          this.msgService.getMessage(
+            'userManagement.alert.restrictedAction.title'
+          ),
+          this.msgService.getMessage(
+            'userManagement.alert.restrictedAction.mssage',
+            { action: 'change roles of' }
+          )
+        );
+      } else {
+        const allRoles: { roleName: string; isAssigned: boolean }[] = [];
+
+        this.userManagementService.getRoleNames().subscribe({
+          next: (response) => {
+            response.forEach((roleName) => {
+              allRoles.push({ roleName: roleName, isAssigned: false });
+            });
+
+            const dialogData: UserRolesDialog = {
+              mode: DialogMode.Edit,
+              userIds: userIds,
+              userEmails: userEmails,
+              roles: allRoles,
+            };
+
+            this.confirmChangeRoles(dialogData);
+          },
+          error: (error) => {
+            this.errorHandler.handle(error);
+          },
+        });
+      }
+    }
+  }
+
+  private confirmChangeRoles(dialogData: UserRolesDialog) {
+    if (this.selected().length === 1) {
+      this.confirmationService
+        .confirm(
+          AlertType.Warning,
+          this.msgService.getMessage(
+            'userManagement.confirmation.assignRoles.title'
+          ),
+          this.msgService.getMessage(
+            'userManagement.confirmation.assignRoles.messageSingle',
+            { email: dialogData.user?.email! }
+          ),
+          this.msgService.getMessage(
+            'userManagement.confirmation.assignRoles.action'
+          )
+        )
+        .subscribe((accepted) => {
+          if (accepted) {
+            this.openAssignRolesDialog(dialogData);
+          }
+        });
+    } else if (this.selected().length > 1) {
+      this.confirmationService
+        .confirm(
+          AlertType.Warning,
+          this.msgService.getMessage(
+            'userManagement.confirmation.assignRoles.title'
+          ),
+          this.msgService.getMessage(
+            'userManagement.confirmation.assignRoles.message'
+          ),
+          this.msgService.getMessage(
+            'userManagement.confirmation.assignRoles.action'
+          )
+        )
+        .subscribe((accepted) => {
+          if (accepted) {
+            this.openAssignRolesDialog(dialogData);
+          }
+        });
+    }
+  }
+
+  private openAssignRolesDialog(dialogData: UserRolesDialog) {
+    const dialogRef = this.dialog.open(UserRolesDialogComponent, {
+      data: dialogData,
+    });
+
+    this.assignRolesDialogClosedSubscription = dialogRef
+      .afterClosed()
+      .subscribe((data: RoleAssignStatus[]) => {
+        if (data) {
+          const assignedRoleNames = data
+            .filter((ras) => ras.isAssigned === true)
+            .map((ras) => ras.roleName);
+
+          if (assignedRoleNames.length > 0) {
+            if (dialogData.user) {
+              const req: AssignRolesRequest = {
+                userId: dialogData.user.id,
+                roleNames: assignedRoleNames,
+              };
+
+              this.loading.set(true);
+              this.userManagementService.assignRoles(req).subscribe({
+                next: (res) => {
+                  this.loading.set(false)
+
+                  if (assignedRoleNames.length === 1) {
+                    this.alertService.showAlert(
+                      AlertType.Success,
+                      this.msgService.getMessage(
+                        'userManagement.alert.assignRole.success.title'
+                      ),
+                      res.message
+                    );
+                  } else {
+                    this.alertService.showAlert(
+                      AlertType.Success,
+                      this.msgService.getMessage(
+                        'userManagement.alert.assignRoles.success.title'
+                      ),
+                      res.message
+                    );
+                  }
+                },
+                error: (error) => {
+                  this.loading.set(false);
+                  this.errorHandler.handle(error);
+                },
+              });
+            } else if (dialogData.userIds) {
+              const req: BulkAssignRolesRequest = {
+                userIds: dialogData.userIds,
+                roleNames: assignedRoleNames,
+              };
+
+              this.loading.set(true);
+              this.userManagementService.bulkAssignRoles(req).subscribe({
+                next: () => {
+                  this.loading.set(false);
+                  if (assignedRoleNames.length === 1) {
+                    this.alertService.showAlert(
+                      AlertType.Success,
+                      this.msgService.getMessage(
+                        'userManagement.alert.assignRole.success.title'
+                      ),
+                      this.msgService.getMessage(
+                        'userManagement.alert.assignRole.success.message'
+                      )
+                    );
+                  } else {
+                    this.alertService.showAlert(
+                      AlertType.Success,
+                      this.msgService.getMessage(
+                        'userManagement.alert.assignRoles.success.title'
+                      ),
+                      this.msgService.getMessage(
+                        'userManagement.alert.assignRoles.success.message'
+                      )
+                    );
+                  }
+                },
+                error: (error) => {
+                  this.loading.set(false);
+                  this.errorHandler.handle(error);
+                },
+              });
+            }
+          } else {
+            this.alertService.showAlert(
+              AlertType.Warning,
+              this.msgService.getMessage(
+                'userManagement.alert.noRolesAssigned.title'
+              ),
+              this.msgService.getMessage(
+                'userManagement.alert.noRolesAssigned.mssage'
+              )
+            );
+          }
+        }
+      });
+  }
+
   ngOnDestroy(): void {
     if (this.settingsSubscription) this.settingsSubscription.unsubscribe();
     if (this.deactivateConfirmSubscription)
@@ -454,5 +697,7 @@ export class UserManagementComponent implements OnInit, OnDestroy {
       this.dialogClosedSubscription.unsubscribe();
     if (this.editConfirmSubscription)
       this.editConfirmSubscription.unsubscribe();
+    if (this.assignRolesDialogClosedSubscription)
+      this.assignRolesDialogClosedSubscription.unsubscribe();
   }
 }

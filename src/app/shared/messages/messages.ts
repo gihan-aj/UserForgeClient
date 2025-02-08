@@ -178,6 +178,14 @@ export const MESSAGES: Messages = {
           'Are you sure you want to activate user with email: {email}?',
         action: 'Delete',
       },
+      assignRoles: {
+        title: 'Confirm Role Assignment',
+        message:
+          'Are you sure you want to change roles for these users? Selecting multiple user will prevent you from seeing already assigned roles.',
+        messageSingle:
+          'Are you sure you want to change roles for the user with email : {email}',
+        action: 'Yes',
+      },
     },
     alert: {
       activate: {
@@ -201,6 +209,22 @@ export const MESSAGES: Messages = {
       restrictedAction: {
         title: 'Restricted Action!',
         mssage: 'You cannot {action} a default user.',
+      },
+      noRolesAssigned: {
+        title: 'No Roles Assigned',
+        mssage: 'You have to assign atleast one role to a user.',
+      },
+      assignRole: {
+        success: {
+          title: 'Role Changed',
+          message: 'Role was assigned successfully.',
+        },
+      },
+      assignRoles: {
+        success: {
+          title: 'Roles Changed',
+          message: 'Roles were assigned successfully.',
+        },
       },
     },
   },

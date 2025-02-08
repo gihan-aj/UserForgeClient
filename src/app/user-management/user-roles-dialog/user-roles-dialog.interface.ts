@@ -1,12 +1,11 @@
 import { DialogMode } from '../../shared/enums/dialog-mode.enum';
+import { RoleAssignStatus } from '../interfaces/role-assign-status.interface';
 import { UserDetails } from '../interfaces/user-details.interface';
 
 export interface UserRolesDialog {
   mode: DialogMode;
-  title: string;
-  user: UserDetails;
-  roles: {
-    roleName: string;
-    isAssigned: boolean;
-  }[];
+  user?: UserDetails;
+  userIds?: string[];
+  userEmails?: string[];
+  roles: RoleAssignStatus[];
 }

@@ -159,6 +159,12 @@ export type Messages = {
         messageSingle: string;
         action: string;
       };
+      assignRoles: {
+        title: string;
+        message: string;
+        messageSingle: string;
+        action: string;
+      };
     };
     alert: {
       activate: {
@@ -182,6 +188,22 @@ export type Messages = {
       restrictedAction: {
         title: string;
         mssage: string;
+      };
+      noRolesAssigned: {
+        title: string;
+        mssage: string;
+      };
+      assignRole: {
+        success: {
+          title: string;
+          message: string;
+        };
+      };
+      assignRoles: {
+        success: {
+          title: string;
+          message: string;
+        };
       };
     };
   };

@@ -6,10 +6,10 @@ import {
   MatDialogClose,
   MatDialogContent,
   MatDialogRef,
-  MatDialogTitle,
 } from '@angular/material/dialog';
 import { MatListModule } from '@angular/material/list';
 import { MatButtonModule } from '@angular/material/button';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 
 import { UserRolesDialog } from './user-roles-dialog.interface';
 import { DialogMode } from '../../shared/enums/dialog-mode.enum';
@@ -20,10 +20,10 @@ import { FormatTitlePipe } from '../../shared/pipes/format-title.pipe';
   imports: [
     MatListModule,
     MatButtonModule,
-    MatDialogTitle,
     MatDialogContent,
     MatDialogActions,
     MatDialogClose,
+    MatCheckboxModule,
     FormatTitlePipe,
   ],
   templateUrl: './user-roles-dialog.component.html',

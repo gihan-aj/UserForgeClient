@@ -1,6 +1,22 @@
-<h2 mat-dialog-title>{{ data.title }}</h2>
-<mat-dialog-content>
-  @if (mode() === dialogMode.View) {
+<mat-dialog-content class="mt-2">
+  @if (data.user) {
+  <h3>User Information</h3>
+  <p><strong>ID:</strong> {{ data.user.id }}</p>
+  <p>
+    <strong>Name:</strong> {{ data.user.firstName | formatTitle }}
+    {{ data.user.lastName | formatTitle }}
+  </p>
+  <p><strong>Email:</strong> {{ data.user.email }}</p>
+  } @else if (data.userEmails) {
+  <h3>Selected Users</h3>
+
+  @for (email of data.userEmails; track $index) {
+  <p>
+    {{ email }}
+  </p>
+  } } @if (data.mode === dialogMode.View) {
+  <h3 class="mb-0">User Roles</h3>
+
   <mat-list role="list">
     @for (role of data.roles; track $index) {
     <mat-list-item role="listitem">{{
@@ -8,8 +24,28 @@
     }}</mat-list-item>
     }
   </mat-list>
+  } @else if (data.mode === dialogMode.Edit) {
+  <h3 class="mb-0">Assign Roles</h3>
+
+  <ul>
+    @for (role of data.roles; track $index) {
+    <li>
+      <mat-checkbox
+        [checked]="role.isAssigned"
+        (change)="role.isAssigned = !role.isAssigned"
+        >{{ role.roleName | formatTitle }}</mat-checkbox
+      >
+    </li>
+    }
+  </ul>
   }
 </mat-dialog-content>
-<mat-dialog-actions>
-  <button type="button" mat-button mat-dialog-close>Cancel</button>
+
+<mat-dialog-actions class="mb-2">
+  <button type="button" mat-button [mat-dialog-close]="null">Cancel</button>
+  @if (mode() === dialogMode.Edit) {
+  <button type="button" mat-flat-button [mat-dialog-close]="data.roles">
+    Save
+  </button>
+  }
 </mat-dialog-actions>

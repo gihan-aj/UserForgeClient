@@ -16,6 +16,8 @@ import {
 import { FetchDataSet } from '../../shared/interfaces/fetch-data-set.interface';
 import { BulkIdsRequest } from '../../shared/interfaces/bulk-ids-request.interface';
 import { HttpSuccessResponse } from '../../shared/interfaces/http-success-response.interface';
+import { AssignRolesRequest } from '../interfaces/assign-roles.interface';
+import { BulkAssignRolesRequest } from '../interfaces/bulk-assign-roles-request.interface';
 
 @Injectable({
   providedIn: 'root',
@@ -94,5 +96,17 @@ export class UserManagementService implements FetchDataSet<UserDetails> {
     };
 
     return this.http.put<HttpSuccessResponse>(url, body);
+  }
+
+  assignRoles(request: AssignRolesRequest): Observable<HttpSuccessResponse> {
+    const url = `${this.baseUrl}/assign-roles`;
+
+    return this.http.put<HttpSuccessResponse>(url, request);
+  }
+
+  bulkAssignRoles(request: BulkAssignRolesRequest): Observable<void> {
+    const url = `${this.baseUrl}/bulk-assign-roles`;
+
+    return this.http.put<void>(url, request);
   }
 }

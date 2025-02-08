@@ -8,7 +8,7 @@
       *appHasPermission="roleReadPermission"
       class="me-2"
       mat-flat-button
-      [disabled]="selected().length !== 1"
+      [disabled]="selected().length !== 1 || loading()"
       (click)="viewUserRoles()"
     >
       <mat-icon>work_update</mat-icon>View User Roles
@@ -16,7 +16,8 @@
     <button
       *appHasPermission="roleManagePermission"
       mat-flat-button
-      [disabled]="selected().length === 0"
+      [disabled]="selected().length === 0 || loading()"
+      (click)="assignUserRoles()"
     >
       <mat-icon>work_update</mat-icon>Assign Roles
     </button>
