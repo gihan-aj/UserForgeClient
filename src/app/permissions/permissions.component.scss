@@ -1,0 +1,17 @@
+@use "@angular/material" as mat;
+
+// Customize the entire app. Change :root to your selector if you want to scope the styles.
+:host {
+  @include mat.card-overrides(
+    (
+      title-text-size: var(--mat-sys-title-medium-size),
+      title-text-weight: var(--mat-sys-title-small-weight),
+    )
+  );
+}
+
+mat-card-content {
+  p {
+    margin: 0;
+  }
+}

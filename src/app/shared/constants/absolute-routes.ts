@@ -10,8 +10,8 @@ export const ABSOLUTE_ROUTES = {
   roleManagement: {
     base: '/role-management',
   },
-  permissionManagement: {
-    base: '/permission-management',
+  permissions: {
+    base: '/permissions',
   },
   appManagement: {
     base: '/app-management',
@@ -33,7 +33,7 @@ export const ABSOLUTE_ROUTES = {
     resendEmailConfirmationLink:
       '/user/send-email/resend-email-confirmation-link',
   },
-  accessDenied: '/access-denied'
+  accessDenied: '/access-denied',
 };
 
 export const DEFAULT_RETURN_URL = ABSOLUTE_ROUTES.home;

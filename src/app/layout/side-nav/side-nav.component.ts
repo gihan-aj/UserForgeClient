@@ -73,9 +73,9 @@ export class SideNavComponent implements OnInit, OnDestroy {
       isActive: false,
     },
     {
-      name: this.sideMenu.permissionManagement,
+      name: this.sideMenu.permissions,
       icon: 'admin_panel_settings',
-      route: this.routes.permissionManagement.base,
+      route: this.routes.permissions.base,
       permissionPrefix: 'permissions.',
       isActive: false,
     },

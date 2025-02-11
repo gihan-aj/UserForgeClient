@@ -1,0 +1,278 @@
+<div class="d-flex flex-row justify-content-center">
+  @if (loading()) {
+  <app-ripple-loading-screen></app-ripple-loading-screen>
+  }@else {
+  <mat-accordion class="w-100">
+    <mat-expansion-panel
+      [expanded]="step() === 0"
+      (opened)="setStep(0)"
+      hideToggle
+    >
+      <mat-expansion-panel-header>
+        <mat-panel-title> Home </mat-panel-title>
+      </mat-expansion-panel-header>
+
+      @for (item of permssions()?.home; track $index) {
+      <mat-card class="w-100 mb-2" appearance="outlined">
+        <mat-card-header>
+          <mat-card-title>{{ item.description }}</mat-card-title>
+        </mat-card-header>
+
+        <mat-card-content>
+          <p>{{ item.name }}</p>
+        </mat-card-content>
+
+        <mat-card-footer>
+          <mat-chip-set class="m-3" class="m-3" aria-label="Roles for">
+            @for (role of item.roleNames; track $index) {
+            <mat-chip>{{ role }}</mat-chip>
+            }
+          </mat-chip-set>
+        </mat-card-footer>
+      </mat-card>
+      }
+    </mat-expansion-panel>
+
+    <mat-expansion-panel
+      [expanded]="step() === 1"
+      (opened)="setStep(1)"
+      hideToggle
+    >
+      <mat-expansion-panel-header>
+        <mat-panel-title> Dashboard </mat-panel-title>
+      </mat-expansion-panel-header>
+
+      @for (item of permssions()?.dashboard; track $index) {
+      <mat-card class="w-100 mb-2" appearance="outlined">
+        <mat-card-header>
+          <mat-card-title>{{ item.description }}</mat-card-title>
+        </mat-card-header>
+
+        <mat-card-content>
+          <p>{{ item.name }}</p>
+        </mat-card-content>
+
+        <mat-card-footer>
+          <mat-chip-set class="m-3" aria-label="Roles for">
+            @for (role of item.roleNames; track $index) {
+            <mat-chip>{{ role }}</mat-chip>
+            }
+          </mat-chip-set>
+        </mat-card-footer>
+      </mat-card>
+      }
+    </mat-expansion-panel>
+
+    <mat-expansion-panel
+      [expanded]="step() === 2"
+      (opened)="setStep(2)"
+      hideToggle
+    >
+      <mat-expansion-panel-header>
+        <mat-panel-title> App Portal</mat-panel-title>
+      </mat-expansion-panel-header>
+
+      @for (item of permssions()?.appPortal; track $index) {
+      <mat-card class="w-100 mb-2" appearance="outlined">
+        <mat-card-header>
+          <mat-card-title>{{ item.description }}</mat-card-title>
+        </mat-card-header>
+
+        <mat-card-content>
+          <p>{{ item.name }}</p>
+        </mat-card-content>
+
+        <mat-card-footer>
+          <mat-chip-set class="m-3" aria-label="Roles for">
+            @for (role of item.roleNames; track $index) {
+            <mat-chip>{{ role }}</mat-chip>
+            }
+          </mat-chip-set>
+        </mat-card-footer>
+      </mat-card>
+      }
+    </mat-expansion-panel>
+
+    <mat-expansion-panel
+      [expanded]="step() === 3"
+      (opened)="setStep(3)"
+      hideToggle
+    >
+      <mat-expansion-panel-header>
+        <mat-panel-title> User Managment</mat-panel-title>
+      </mat-expansion-panel-header>
+
+      @for (item of permssions()?.users; track $index) {
+      <mat-card class="w-100 mb-2" appearance="outlined">
+        <mat-card-header>
+          <mat-card-title>{{ item.description }}</mat-card-title>
+        </mat-card-header>
+
+        <mat-card-content>
+          <p>{{ item.name }}</p>
+        </mat-card-content>
+
+        <mat-card-footer>
+          <mat-chip-set class="m-3" aria-label="Roles for">
+            @for (role of item.roleNames; track $index) {
+            <mat-chip>{{ role }}</mat-chip>
+            }
+          </mat-chip-set>
+        </mat-card-footer>
+      </mat-card>
+      }
+    </mat-expansion-panel>
+
+    <mat-expansion-panel
+      [expanded]="step() === 4"
+      (opened)="setStep(4)"
+      hideToggle
+    >
+      <mat-expansion-panel-header>
+        <mat-panel-title> Role Management </mat-panel-title>
+      </mat-expansion-panel-header>
+
+      @for (item of permssions()?.roles; track $index) {
+      <mat-card class="w-100 mb-2" appearance="outlined">
+        <mat-card-header>
+          <mat-card-title>{{ item.description }}</mat-card-title>
+        </mat-card-header>
+
+        <mat-card-content>
+          <p>{{ item.name }}</p>
+        </mat-card-content>
+
+        <mat-card-footer>
+          <mat-chip-set class="m-3" aria-label="Roles for">
+            @for (role of item.roleNames; track $index) {
+            <mat-chip>{{ role }}</mat-chip>
+            }
+          </mat-chip-set>
+        </mat-card-footer>
+      </mat-card>
+      }
+    </mat-expansion-panel>
+
+    <mat-expansion-panel
+      [expanded]="step() === 5"
+      (opened)="setStep(5)"
+      hideToggle
+    >
+      <mat-expansion-panel-header>
+        <mat-panel-title> Permissions </mat-panel-title>
+      </mat-expansion-panel-header>
+
+      @for (item of permssions()?.permissions; track $index) {
+      <mat-card class="w-100 mb-2" appearance="outlined">
+        <mat-card-header>
+          <mat-card-title>{{ item.description }}</mat-card-title>
+        </mat-card-header>
+
+        <mat-card-content>
+          <p>{{ item.name }}</p>
+        </mat-card-content>
+
+        <mat-card-footer>
+          <mat-chip-set class="m-3" aria-label="Roles for">
+            @for (role of item.roleNames; track $index) {
+            <mat-chip>{{ role }}</mat-chip>
+            }
+          </mat-chip-set>
+        </mat-card-footer>
+      </mat-card>
+      }
+    </mat-expansion-panel>
+
+    <mat-expansion-panel
+      [expanded]="step() === 6"
+      (opened)="setStep(6)"
+      hideToggle
+    >
+      <mat-expansion-panel-header>
+        <mat-panel-title> App Management </mat-panel-title>
+      </mat-expansion-panel-header>
+
+      @for (item of permssions()?.apps; track $index) {
+      <mat-card class="w-100 mb-2" appearance="outlined">
+        <mat-card-header>
+          <mat-card-title>{{ item.description }}</mat-card-title>
+        </mat-card-header>
+
+        <mat-card-content>
+          <p>{{ item.name }}</p>
+        </mat-card-content>
+
+        <mat-card-footer>
+          <mat-chip-set class="m-3" aria-label="Roles for">
+            @for (role of item.roleNames; track $index) {
+            <mat-chip>{{ role }}</mat-chip>
+            }
+          </mat-chip-set>
+        </mat-card-footer>
+      </mat-card>
+      }
+    </mat-expansion-panel>
+
+    <mat-expansion-panel
+      [expanded]="step() === 7"
+      (opened)="setStep(7)"
+      hideToggle
+    >
+      <mat-expansion-panel-header>
+        <mat-panel-title> Audit Logs </mat-panel-title>
+      </mat-expansion-panel-header>
+
+      @for (item of permssions()?.auditLogs; track $index) {
+      <mat-card class="w-100 mb-2" appearance="outlined">
+        <mat-card-header>
+          <mat-card-title>{{ item.description }}</mat-card-title>
+        </mat-card-header>
+
+        <mat-card-content>
+          <p>{{ item.name }}</p>
+        </mat-card-content>
+
+        <mat-card-footer>
+          <mat-chip-set class="m-3" aria-label="Roles for">
+            @for (role of item.roleNames; track $index) {
+            <mat-chip>{{ role }}</mat-chip>
+            }
+          </mat-chip-set>
+        </mat-card-footer>
+      </mat-card>
+      }
+    </mat-expansion-panel>
+
+    <mat-expansion-panel
+      [expanded]="step() === 8"
+      (opened)="setStep(8)"
+      hideToggle
+    >
+      <mat-expansion-panel-header>
+        <mat-panel-title> Settings </mat-panel-title>
+      </mat-expansion-panel-header>
+
+      @for (item of permssions()?.settings; track $index) {
+      <mat-card class="w-100 mb-2" appearance="outlined">
+        <mat-card-header>
+          <mat-card-title>{{ item.description }}</mat-card-title>
+        </mat-card-header>
+
+        <mat-card-content>
+          <p>{{ item.name }}</p>
+        </mat-card-content>
+
+        <mat-card-footer>
+          <mat-chip-set class="m-3" aria-label="Roles for">
+            @for (role of item.roleNames; track $index) {
+            <mat-chip>{{ role }}</mat-chip>
+            }
+          </mat-chip-set>
+        </mat-card-footer>
+      </mat-card>
+      }
+    </mat-expansion-panel>
+  </mat-accordion>
+
+  }
+</div>

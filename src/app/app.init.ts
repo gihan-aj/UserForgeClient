@@ -62,7 +62,7 @@ export function appInitializer() {
           },
           error: (error) => {
             authService.clearUserAndTokens();
-            errorHandling.handle(error);
+            // errorHandling.handle(error);
 
             const message = messageService.getMessage(
               'user.notification.refresh.fail'

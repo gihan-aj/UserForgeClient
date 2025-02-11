@@ -34,8 +34,8 @@ export const PERMISSIONS = {
     statusChange: 'apps.status',
   },
   permissions: {
+    access: 'permissions.access',
     read: 'permissions.read',
-    edit: 'permissions.edit',
   },
   appPortal: {
     access: 'app-portal.access',

@@ -126,6 +126,7 @@ dataSource().totalCount > 0) {
   </button>
 </div>
 
+} @if (dataSource().totalCount > 0) {
 <div class="text-end my-2">
   <mat-paginator
     (page)="onPaginatorChange($event)"
