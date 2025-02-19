@@ -1,43 +1,38 @@
 import { Injectable } from '@angular/core';
 import { jwtDecode } from 'jwt-decode';
+import { AuthService } from './auth.service';
+import { APP_ID } from '../constants/query-params';
 
 @Injectable({
   providedIn: 'root',
 })
 export class JwtTokenService {
-  jwtToken: string = '';
   decodedToken: { [key: string]: string } = {};
 
-  private setToken(token: string) {
-    if (token) {
-      this.jwtToken = token;
-    }
+  constructor(private authService: AuthService) {
+    this.authService.accessToken$.subscribe((jwt) => {
+      if (jwt && jwt.length > 0) {
+        this.decodedToken = jwtDecode(jwt);
+      } else {
+        this.decodedToken = {};
+      }
+    });
   }
 
-  private decodeToken() {
-    if (this.jwtToken && this.jwtToken.length > 0) {
-      this.decodedToken = jwtDecode(this.jwtToken);
-    }
-  }
-
-  private getExpiryTime(token: string) {
-    this.setToken(token);
-    this.decodeToken();
+  private getExpiryTime() {
     return this.decodedToken ? this.decodedToken['exp'] : null;
   }
 
-  getDecodedToken(token: string) {
-    this.setToken(token);
-    this.decodeToken();
-    return this.decodeToken;
-  }
-
-  isTokenExpired(token: string): boolean {
-    const expiryTime: string | null = this.getExpiryTime(token);
+  isTokenExpired(): boolean {
+    const expiryTime: string | null = this.getExpiryTime();
     if (expiryTime) {
       return Number(expiryTime) * 1000 - new Date().getTime() < 5000;
     } else {
       return true;
     }
+  }
+
+  getAppId(): number {
+    return this.decodedToken ? Number(this.decodedToken[APP_ID]) : 0;
   }
 }

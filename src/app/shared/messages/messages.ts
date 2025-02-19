@@ -228,4 +228,19 @@ export const MESSAGES: Messages = {
       },
     },
   },
+  roleManagement: {
+    validation: {
+      roleName: {
+        required: 'Role name is required.',
+        minLength:
+          'Role name must be at least {roleNameMinLnegth} characters long.',
+        maxLength:
+          'Role name must be maximum {roleNameMaxLnegth} characters long.',
+      },
+      description: {
+        maxLength:
+          'description must be maximum {descriptionMaxLnegth} characters long.',
+      },
+    },
+  },
 };

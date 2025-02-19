@@ -1,0 +1,24 @@
+<h2 mat-dialog-title>
+  {{
+    mode() === "create"
+      ? "Create Role"
+      : mode() === "edit"
+      ? "Edit Role"
+      : "Role Details"
+  }}
+</h2>
+
+<form [formGroup]="form">
+  <mat-dialog-content>
+    <h3></h3>
+  </mat-dialog-content>
+  <mat-dialog-actions align="end">
+    <button mat-button [mat-dialog-close]="null">Cancel</button>
+    <button mat-button *ngIf="mode() === 'create' || mode() === 'edit'">
+      Save
+    </button>
+    <button mat-button *ngIf="mode() === 'assignPermissions'">
+      Assign Permissions
+    </button>
+  </mat-dialog-actions>
+</form>

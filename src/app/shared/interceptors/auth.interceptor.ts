@@ -23,11 +23,7 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
   console.log(`refresh token ${refreshToken ? '' : 'not'} found.`);
 
   // Add the access token if the token is valid
-  if (
-    accessToken &&
-    refreshToken &&
-    !jwtTokenService.isTokenExpired(accessToken)
-  ) {
+  if (accessToken && refreshToken && !jwtTokenService.isTokenExpired()) {
     console.log('access token is valid');
     req = addToken(req, accessToken);
     console.log('bearer token added to the request');

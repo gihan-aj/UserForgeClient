@@ -1,18 +1,7 @@
 import { inject } from '@angular/core';
 import { AuthService } from './shared/services/auth.service';
 import { UserService } from './user/services/user.service';
-import { Router } from '@angular/router';
-import { ABSOLUTE_ROUTES } from './shared/constants/absolute-routes';
-import {
-  catchError,
-  finalize,
-  map,
-  Observable,
-  of,
-  switchMap,
-  tap,
-  throwError,
-} from 'rxjs';
+import { switchMap, tap } from 'rxjs';
 import { PermissionService } from './shared/services/permission.service';
 import { NotificationService } from './shared/widgets/notification/notification.service';
 import { MessageService } from './shared/messages/message.service';

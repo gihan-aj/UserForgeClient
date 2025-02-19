@@ -207,4 +207,16 @@ export type Messages = {
       };
     };
   };
+  roleManagement: {
+    validation: {
+      roleName: {
+        required: string;
+        minLength: string;
+        maxLength: string;
+      };
+      description: {
+        maxLength: string;
+      };
+    };
+  };
 };

@@ -2,10 +2,10 @@ import { Directive, Input, TemplateRef, ViewContainerRef } from '@angular/core';
 import { PermissionService } from '../services/permission.service';
 
 @Directive({
-  selector: '[appHasPermission]',
+  selector: '[userHasPermission]',
 })
 export class HasPermissionDirective {
-  @Input() set appHasPermission(permission: string) {
+  @Input() set userHasPermission(permission: string) {
     if (this.permissinsService.hasPermission(permission)) {
       this.viewContainer.createEmbeddedView(this.templateRef);
     } else {

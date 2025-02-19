@@ -28,11 +28,7 @@ export const authGuard: CanActivateFn = (route, state) => {
   console.log(`refresh token ${refreshToken ? '' : 'not'} found.`);
 
   // 1. Check if the access token is valid
-  if (
-    accessToken &&
-    refreshToken &&
-    !jwtTokenService.isTokenExpired(accessToken)
-  ) {
+  if (accessToken && refreshToken && !jwtTokenService.isTokenExpired()) {
     console.log('access token is valid. user authenticated.');
     return of(true);
   }

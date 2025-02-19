@@ -133,7 +133,7 @@
     @if (viewOnly() && !isDefaultUser()) {
     <button
       (click)="onEdit()"
-      *appHasPermission="editPermission"
+      *userHasPermission="editPermission"
       type="button"
       mat-flat-button
     >

@@ -18,10 +18,16 @@ import { SettingsService } from '../../shared/settings/settings.service';
 import { UserSetting } from '../../shared/settings/user-setting.interface';
 import { PermissionService } from '../../shared/services/permission.service';
 import { RegistrationRequest } from '../components/registration/registration-request';
-import { EMAIL, TOKEN, USER_ID } from '../../shared/constants/query-params';
+import {
+  APP_ID,
+  EMAIL,
+  TOKEN,
+  USER_ID,
+} from '../../shared/constants/query-params';
 import { ResetPasswordRequest } from '../interfaces/reset-password-request.interface';
 import { UserInfo } from '../interfaces/user-info.interface';
 import { UpdateUserDetailsRequest } from '../interfaces/update-user-details-request.interface';
+import { JwtTokenService } from '../../shared/services/jwt-token.service';
 
 @Injectable({
   providedIn: 'root',
@@ -34,6 +40,7 @@ export class UserService {
     private http: HttpClient,
     private router: Router,
     private authService: AuthService,
+    private jwtService: JwtTokenService,
     private deviceId: DeviceIdentifierService,
     private notificationService: NotificationService,
     private msgService: MessageService,
@@ -138,7 +145,14 @@ export class UserService {
 
   fetchUserPermissions(): Observable<string[]> {
     const url = `${this.baseUrl}/permissions`;
-    return this.http.get<string[]>(url);
+    const appId = this.jwtService.getAppId();
+
+    let queryParams = new HttpParams();
+    if (appId) {
+      queryParams = queryParams.append(APP_ID, appId);
+    }
+
+    return this.http.get<string[]>(url, { params: queryParams });
   }
 
   register(request: RegistrationRequest): Observable<{ message: string }> {

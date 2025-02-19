@@ -8,34 +8,30 @@ export const PERMISSIONS = {
   users: {
     access: 'users.access',
     create: 'users.create',
-    read: 'users.read',
     edit: 'users.edit',
     delete: 'users.delete',
     statusChange: 'users.status',
-    readRoles: 'users.read.roles',
-    manageRoles: 'users.manage.roles',
+    readRoles: 'users.roles.access',
+    manageRoles: 'users.roles.manage',
   },
   roles: {
     access: 'roles.access',
     create: 'roles.create',
-    read: 'roles.read',
     edit: 'roles.edit',
     delete: 'roles.delete',
     statusChange: 'roles.status',
-    readPermissions: 'roles.read.permissions',
-    managePermissions: 'roles.manage.permissions',
+    readPermissions: 'roles.permissions.access',
+    managePermissions: 'roles.permissions.manage',
   },
   apps: {
     access: 'apps.access',
     create: 'apps.create',
-    read: 'apps.read',
     edit: 'apps.edit',
     delete: 'apps.delete',
     statusChange: 'apps.status',
   },
   permissions: {
     access: 'permissions.access',
-    read: 'permissions.read',
   },
   appPortal: {
     access: 'app-portal.access',
@@ -45,6 +41,7 @@ export const PERMISSIONS = {
     export: 'audit.export',
   },
   settings: {
+    access: 'settings.access',
     manage: 'settings.manage',
   },
 };

@@ -14,21 +14,26 @@
 
       @for (item of permssions()?.home; track $index) {
       <mat-card class="w-100 mb-2" appearance="outlined">
-        <mat-card-header>
-          <mat-card-title>{{ item.description }}</mat-card-title>
-        </mat-card-header>
-
         <mat-card-content>
-          <p>{{ item.name }}</p>
-        </mat-card-content>
+          <mat-chip-set class="mx-2" [attr.aria-label]="item.name">
+            <strong>Name :</strong>
+            <mat-chip>{{ item.name }}</mat-chip>
+          </mat-chip-set>
 
-        <mat-card-footer>
-          <mat-chip-set class="m-3" class="m-3" aria-label="Roles for">
+          <div class="mb-2">
+            <p><strong>Description: </strong>{{ item.description }}</p>
+          </div>
+
+          <mat-chip-set
+            class="mx-2"
+            [attr.aria-label]="'Roles for ' + item.name"
+          >
+            <strong>Assigned roles :</strong>
             @for (role of item.roleNames; track $index) {
             <mat-chip>{{ role }}</mat-chip>
             }
           </mat-chip-set>
-        </mat-card-footer>
+        </mat-card-content>
       </mat-card>
       }
     </mat-expansion-panel>
@@ -44,21 +49,26 @@
 
       @for (item of permssions()?.dashboard; track $index) {
       <mat-card class="w-100 mb-2" appearance="outlined">
-        <mat-card-header>
-          <mat-card-title>{{ item.description }}</mat-card-title>
-        </mat-card-header>
-
         <mat-card-content>
-          <p>{{ item.name }}</p>
-        </mat-card-content>
+          <mat-chip-set class="mx-2" [attr.aria-label]="item.name">
+            <strong>Name :</strong>
+            <mat-chip>{{ item.name }}</mat-chip>
+          </mat-chip-set>
 
-        <mat-card-footer>
-          <mat-chip-set class="m-3" aria-label="Roles for">
+          <div class="mb-2">
+            <p><strong>Description: </strong>{{ item.description }}</p>
+          </div>
+
+          <mat-chip-set
+            class="mx-2"
+            [attr.aria-label]="'Roles for ' + item.name"
+          >
+            <strong>Assigned roles :</strong>
             @for (role of item.roleNames; track $index) {
             <mat-chip>{{ role }}</mat-chip>
             }
           </mat-chip-set>
-        </mat-card-footer>
+        </mat-card-content>
       </mat-card>
       }
     </mat-expansion-panel>
@@ -74,21 +84,26 @@
 
       @for (item of permssions()?.appPortal; track $index) {
       <mat-card class="w-100 mb-2" appearance="outlined">
-        <mat-card-header>
-          <mat-card-title>{{ item.description }}</mat-card-title>
-        </mat-card-header>
-
         <mat-card-content>
-          <p>{{ item.name }}</p>
-        </mat-card-content>
+          <mat-chip-set class="mx-2" [attr.aria-label]="item.name">
+            <strong>Name :</strong>
+            <mat-chip>{{ item.name }}</mat-chip>
+          </mat-chip-set>
 
-        <mat-card-footer>
-          <mat-chip-set class="m-3" aria-label="Roles for">
+          <div class="mb-2">
+            <p><strong>Description: </strong>{{ item.description }}</p>
+          </div>
+
+          <mat-chip-set
+            class="mx-2"
+            [attr.aria-label]="'Roles for ' + item.name"
+          >
+            <strong>Assigned roles :</strong>
             @for (role of item.roleNames; track $index) {
             <mat-chip>{{ role }}</mat-chip>
             }
           </mat-chip-set>
-        </mat-card-footer>
+        </mat-card-content>
       </mat-card>
       }
     </mat-expansion-panel>
@@ -99,26 +114,31 @@
       hideToggle
     >
       <mat-expansion-panel-header>
-        <mat-panel-title> User Managment</mat-panel-title>
+        <mat-panel-title> User Management</mat-panel-title>
       </mat-expansion-panel-header>
 
       @for (item of permssions()?.users; track $index) {
       <mat-card class="w-100 mb-2" appearance="outlined">
-        <mat-card-header>
-          <mat-card-title>{{ item.description }}</mat-card-title>
-        </mat-card-header>
-
         <mat-card-content>
-          <p>{{ item.name }}</p>
-        </mat-card-content>
+          <mat-chip-set class="mx-2" [attr.aria-label]="item.name">
+            <strong>Name :</strong>
+            <mat-chip>{{ item.name }}</mat-chip>
+          </mat-chip-set>
 
-        <mat-card-footer>
-          <mat-chip-set class="m-3" aria-label="Roles for">
+          <div class="mb-2">
+            <p><strong>Description: </strong>{{ item.description }}</p>
+          </div>
+
+          <mat-chip-set
+            class="mx-2"
+            [attr.aria-label]="'Roles for ' + item.name"
+          >
+            <strong>Assigned roles :</strong>
             @for (role of item.roleNames; track $index) {
             <mat-chip>{{ role }}</mat-chip>
             }
           </mat-chip-set>
-        </mat-card-footer>
+        </mat-card-content>
       </mat-card>
       }
     </mat-expansion-panel>
@@ -134,21 +154,26 @@
 
       @for (item of permssions()?.roles; track $index) {
       <mat-card class="w-100 mb-2" appearance="outlined">
-        <mat-card-header>
-          <mat-card-title>{{ item.description }}</mat-card-title>
-        </mat-card-header>
-
         <mat-card-content>
-          <p>{{ item.name }}</p>
-        </mat-card-content>
+          <mat-chip-set class="mx-2" [attr.aria-label]="item.name">
+            <strong>Name :</strong>
+            <mat-chip>{{ item.name }}</mat-chip>
+          </mat-chip-set>
 
-        <mat-card-footer>
-          <mat-chip-set class="m-3" aria-label="Roles for">
+          <div class="mb-2">
+            <p><strong>Description: </strong>{{ item.description }}</p>
+          </div>
+
+          <mat-chip-set
+            class="mx-2"
+            [attr.aria-label]="'Roles for ' + item.name"
+          >
+            <strong>Assigned roles :</strong>
             @for (role of item.roleNames; track $index) {
             <mat-chip>{{ role }}</mat-chip>
             }
           </mat-chip-set>
-        </mat-card-footer>
+        </mat-card-content>
       </mat-card>
       }
     </mat-expansion-panel>
@@ -164,21 +189,26 @@
 
       @for (item of permssions()?.permissions; track $index) {
       <mat-card class="w-100 mb-2" appearance="outlined">
-        <mat-card-header>
-          <mat-card-title>{{ item.description }}</mat-card-title>
-        </mat-card-header>
-
         <mat-card-content>
-          <p>{{ item.name }}</p>
-        </mat-card-content>
+          <mat-chip-set class="mx-2" [attr.aria-label]="item.name">
+            <strong>Name :</strong>
+            <mat-chip>{{ item.name }}</mat-chip>
+          </mat-chip-set>
 
-        <mat-card-footer>
-          <mat-chip-set class="m-3" aria-label="Roles for">
+          <div class="mb-2">
+            <p><strong>Description: </strong>{{ item.description }}</p>
+          </div>
+
+          <mat-chip-set
+            class="mx-2"
+            [attr.aria-label]="'Roles for ' + item.name"
+          >
+            <strong>Assigned roles :</strong>
             @for (role of item.roleNames; track $index) {
             <mat-chip>{{ role }}</mat-chip>
             }
           </mat-chip-set>
-        </mat-card-footer>
+        </mat-card-content>
       </mat-card>
       }
     </mat-expansion-panel>
@@ -194,21 +224,26 @@
 
       @for (item of permssions()?.apps; track $index) {
       <mat-card class="w-100 mb-2" appearance="outlined">
-        <mat-card-header>
-          <mat-card-title>{{ item.description }}</mat-card-title>
-        </mat-card-header>
-
         <mat-card-content>
-          <p>{{ item.name }}</p>
-        </mat-card-content>
+          <mat-chip-set class="mx-2" [attr.aria-label]="item.name">
+            <strong>Name :</strong>
+            <mat-chip>{{ item.name }}</mat-chip>
+          </mat-chip-set>
 
-        <mat-card-footer>
-          <mat-chip-set class="m-3" aria-label="Roles for">
+          <div class="mb-2">
+            <p><strong>Description: </strong>{{ item.description }}</p>
+          </div>
+
+          <mat-chip-set
+            class="mx-2"
+            [attr.aria-label]="'Roles for ' + item.name"
+          >
+            <strong>Assigned roles :</strong>
             @for (role of item.roleNames; track $index) {
             <mat-chip>{{ role }}</mat-chip>
             }
           </mat-chip-set>
-        </mat-card-footer>
+        </mat-card-content>
       </mat-card>
       }
     </mat-expansion-panel>
@@ -224,21 +259,26 @@
 
       @for (item of permssions()?.auditLogs; track $index) {
       <mat-card class="w-100 mb-2" appearance="outlined">
-        <mat-card-header>
-          <mat-card-title>{{ item.description }}</mat-card-title>
-        </mat-card-header>
-
         <mat-card-content>
-          <p>{{ item.name }}</p>
-        </mat-card-content>
+          <mat-chip-set class="mx-2" [attr.aria-label]="item.name">
+            <strong>Name :</strong>
+            <mat-chip>{{ item.name }}</mat-chip>
+          </mat-chip-set>
 
-        <mat-card-footer>
-          <mat-chip-set class="m-3" aria-label="Roles for">
+          <div class="mb-2">
+            <p><strong>Description: </strong>{{ item.description }}</p>
+          </div>
+
+          <mat-chip-set
+            class="mx-2"
+            [attr.aria-label]="'Roles for ' + item.name"
+          >
+            <strong>Assigned roles :</strong>
             @for (role of item.roleNames; track $index) {
             <mat-chip>{{ role }}</mat-chip>
             }
           </mat-chip-set>
-        </mat-card-footer>
+        </mat-card-content>
       </mat-card>
       }
     </mat-expansion-panel>
@@ -254,21 +294,26 @@
 
       @for (item of permssions()?.settings; track $index) {
       <mat-card class="w-100 mb-2" appearance="outlined">
-        <mat-card-header>
-          <mat-card-title>{{ item.description }}</mat-card-title>
-        </mat-card-header>
-
         <mat-card-content>
-          <p>{{ item.name }}</p>
-        </mat-card-content>
+          <mat-chip-set class="mx-2" [attr.aria-label]="item.name">
+            <strong>Name :</strong>
+            <mat-chip>{{ item.name }}</mat-chip>
+          </mat-chip-set>
 
-        <mat-card-footer>
-          <mat-chip-set class="m-3" aria-label="Roles for">
+          <div class="mb-2">
+            <p><strong>Description: </strong>{{ item.description }}</p>
+          </div>
+
+          <mat-chip-set
+            class="mx-2"
+            [attr.aria-label]="'Roles for ' + item.name"
+          >
+            <strong>Assigned roles :</strong>
             @for (role of item.roleNames; track $index) {
             <mat-chip>{{ role }}</mat-chip>
             }
           </mat-chip-set>
-        </mat-card-footer>
+        </mat-card-content>
       </mat-card>
       }
     </mat-expansion-panel>

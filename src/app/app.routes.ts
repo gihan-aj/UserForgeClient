@@ -8,6 +8,7 @@ import { permissionGuard } from './shared/guards/permission.guard';
 import { UserManagementComponent } from './user-management/user-management.component';
 import { AccessDeniedComponent } from './shared/components/access-denied/access-denied.component';
 import { PermissionsComponent } from './permissions/permissions.component';
+import { RoleManagementComponent } from './role-management/role-management.component';
 
 export const routes: Routes = [
   {
@@ -36,6 +37,15 @@ export const routes: Routes = [
     data: {
       breadcrumb: 'User Management',
       permission: 'users.access',
+    },
+  },
+  {
+    path: 'role-management',
+    component: RoleManagementComponent,
+    canActivate: [authGuard, permissionGuard],
+    data: {
+      breadcrumb: 'Role Management',
+      permission: 'roles.access',
     },
   },
   {
