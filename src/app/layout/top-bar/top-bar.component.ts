@@ -75,18 +75,13 @@ export class TopBarComponent implements OnDestroy {
   }
 
   onLogout() {
-    const confirmTitle = this.msgService.getMessage(
-      'user.confirmation.logout.title'
-    );
-    const confirmMessage = this.msgService.getMessage(
-      'user.confirmation.logout.message'
-    );
-    const confirmAction = this.msgService.getMessage(
-      'user.confirmation.logout.action'
-    );
-
     this.logoutConfirmSubscription = this.confirmationService
-      .confirm(AlertType.Warning, confirmTitle, confirmMessage, confirmAction)
+      .confirmWithMessageService(
+        'warning',
+        'user.confirmation.logout.title',
+        'user.confirmation.logout.message',
+        'user.confirmation.logout.action'
+      )
       .subscribe((accepted) => {
         if (accepted) {
           this.userService.logoutFromServer().subscribe({

@@ -1,9 +1,12 @@
 import { inject, Injectable } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { AlertType } from './alert-type.enum';
 import { BackendError } from '../../interfaces/backend-error.interface';
 import { Alert } from './alert.interface';
 import { AlertComponent } from './alert.component';
+import { AlertType } from './alert.type';
+import { MessagePath } from '../../messages/messsage-path.type';
+import { Messages } from '../../messages/messages.type';
+import { MessageService } from '../../messages/message.service';
 
 @Injectable({
   providedIn: 'root',
@@ -11,7 +14,7 @@ import { AlertComponent } from './alert.component';
 export class AlertService {
   private readonly dialog = inject(MatDialog);
 
-  constructor() {}
+  constructor(private messageService: MessageService) {}
 
   showAlert(
     type: AlertType,
@@ -32,6 +35,37 @@ export class AlertService {
     };
 
     const dialogRef = this.dialog.open(AlertComponent, { data: data });
-    dialogRef.addPanelClass('danger');
+    // dialogRef.addPanelClass('danger');
+  }
+
+  showAlertWithMessages(
+    type: AlertType,
+    title: MessagePath<Messages>,
+    message: MessagePath<Messages>,
+    placeholdersForMessage: Record<string, string> = {}
+  ) {
+    const data: Alert = {
+      type: type,
+      title: this.messageService.getMessage(title),
+      message: this.messageService.getMessage(message, placeholdersForMessage),
+      details: [],
+    };
+
+    const dialogRef = this.dialog.open(AlertComponent, { data: data });
+  }
+
+  showAlertWithBackendMessage(
+    type: AlertType,
+    title: MessagePath<Messages>,
+    message: string
+  ) {
+    const data: Alert = {
+      type: type,
+      title: this.messageService.getMessage(title),
+      message: message,
+      details: [],
+    };
+
+    const dialogRef = this.dialog.open(AlertComponent, { data: data });
   }
 }

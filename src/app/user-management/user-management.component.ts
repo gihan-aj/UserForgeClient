@@ -200,15 +200,11 @@ export class UserManagementComponent implements OnInit, OnDestroy {
 
   deactivate(userIds: string[]) {
     if (this.hasDefaultUserSelected(userIds)) {
-      this.alertService.showAlert(
-        AlertType.Danger,
-        this.msgService.getMessage(
-          'userManagement.alert.restrictedAction.title'
-        ),
-        this.msgService.getMessage(
-          'userManagement.alert.restrictedAction.mssage',
-          { action: 'deactivate' }
-        )
+      this.alertService.showAlertWithMessages(
+        'danger',
+        'userManagement.alert.restrictedAction.title',
+        'userManagement.alert.restrictedAction.mssage',
+        { action: 'deactivate' }
       );
     } else {
       const title = this.msgService.getMessage(
@@ -248,10 +244,11 @@ export class UserManagementComponent implements OnInit, OnDestroy {
   private deactivateUsers(ids: string[]) {
     this.userManagementService.deactivate(ids).subscribe({
       next: (res) => {
-        const title = this.msgService.getMessage(
-          'userManagement.alert.deactivate.success.title'
+        this.alertService.showAlertWithBackendMessage(
+          'success',
+          'userManagement.alert.deactivate.success.title',
+          res.message
         );
-        this.alertService.showAlert(AlertType.Success, title, res.message);
         this.fetchTableData();
       },
       error: (error) => {
@@ -262,15 +259,11 @@ export class UserManagementComponent implements OnInit, OnDestroy {
 
   activate(userIds: string[]) {
     if (this.hasDefaultUserSelected(userIds)) {
-      this.alertService.showAlert(
-        AlertType.Danger,
-        this.msgService.getMessage(
-          'userManagement.alert.restrictedAction.title'
-        ),
-        this.msgService.getMessage(
-          'userManagement.alert.restrictedAction.mssage',
-          { action: 'activate' }
-        )
+      this.alertService.showAlertWithMessages(
+        'danger',
+        'userManagement.alert.restrictedAction.title',
+        'userManagement.alert.restrictedAction.mssage',
+        { action: 'activate' }
       );
     } else {
       const title = this.msgService.getMessage(
@@ -310,10 +303,11 @@ export class UserManagementComponent implements OnInit, OnDestroy {
   private activateUsers(ids: string[]) {
     this.userManagementService.activate(ids).subscribe({
       next: (res) => {
-        const title = this.msgService.getMessage(
-          'userManagement.alert.activate.success.title'
+        this.alertService.showAlertWithBackendMessage(
+          'success',
+          'userManagement.alert.activate.success.title',
+          res.message
         );
-        this.alertService.showAlert(AlertType.Success, title, res.message);
         this.fetchTableData();
       },
       error: (error) => {
@@ -324,15 +318,11 @@ export class UserManagementComponent implements OnInit, OnDestroy {
 
   delete(userIds: string[]) {
     if (this.hasDefaultUserSelected(userIds)) {
-      this.alertService.showAlert(
-        AlertType.Danger,
-        this.msgService.getMessage(
-          'userManagement.alert.restrictedAction.title'
-        ),
-        this.msgService.getMessage(
-          'userManagement.alert.restrictedAction.mssage',
-          { action: 'delete' }
-        )
+      this.alertService.showAlertWithMessages(
+        'danger',
+        'userManagement.alert.restrictedAction.title',
+        'userManagement.alert.restrictedAction.mssage',
+        { action: 'delete' }
       );
     } else {
       const title = this.msgService.getMessage(
@@ -372,10 +362,11 @@ export class UserManagementComponent implements OnInit, OnDestroy {
   private deleteUsers(ids: string[]) {
     this.userManagementService.delete(ids).subscribe({
       next: (res) => {
-        const title = this.msgService.getMessage(
-          'userManagement.alert.delete.success.title'
+        this.alertService.showAlertWithBackendMessage(
+          'success',
+          'userManagement.alert.delete.success.title',
+          res.message
         );
-        this.alertService.showAlert(AlertType.Success, title, res.message);
         this.fetchTableData();
       },
       error: (error) => {
@@ -386,15 +377,11 @@ export class UserManagementComponent implements OnInit, OnDestroy {
 
   edit(id: string) {
     if (this.isDefaultUser(id)) {
-      this.alertService.showAlert(
-        AlertType.Danger,
-        this.msgService.getMessage(
-          'userManagement.alert.restrictedAction.title'
-        ),
-        this.msgService.getMessage(
-          'userManagement.alert.restrictedAction.mssage',
-          { action: 'edit' }
-        )
+      this.alertService.showAlertWithMessages(
+        'danger',
+        'userManagement.alert.restrictedAction.title',
+        'userManagement.alert.restrictedAction.mssage',
+        { action: 'edit' }
       );
     } else {
       const userDetails = this.dataSource.items.find((user) => user.id === id);
@@ -454,15 +441,11 @@ export class UserManagementComponent implements OnInit, OnDestroy {
       const user = this.selected()[0];
 
       if (this.isDefaultUser(user.id)) {
-        this.alertService.showAlert(
-          AlertType.Danger,
-          this.msgService.getMessage(
-            'userManagement.alert.restrictedAction.title'
-          ),
-          this.msgService.getMessage(
-            'userManagement.alert.restrictedAction.mssage',
-            { action: 'change roles of' }
-          )
+        this.alertService.showAlertWithMessages(
+          'danger',
+          'userManagement.alert.restrictedAction.title',
+          'userManagement.alert.restrictedAction.mssage',
+          { action: 'change roles of' }
         );
       } else {
         const allRoles: { roleName: string; isAssigned: boolean }[] = [];
@@ -507,15 +490,11 @@ export class UserManagementComponent implements OnInit, OnDestroy {
       const userIds = this.selected().map((u) => u.id);
       const userEmails = this.selected().map((u) => u.email);
       if (this.hasDefaultUserSelected(userIds)) {
-        this.alertService.showAlert(
-          AlertType.Danger,
-          this.msgService.getMessage(
-            'userManagement.alert.restrictedAction.title'
-          ),
-          this.msgService.getMessage(
-            'userManagement.alert.restrictedAction.mssage',
-            { action: 'change roles of' }
-          )
+        this.alertService.showAlertWithMessages(
+          'danger',
+          'userManagement.alert.restrictedAction.title',
+          'userManagement.alert.restrictedAction.mssage',
+          { action: 'change roles of' }
         );
       } else {
         const allRoles: { roleName: string; isAssigned: boolean }[] = [];
@@ -609,22 +588,18 @@ export class UserManagementComponent implements OnInit, OnDestroy {
               this.loading.set(true);
               this.userManagementService.assignRoles(req).subscribe({
                 next: (res) => {
-                  this.loading.set(false)
+                  this.loading.set(false);
 
                   if (assignedRoleNames.length === 1) {
-                    this.alertService.showAlert(
-                      AlertType.Success,
-                      this.msgService.getMessage(
-                        'userManagement.alert.assignRole.success.title'
-                      ),
+                    this.alertService.showAlertWithBackendMessage(
+                      'success',
+                      'userManagement.alert.assignRole.success.title',
                       res.message
                     );
                   } else {
-                    this.alertService.showAlert(
-                      AlertType.Success,
-                      this.msgService.getMessage(
-                        'userManagement.alert.assignRoles.success.title'
-                      ),
+                    this.alertService.showAlertWithBackendMessage(
+                      'success',
+                      'userManagement.alert.assignRoles.success.title',
                       res.message
                     );
                   }
@@ -645,24 +620,16 @@ export class UserManagementComponent implements OnInit, OnDestroy {
                 next: () => {
                   this.loading.set(false);
                   if (assignedRoleNames.length === 1) {
-                    this.alertService.showAlert(
-                      AlertType.Success,
-                      this.msgService.getMessage(
-                        'userManagement.alert.assignRole.success.title'
-                      ),
-                      this.msgService.getMessage(
-                        'userManagement.alert.assignRole.success.message'
-                      )
+                    this.alertService.showAlertWithMessages(
+                      'success',
+                      'userManagement.alert.assignRole.success.title',
+                      'userManagement.alert.assignRole.success.message'
                     );
                   } else {
-                    this.alertService.showAlert(
-                      AlertType.Success,
-                      this.msgService.getMessage(
-                        'userManagement.alert.assignRoles.success.title'
-                      ),
-                      this.msgService.getMessage(
-                        'userManagement.alert.assignRoles.success.message'
-                      )
+                    this.alertService.showAlertWithMessages(
+                      'success',
+                      'userManagement.alert.assignRoles.success.title',
+                      'userManagement.alert.assignRoles.success.message'
                     );
                   }
                 },
@@ -673,14 +640,10 @@ export class UserManagementComponent implements OnInit, OnDestroy {
               });
             }
           } else {
-            this.alertService.showAlert(
-              AlertType.Warning,
-              this.msgService.getMessage(
-                'userManagement.alert.noRolesAssigned.title'
-              ),
-              this.msgService.getMessage(
-                'userManagement.alert.noRolesAssigned.mssage'
-              )
+            this.alertService.showAlertWithMessages(
+              'warning',
+              'userManagement.alert.noRolesAssigned.title',
+              'userManagement.alert.noRolesAssigned.mssage'
             );
           }
         }

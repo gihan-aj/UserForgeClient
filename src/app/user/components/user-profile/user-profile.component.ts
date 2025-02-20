@@ -143,14 +143,10 @@ export class UserProfileComponent implements OnInit, OnDestroy {
                 this.loading.set(false);
               }
 
-              this.alertService.showAlert(
-                AlertType.Success,
-                this.msgService.getMessage(
-                  'user.alert.userProfileUpdated.success.title'
-                ),
-                this.msgService.getMessage(
-                  'user.alert.userProfileUpdated.success.message'
-                )
+              this.alertService.showAlertWithMessages(
+                'success',
+                'user.alert.userProfileUpdated.success.title',
+                'user.alert.userProfileUpdated.success.message'
               );
             },
             error: (error) => {

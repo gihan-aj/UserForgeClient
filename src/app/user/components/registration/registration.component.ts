@@ -442,11 +442,9 @@ export class RegistrationComponent implements OnDestroy {
 
       this.userService.register(request).subscribe({
         next: (res) => {
-          console.log(res.message);
-
-          this.alerService.showAlert(
-            AlertType.Success,
-            this.msgService.getMessage('user.alert.registration.title'),
+          this.alerService.showAlertWithBackendMessage(
+            'success',
+            'user.alert.registration.title',
             res.message
           );
 

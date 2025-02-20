@@ -1,7 +1,7 @@
-import { AlertType } from '../alert/alert-type.enum';
+import { ConfirmationType } from './confirmation.type';
 
 export interface ConfirmatioDialog {
-  type: AlertType;
+  type: ConfirmationType;
   title: string;
   message: string;
   action: string;

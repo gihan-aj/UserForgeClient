@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 
 import { HTTP_ERROR_MESSAGES } from './http-error-messages';
 import { UNKNOWN_ERROR } from './unknown-error';
-import { AlertType } from '../widgets/alert/alert-type.enum';
 import { AlertService } from '../widgets/alert/alert.service';
 
 @Injectable({
@@ -17,7 +16,7 @@ export class ErrorHandlingService {
   handle(error: any): void {
     if (error?.error?.title) {
       this.alertService.showAlert(
-        AlertType.Danger,
+        'danger',
         error.error.title,
         `${error.error.detail} (${error.status})`,
         error.error.errors!
@@ -29,7 +28,7 @@ export class ErrorHandlingService {
       const message = httpError.message;
 
       this.alertService.showAlert(
-        AlertType.Danger,
+        'danger',
         title,
         `${message} (${error.status})`
       );

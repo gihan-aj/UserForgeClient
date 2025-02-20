@@ -151,14 +151,10 @@ export class SendEmailComponent implements OnInit {
   private resendEmailConfirmationLink(email: string) {
     this.userService.resendEmailConfirmationLink(email).subscribe({
       next: () => {
-        this.alerService.showAlert(
-          AlertType.Success,
-          this.messageService.getMessage(
-            'user.alert.sendEmail.emailConfirmationLink.success.title'
-          ),
-          this.messageService.getMessage(
-            'user.alert.sendEmail.emailConfirmationLink.success.message'
-          )
+        this.alerService.showAlertWithMessages(
+          'success',
+          'user.alert.sendEmail.emailConfirmationLink.success.title',
+          'user.alert.sendEmail.emailConfirmationLink.success.message'
         );
 
         this.loading.set(false);
@@ -175,14 +171,10 @@ export class SendEmailComponent implements OnInit {
   private sendPasswordResetLink(email: string) {
     this.userService.sendPassowrdResetLink(email).subscribe({
       next: () => {
-        this.alerService.showAlert(
-          AlertType.Success,
-          this.messageService.getMessage(
-            'user.alert.sendEmail.passwordResetLink.success.title'
-          ),
-          this.messageService.getMessage(
-            'user.alert.sendEmail.passwordResetLink.success.message'
-          )
+        this.alerService.showAlertWithMessages(
+          'success',
+          'user.alert.sendEmail.passwordResetLink.success.title',
+          'user.alert.sendEmail.passwordResetLink.success.message'
         );
 
         this.loading.set(false);

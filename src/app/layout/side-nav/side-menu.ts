@@ -5,7 +5,7 @@ export const SIDE_MENU = {
   userManagement: 'User Management',
   roleManagement: 'Role Management',
   permissions: 'Permissions',
-  appManagement: 'Application Management',
+  appManagement: 'App Management',
   auditLogs: 'Audit Logs',
   support: 'Support',
   settings: 'Settings',
