@@ -32,6 +32,10 @@ UserForge is a **Single Sign-On (SSO) user management system** built with **Angu
   * Displays validation errors using mat-error.
   * Dialogs for editing and saving data.
 
+## UI Screenshots
+Here are some UI previews of UserForge:
+
+
 ## Code Snippets
 ### Token refresh interceptor
 ```typescript
