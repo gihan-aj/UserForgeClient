@@ -34,7 +34,10 @@ UserForge is a **Single Sign-On (SSO) user management system** built with **Angu
 
 ## UI Screenshots
 Here are some UI previews of UserForge:
-
+![Alt text](https://github.com/gihan-aj/UserForgeClient/blob/master/public/ui-ss/login-form-ss.png "Login form")
+![Alt text](https://github.com/gihan-aj/UserForgeClient/blob/master/public/ui-ss/form-validation-ss.png "Form validation")
+![Alt text](https://github.com/gihan-aj/UserForgeClient/blob/master/public/ui-ss/table-component-ss.png "Tablle component")
+![Alt text](https://github.com/gihan-aj/UserForgeClient/blob/master/public/ui-ss/alert-component-ss.png "Alert component")
 
 ## Code Snippets
 ### Token refresh interceptor
