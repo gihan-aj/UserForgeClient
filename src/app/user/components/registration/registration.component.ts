@@ -442,13 +442,13 @@ export class RegistrationComponent implements OnDestroy {
 
       this.userService.register(request).subscribe({
         next: (res) => {
-          this.alerService.showAlertWithBackendMessage(
+          this.alerService.fetchMessagesAndAlertWithBackendMessage(
             'success',
             'user.alert.registration.title',
             res.message
           );
 
-          this.notificationService.fetchAndNotify(
+          this.notificationService.fetchMessagesAndNotify(
             'success',
             'user.notification.registration.success'
           );
@@ -458,7 +458,7 @@ export class RegistrationComponent implements OnDestroy {
         error: (error) => {
           this.errorHandling.handle(error);
 
-          this.notificationService.fetchAndNotify(
+          this.notificationService.fetchMessagesAndNotify(
             'danger',
             'user.notification.registration.fail'
           );

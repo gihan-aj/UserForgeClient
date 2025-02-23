@@ -53,7 +53,7 @@ export function appInitializer() {
             authService.clearUserAndTokens();
             // errorHandling.handle(error);
 
-            notificationService.fetchAndNotify(
+            notificationService.fetchMessagesAndNotify(
               'danger',
               'user.notification.refresh.fail'
             );

@@ -77,7 +77,7 @@ export class UserProfileComponent implements OnInit, OnDestroy {
         console.log(user);
 
         if (!user) {
-          this.notificationService.fetchAndNotify(
+          this.notificationService.fetchMessagesAndNotify(
             'danger',
             'user.notification.userDetails.fail'
           );
@@ -94,7 +94,7 @@ export class UserProfileComponent implements OnInit, OnDestroy {
 
   editProfile() {
     this.confirmEditSubscription = this.confirmationService
-      .confirmWithMessageService(
+      .fetchMessagesAndConfirm(
         'warning',
         'user.confirmation.editUserDetails.title',
         'user.confirmation.editUserDetails.message',
@@ -138,7 +138,7 @@ export class UserProfileComponent implements OnInit, OnDestroy {
                 this.loading.set(false);
               }
 
-              this.alertService.showAlertWithMessages(
+              this.alertService.fetchMessagesAndAlert(
                 'success',
                 'user.alert.userProfileUpdated.success.title',
                 'user.alert.userProfileUpdated.success.message'

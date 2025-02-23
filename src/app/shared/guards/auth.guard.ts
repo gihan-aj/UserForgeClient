@@ -58,7 +58,7 @@ export const authGuard: CanActivateFn = (route, state) => {
         'user cannot be authenticated at auth guard. refresh failed.'
       );
 
-      notificationService.fetchAndNotify(
+      notificationService.fetchMessagesAndNotify(
         'danger',
         'user.notification.refresh.fail'
       );

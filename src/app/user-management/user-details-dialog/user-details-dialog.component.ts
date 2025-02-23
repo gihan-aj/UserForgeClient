@@ -295,7 +295,7 @@ export class UserDetailsDialogComponent {
 
   onEdit() {
     this.editConfirmSubscription = this.confirmationService
-      .confirmWithMessageService(
+      .fetchMessagesAndConfirm(
         'warning',
         'userManagement.confirmation.editUser.title',
         'userManagement.confirmation.editUser.message',

@@ -50,7 +50,7 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
           catchError((refreshError) => {
             authService.clearUserAndTokens();
 
-            notificationService.fetchAndNotify(
+            notificationService.fetchMessagesAndNotify(
               'danger',
               'user.notification.refresh.fail'
             );

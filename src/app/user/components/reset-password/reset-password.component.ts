@@ -237,7 +237,7 @@ export class ResetPasswordComponent implements OnInit {
 
         this.userService.resetPassword(request).subscribe({
           next: () => {
-            this.alerService.showAlertWithMessages(
+            this.alerService.fetchMessagesAndAlert(
               'success',
               'user.alert.sendEmail.resetPassword.success.title',
               'user.alert.sendEmail.resetPassword.success.message'

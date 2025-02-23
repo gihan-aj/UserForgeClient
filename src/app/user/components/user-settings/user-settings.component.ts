@@ -9,16 +9,12 @@ import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 
 import { SettingsService } from '../../../shared/settings/settings.service';
-import { SETTING_KEYS } from '../../../shared/settings/setting-keys';
-import { THEMES } from '../../../layout/top-bar/themes';
 import { FormatTitlePipe } from '../../../shared/pipes/format-title.pipe';
 import { LoadingContainerComponent } from '../../../shared/widgets/loading-container/loading-container.component';
 import { ThemeService } from '../../../theme/theme.service';
 import { UserService } from '../../services/user.service';
 import { NotificationService } from '../../../shared/widgets/notification/notification.service';
 import { ErrorHandlingService } from '../../../shared/error-handling/error-handling.service';
-import { MessageService } from '../../../shared/messages/message.service';
-import { AlertType } from '../../../shared/widgets/alert/alert-type.enum';
 
 @Component({
   selector: 'app-user-settings',
@@ -54,8 +50,7 @@ export class UserSettingsComponent {
   constructor(
     private userService: UserService,
     private notificatioService: NotificationService,
-    private errorHandling: ErrorHandlingService,
-    private msgService: MessageService
+    private errorHandling: ErrorHandlingService
   ) {
     this.settingsService.settings$.subscribe((settings) => {
       this.theme.set(settings[this.settingsKeys.theme]);
@@ -74,7 +69,7 @@ export class UserSettingsComponent {
     console.log('before send: ', userSettings);
     this.userService.saveUserSettings(userSettings).subscribe({
       next: () => {
-        this.notificatioService.fetchAndNotify(
+        this.notificatioService.fetchMessagesAndNotify(
           'success',
           'user.notification.saveUserSettings.success'
         );
@@ -82,7 +77,7 @@ export class UserSettingsComponent {
       },
       error: (error) => {
         this.errorHandling.handle(error);
-        this.notificatioService.fetchAndNotify(
+        this.notificatioService.fetchMessagesAndNotify(
           'danger',
           'user.notification.saveUserSettings.fail'
         );

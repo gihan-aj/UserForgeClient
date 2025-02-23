@@ -13,7 +13,7 @@ export const loginGuard: CanActivateFn = (route, state) => {
   const defaultReturnUrl = DEFAULT_RETURN_URL;
 
   if (authService.getUser()) {
-    notificationService.fetchAndNotify(
+    notificationService.fetchMessagesAndNotify(
       'warning',
       'user.notification.alreadyLoggedIn'
     );

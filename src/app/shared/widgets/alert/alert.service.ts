@@ -38,7 +38,7 @@ export class AlertService {
     // dialogRef.addPanelClass('danger');
   }
 
-  showAlertWithMessages(
+  fetchMessagesAndAlert(
     type: AlertType,
     title: MessagePath<Messages>,
     message: MessagePath<Messages>,
@@ -54,7 +54,7 @@ export class AlertService {
     const dialogRef = this.dialog.open(AlertComponent, { data: data });
   }
 
-  showAlertWithBackendMessage(
+  fetchMessagesAndAlertWithBackendMessage(
     type: AlertType,
     title: MessagePath<Messages>,
     message: string

@@ -152,7 +152,7 @@ export class LoginComponent implements OnDestroy {
 
           const user = this.authService.getUser();
           if (user) {
-            this.notificationService.fetchAndNotify(
+            this.notificationService.fetchMessagesAndNotify(
               'success',
               'user.notification.login.success',
               { firstName: user.firstName, lastName: user.lastName }
@@ -165,7 +165,7 @@ export class LoginComponent implements OnDestroy {
         error: (error) => {
           console.error('login error: ', error);
 
-          this.notificationService.fetchAndNotify(
+          this.notificationService.fetchMessagesAndNotify(
             'danger',
             'user.notification.login.fail'
           );

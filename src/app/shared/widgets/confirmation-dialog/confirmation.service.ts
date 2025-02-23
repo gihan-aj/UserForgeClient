@@ -37,7 +37,7 @@ export class ConfirmationService {
     return dialogRef.afterClosed();
   }
 
-  confirmWithMessageService(
+  fetchMessagesAndConfirm(
     type: ConfirmationType,
     title: MessagePath<Messages>,
     message: MessagePath<Messages>,
@@ -45,7 +45,10 @@ export class ConfirmationService {
     placeholdersForMessage: Record<string, string> = {}
   ): Observable<boolean> {
     const titleResolved = this.messagService.getMessage(title);
-    const messageResolved = this.messagService.getMessage(message, placeholdersForMessage);
+    const messageResolved = this.messagService.getMessage(
+      message,
+      placeholdersForMessage
+    );
     const actionResolved = this.messagService.getMessage(action);
 
     const data: ConfirmatioDialog = {

@@ -36,7 +36,7 @@ export class NotificationService {
     });
   }
 
-  fetchAndNotify(
+  fetchMessagesAndNotify(
     type: NotificationType,
     messagePath: MessagePath<Messages>,
     placeholdersForMessage: Record<string, string> = {},

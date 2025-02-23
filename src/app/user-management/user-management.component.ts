@@ -200,7 +200,7 @@ export class UserManagementComponent implements OnInit, OnDestroy {
 
   deactivate(userIds: string[]) {
     if (this.hasDefaultUserSelected(userIds)) {
-      this.alertService.showAlertWithMessages(
+      this.alertService.fetchMessagesAndAlert(
         'danger',
         'userManagement.alert.restrictedAction.title',
         'userManagement.alert.restrictedAction.mssage',
@@ -213,7 +213,7 @@ export class UserManagementComponent implements OnInit, OnDestroy {
         )?.email;
 
         this.deactivateConfirmSubscription = this.confirmationService
-          .confirmWithMessageService(
+          .fetchMessagesAndConfirm(
             'warning',
             'userManagement.confirmation.deactivateUsers.title',
             'userManagement.confirmation.deactivateUsers.messageSingle',
@@ -227,7 +227,7 @@ export class UserManagementComponent implements OnInit, OnDestroy {
           });
       } else {
         this.deactivateConfirmSubscription = this.confirmationService
-          .confirmWithMessageService(
+          .fetchMessagesAndConfirm(
             'warning',
             'userManagement.confirmation.deactivateUsers.title',
             'userManagement.confirmation.deactivateUsers.message',
@@ -245,7 +245,7 @@ export class UserManagementComponent implements OnInit, OnDestroy {
   private deactivateUsers(ids: string[]) {
     this.userManagementService.deactivate(ids).subscribe({
       next: (res) => {
-        this.alertService.showAlertWithBackendMessage(
+        this.alertService.fetchMessagesAndAlertWithBackendMessage(
           'success',
           'userManagement.alert.deactivate.success.title',
           res.message
@@ -260,7 +260,7 @@ export class UserManagementComponent implements OnInit, OnDestroy {
 
   activate(userIds: string[]) {
     if (this.hasDefaultUserSelected(userIds)) {
-      this.alertService.showAlertWithMessages(
+      this.alertService.fetchMessagesAndAlert(
         'danger',
         'userManagement.alert.restrictedAction.title',
         'userManagement.alert.restrictedAction.mssage',
@@ -273,7 +273,7 @@ export class UserManagementComponent implements OnInit, OnDestroy {
         )?.email;
 
         this.activateConfirmSubscription = this.confirmationService
-          .confirmWithMessageService(
+          .fetchMessagesAndConfirm(
             'warning',
             'userManagement.confirmation.activateUsers.title',
             'userManagement.confirmation.activateUsers.messageSingle',
@@ -287,7 +287,7 @@ export class UserManagementComponent implements OnInit, OnDestroy {
           });
       } else {
         this.activateConfirmSubscription = this.confirmationService
-          .confirmWithMessageService(
+          .fetchMessagesAndConfirm(
             'warning',
             'userManagement.confirmation.activateUsers.title',
             'userManagement.confirmation.activateUsers.message',
@@ -305,7 +305,7 @@ export class UserManagementComponent implements OnInit, OnDestroy {
   private activateUsers(ids: string[]) {
     this.userManagementService.activate(ids).subscribe({
       next: (res) => {
-        this.alertService.showAlertWithBackendMessage(
+        this.alertService.fetchMessagesAndAlertWithBackendMessage(
           'success',
           'userManagement.alert.activate.success.title',
           res.message
@@ -320,7 +320,7 @@ export class UserManagementComponent implements OnInit, OnDestroy {
 
   delete(userIds: string[]) {
     if (this.hasDefaultUserSelected(userIds)) {
-      this.alertService.showAlertWithMessages(
+      this.alertService.fetchMessagesAndAlert(
         'danger',
         'userManagement.alert.restrictedAction.title',
         'userManagement.alert.restrictedAction.mssage',
@@ -334,7 +334,7 @@ export class UserManagementComponent implements OnInit, OnDestroy {
         )?.email;
 
         this.deleteConfirmSubscription = this.confirmationService
-          .confirmWithMessageService(
+          .fetchMessagesAndConfirm(
             'warning',
             'userManagement.confirmation.deleteUsers.title',
             'userManagement.confirmation.deleteUsers.messageSingle',
@@ -352,7 +352,7 @@ export class UserManagementComponent implements OnInit, OnDestroy {
         );
 
         this.deleteConfirmSubscription = this.confirmationService
-          .confirmWithMessageService(
+          .fetchMessagesAndConfirm(
             'warning',
             'userManagement.confirmation.deleteUsers.title',
             'userManagement.confirmation.deleteUsers.message',
@@ -370,7 +370,7 @@ export class UserManagementComponent implements OnInit, OnDestroy {
   private deleteUsers(ids: string[]) {
     this.userManagementService.delete(ids).subscribe({
       next: (res) => {
-        this.alertService.showAlertWithBackendMessage(
+        this.alertService.fetchMessagesAndAlertWithBackendMessage(
           'success',
           'userManagement.alert.delete.success.title',
           res.message
@@ -385,7 +385,7 @@ export class UserManagementComponent implements OnInit, OnDestroy {
 
   edit(id: string) {
     if (this.isDefaultUser(id)) {
-      this.alertService.showAlertWithMessages(
+      this.alertService.fetchMessagesAndAlert(
         'danger',
         'userManagement.alert.restrictedAction.title',
         'userManagement.alert.restrictedAction.mssage',
@@ -397,7 +397,7 @@ export class UserManagementComponent implements OnInit, OnDestroy {
 
       if (userDetails) {
         this.editConfirmSubscription = this.confirmationService
-          .confirmWithMessageService(
+          .fetchMessagesAndConfirm(
             'warning',
             'userManagement.confirmation.editUser.title',
             'userManagement.confirmation.editUser.message',
@@ -444,7 +444,7 @@ export class UserManagementComponent implements OnInit, OnDestroy {
       const user = this.selected()[0];
 
       if (this.isDefaultUser(user.id)) {
-        this.alertService.showAlertWithMessages(
+        this.alertService.fetchMessagesAndAlert(
           'danger',
           'userManagement.alert.restrictedAction.title',
           'userManagement.alert.restrictedAction.mssage',
@@ -493,7 +493,7 @@ export class UserManagementComponent implements OnInit, OnDestroy {
       const userIds = this.selected().map((u) => u.id);
       const userEmails = this.selected().map((u) => u.email);
       if (this.hasDefaultUserSelected(userIds)) {
-        this.alertService.showAlertWithMessages(
+        this.alertService.fetchMessagesAndAlert(
           'danger',
           'userManagement.alert.restrictedAction.title',
           'userManagement.alert.restrictedAction.mssage',
@@ -528,7 +528,7 @@ export class UserManagementComponent implements OnInit, OnDestroy {
   private confirmChangeRoles(dialogData: UserRolesDialog) {
     if (this.selected().length === 1) {
       this.confirmationService
-        .confirmWithMessageService(
+        .fetchMessagesAndConfirm(
           'warning',
           'userManagement.confirmation.assignRoles.title',
           'userManagement.confirmation.assignRoles.messageSingle',
@@ -542,7 +542,7 @@ export class UserManagementComponent implements OnInit, OnDestroy {
         });
     } else if (this.selected().length > 1) {
       this.confirmationService
-        .confirmWithMessageService(
+        .fetchMessagesAndConfirm(
           'warning',
           'userManagement.confirmation.assignRoles.title',
           'userManagement.confirmation.assignRoles.message',
@@ -582,13 +582,13 @@ export class UserManagementComponent implements OnInit, OnDestroy {
                   this.loading.set(false);
 
                   if (assignedRoleNames.length === 1) {
-                    this.alertService.showAlertWithBackendMessage(
+                    this.alertService.fetchMessagesAndAlertWithBackendMessage(
                       'success',
                       'userManagement.alert.assignRole.success.title',
                       res.message
                     );
                   } else {
-                    this.alertService.showAlertWithBackendMessage(
+                    this.alertService.fetchMessagesAndAlertWithBackendMessage(
                       'success',
                       'userManagement.alert.assignRoles.success.title',
                       res.message
@@ -611,13 +611,13 @@ export class UserManagementComponent implements OnInit, OnDestroy {
                 next: () => {
                   this.loading.set(false);
                   if (assignedRoleNames.length === 1) {
-                    this.alertService.showAlertWithMessages(
+                    this.alertService.fetchMessagesAndAlert(
                       'success',
                       'userManagement.alert.assignRole.success.title',
                       'userManagement.alert.assignRole.success.message'
                     );
                   } else {
-                    this.alertService.showAlertWithMessages(
+                    this.alertService.fetchMessagesAndAlert(
                       'success',
                       'userManagement.alert.assignRoles.success.title',
                       'userManagement.alert.assignRoles.success.message'
@@ -631,7 +631,7 @@ export class UserManagementComponent implements OnInit, OnDestroy {
               });
             }
           } else {
-            this.alertService.showAlertWithMessages(
+            this.alertService.fetchMessagesAndAlert(
               'warning',
               'userManagement.alert.noRolesAssigned.title',
               'userManagement.alert.noRolesAssigned.mssage'
