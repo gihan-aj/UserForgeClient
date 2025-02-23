@@ -74,18 +74,18 @@ export class UserSettingsComponent {
     console.log('before send: ', userSettings);
     this.userService.saveUserSettings(userSettings).subscribe({
       next: () => {
-        const message = this.msgService.getMessage(
+        this.notificatioService.fetchAndNotify(
+          'success',
           'user.notification.saveUserSettings.success'
         );
-        this.notificatioService.notify(AlertType.Success, message);
         this.loading.set(false);
       },
       error: (error) => {
         this.errorHandling.handle(error);
-        const message = this.msgService.getMessage(
+        this.notificatioService.fetchAndNotify(
+          'danger',
           'user.notification.saveUserSettings.fail'
         );
-        this.notificatioService.notify(AlertType.Danger, message);
         this.loading.set(false);
       },
     });

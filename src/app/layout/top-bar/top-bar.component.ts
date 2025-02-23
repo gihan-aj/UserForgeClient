@@ -87,10 +87,11 @@ export class TopBarComponent implements OnDestroy {
           this.userService.logoutFromServer().subscribe({
             next: () => {
               this.authService.clearUserAndTokens();
-              const message = this.msgService.getMessage(
+
+              this.notificationService.fetchAndNotify(
+                'success',
                 'user.notification.logout.success'
               );
-              this.notificationService.notify(AlertType.Success, message);
 
               this.router.navigateByUrl(this.userRoutes.userLogin);
               this.sideNavService.closeSideNav();
@@ -98,10 +99,12 @@ export class TopBarComponent implements OnDestroy {
             error: (error) => {
               this.authService.clearUserAndTokens();
               this.errorHandling.handle(error);
-              const message = this.msgService.getMessage(
+
+              this.notificationService.fetchAndNotify(
+                'danger',
                 'user.notification.logout.fail'
               );
-              this.notificationService.notify(AlertType.Danger, message);
+              
               this.router.navigateByUrl(this.userRoutes.userLogin);
               this.sideNavService.closeSideNav();
             },

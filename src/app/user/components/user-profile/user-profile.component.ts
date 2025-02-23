@@ -77,9 +77,9 @@ export class UserProfileComponent implements OnInit, OnDestroy {
         console.log(user);
 
         if (!user) {
-          this.notificationService.notify(
-            AlertType.Danger,
-            this.msgService.getMessage('user.notification.userDetails.fail')
+          this.notificationService.fetchAndNotify(
+            'danger',
+            'user.notification.userDetails.fail'
           );
         }
 

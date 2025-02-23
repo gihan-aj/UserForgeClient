@@ -448,19 +448,20 @@ export class RegistrationComponent implements OnDestroy {
             res.message
           );
 
-          const message = this.msgService.getMessage(
+          this.notificationService.fetchAndNotify(
+            'success',
             'user.notification.registration.success'
           );
-          this.notificationService.notify(AlertType.Success, message);
 
           this.loading.set(false);
         },
         error: (error) => {
           this.errorHandling.handle(error);
-          const message = this.msgService.getMessage(
+
+          this.notificationService.fetchAndNotify(
+            'danger',
             'user.notification.registration.fail'
           );
-          this.notificationService.notify(AlertType.Danger, message);
 
           this.loading.set(false);
           this.form.reset();

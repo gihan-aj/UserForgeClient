@@ -49,10 +49,11 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
           }),
           catchError((refreshError) => {
             authService.clearUserAndTokens();
-            const message = messageService.getMessage(
+
+            notificationService.fetchAndNotify(
+              'danger',
               'user.notification.refresh.fail'
             );
-            notificationService.notify(AlertType.Danger, message);
 
             console.log('user refresh faild', refreshError);
             return throwError(() => refreshError);

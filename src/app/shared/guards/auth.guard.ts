@@ -57,10 +57,11 @@ export const authGuard: CanActivateFn = (route, state) => {
       console.log(
         'user cannot be authenticated at auth guard. refresh failed.'
       );
-      const message = messageService.getMessage(
+
+      notificationService.fetchAndNotify(
+        'danger',
         'user.notification.refresh.fail'
       );
-      notificationService.notify(AlertType.Danger, message);
 
       authService.clearUserAndTokens();
 

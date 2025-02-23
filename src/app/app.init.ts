@@ -53,10 +53,10 @@ export function appInitializer() {
             authService.clearUserAndTokens();
             // errorHandling.handle(error);
 
-            const message = messageService.getMessage(
+            notificationService.fetchAndNotify(
+              'danger',
               'user.notification.refresh.fail'
             );
-            notificationService.notify(AlertType.Danger, message);
 
             console.log('user refresh faild', error);
             resolve();
