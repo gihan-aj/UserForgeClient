@@ -84,11 +84,11 @@ export class UserDetailsDialogComponent {
   userDetails = signal<UserDetails | undefined>(this.data.userDetails);
   isDefaultUser = computed(() => {
     const email = this.userDetails()?.email;
-    if(email){
+    if (email) {
       return email.includes('@userforge.com');
     }
     return false;
-  })
+  });
 
   editPermission = PERMISSIONS.users.edit;
 
@@ -294,19 +294,14 @@ export class UserDetailsDialogComponent {
   }
 
   onEdit() {
-    const title = this.msgService.getMessage(
-      'userManagement.confirmation.editUser.title'
-    );
-    const message = this.msgService.getMessage(
-      'userManagement.confirmation.editUser.message',
-      { email: this.email?.value! }
-    );
-    const action = this.msgService.getMessage(
-      'userManagement.confirmation.editUser.action'
-    );
-
     this.editConfirmSubscription = this.confirmationService
-      .confirm(AlertType.Warning, title, message, action)
+      .confirmWithMessageService(
+        'warning',
+        'userManagement.confirmation.editUser.title',
+        'userManagement.confirmation.editUser.message',
+        'userManagement.confirmation.editUser.action',
+        { email: this.email?.value! }
+      )
       .subscribe((accepted) => {
         if (accepted) {
           this.mode.set(DialogMode.Edit);

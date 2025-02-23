@@ -207,37 +207,38 @@ export class UserManagementComponent implements OnInit, OnDestroy {
         { action: 'deactivate' }
       );
     } else {
-      const title = this.msgService.getMessage(
-        'userManagement.confirmation.deactivateUsers.title'
-      );
-
-      let message = '';
       if (userIds.length === 1) {
         const userEmail = this.dataSource.items.find(
           (user) => user.id === userIds[0]
         )?.email;
 
-        message = this.msgService.getMessage(
-          'userManagement.confirmation.deactivateUsers.messageSingle',
-          { email: userEmail! }
-        );
+        this.deactivateConfirmSubscription = this.confirmationService
+          .confirmWithMessageService(
+            'warning',
+            'userManagement.confirmation.deactivateUsers.title',
+            'userManagement.confirmation.deactivateUsers.messageSingle',
+            'userManagement.confirmation.deactivateUsers.action',
+            { email: userEmail! }
+          )
+          .subscribe((accepted) => {
+            if (accepted) {
+              this.deactivateUsers(userIds);
+            }
+          });
       } else {
-        message = this.msgService.getMessage(
-          'userManagement.confirmation.deactivateUsers.message'
-        );
+        this.deactivateConfirmSubscription = this.confirmationService
+          .confirmWithMessageService(
+            'warning',
+            'userManagement.confirmation.deactivateUsers.title',
+            'userManagement.confirmation.deactivateUsers.message',
+            'userManagement.confirmation.deactivateUsers.action'
+          )
+          .subscribe((accepted) => {
+            if (accepted) {
+              this.deactivateUsers(userIds);
+            }
+          });
       }
-
-      const action = this.msgService.getMessage(
-        'userManagement.confirmation.deactivateUsers.action'
-      );
-
-      this.deactivateConfirmSubscription = this.confirmationService
-        .confirm(AlertType.Warning, title, message, action)
-        .subscribe((accepted) => {
-          if (accepted) {
-            this.deactivateUsers(userIds);
-          }
-        });
     }
   }
 
@@ -266,37 +267,38 @@ export class UserManagementComponent implements OnInit, OnDestroy {
         { action: 'activate' }
       );
     } else {
-      const title = this.msgService.getMessage(
-        'userManagement.confirmation.activateUsers.title'
-      );
-
-      let message = '';
       if (userIds.length === 1) {
         const userEmail = this.dataSource.items.find(
           (user) => user.id === userIds[0]
         )?.email;
 
-        message = this.msgService.getMessage(
-          'userManagement.confirmation.activateUsers.messageSingle',
-          { email: userEmail! }
-        );
+        this.activateConfirmSubscription = this.confirmationService
+          .confirmWithMessageService(
+            'warning',
+            'userManagement.confirmation.activateUsers.title',
+            'userManagement.confirmation.activateUsers.messageSingle',
+            'userManagement.confirmation.activateUsers.action',
+            { email: userEmail! }
+          )
+          .subscribe((accepted) => {
+            if (accepted) {
+              this.activateUsers(userIds);
+            }
+          });
       } else {
-        message = this.msgService.getMessage(
-          'userManagement.confirmation.activateUsers.message'
-        );
+        this.activateConfirmSubscription = this.confirmationService
+          .confirmWithMessageService(
+            'warning',
+            'userManagement.confirmation.activateUsers.title',
+            'userManagement.confirmation.activateUsers.message',
+            'userManagement.confirmation.activateUsers.action'
+          )
+          .subscribe((accepted) => {
+            if (accepted) {
+              this.activateUsers(userIds);
+            }
+          });
       }
-
-      const action = this.msgService.getMessage(
-        'userManagement.confirmation.activateUsers.action'
-      );
-
-      this.activateConfirmSubscription = this.confirmationService
-        .confirm(AlertType.Warning, title, message, action)
-        .subscribe((accepted) => {
-          if (accepted) {
-            this.activateUsers(userIds);
-          }
-        });
     }
   }
 
@@ -325,37 +327,43 @@ export class UserManagementComponent implements OnInit, OnDestroy {
         { action: 'delete' }
       );
     } else {
-      const title = this.msgService.getMessage(
-        'userManagement.confirmation.deleteUsers.title'
-      );
-
       let message = '';
       if (userIds.length === 1) {
         const userEmail = this.dataSource.items.find(
           (user) => user.id === userIds[0]
         )?.email;
 
-        message = this.msgService.getMessage(
-          'userManagement.confirmation.deleteUsers.messageSingle',
-          { email: userEmail! }
-        );
+        this.deleteConfirmSubscription = this.confirmationService
+          .confirmWithMessageService(
+            'warning',
+            'userManagement.confirmation.deleteUsers.title',
+            'userManagement.confirmation.deleteUsers.messageSingle',
+            'userManagement.confirmation.deleteUsers.action',
+            { email: userEmail! }
+          )
+          .subscribe((accepted) => {
+            if (accepted) {
+              this.deleteUsers(userIds);
+            }
+          });
       } else {
         message = this.msgService.getMessage(
           'userManagement.confirmation.deleteUsers.message'
         );
+
+        this.deleteConfirmSubscription = this.confirmationService
+          .confirmWithMessageService(
+            'warning',
+            'userManagement.confirmation.deleteUsers.title',
+            'userManagement.confirmation.deleteUsers.message',
+            'userManagement.confirmation.deleteUsers.action'
+          )
+          .subscribe((accepted) => {
+            if (accepted) {
+              this.deleteUsers(userIds);
+            }
+          });
       }
-
-      const action = this.msgService.getMessage(
-        'userManagement.confirmation.deleteUsers.action'
-      );
-
-      this.deleteConfirmSubscription = this.confirmationService
-        .confirm(AlertType.Warning, title, message, action)
-        .subscribe((accepted) => {
-          if (accepted) {
-            this.deleteUsers(userIds);
-          }
-        });
     }
   }
 
@@ -388,19 +396,14 @@ export class UserManagementComponent implements OnInit, OnDestroy {
       console.log(userDetails);
 
       if (userDetails) {
-        const title = this.msgService.getMessage(
-          'userManagement.confirmation.editUser.title'
-        );
-        const message = this.msgService.getMessage(
-          'userManagement.confirmation.editUser.message',
-          { email: userDetails.email! }
-        );
-        const action = this.msgService.getMessage(
-          'userManagement.confirmation.editUser.action'
-        );
-
         this.editConfirmSubscription = this.confirmationService
-          .confirm(AlertType.Warning, title, message, action)
+          .confirmWithMessageService(
+            'warning',
+            'userManagement.confirmation.editUser.title',
+            'userManagement.confirmation.editUser.message',
+            'userManagement.confirmation.editUser.action',
+            { email: userDetails.email! }
+          )
           .subscribe((accepted) => {
             if (accepted) {
               this.openUserDetailsDialog(DialogMode.Edit, userDetails);
@@ -525,18 +528,12 @@ export class UserManagementComponent implements OnInit, OnDestroy {
   private confirmChangeRoles(dialogData: UserRolesDialog) {
     if (this.selected().length === 1) {
       this.confirmationService
-        .confirm(
-          AlertType.Warning,
-          this.msgService.getMessage(
-            'userManagement.confirmation.assignRoles.title'
-          ),
-          this.msgService.getMessage(
-            'userManagement.confirmation.assignRoles.messageSingle',
-            { email: dialogData.user?.email! }
-          ),
-          this.msgService.getMessage(
-            'userManagement.confirmation.assignRoles.action'
-          )
+        .confirmWithMessageService(
+          'warning',
+          'userManagement.confirmation.assignRoles.title',
+          'userManagement.confirmation.assignRoles.messageSingle',
+          'userManagement.confirmation.assignRoles.action',
+          { email: dialogData.user?.email! }
         )
         .subscribe((accepted) => {
           if (accepted) {
@@ -545,17 +542,11 @@ export class UserManagementComponent implements OnInit, OnDestroy {
         });
     } else if (this.selected().length > 1) {
       this.confirmationService
-        .confirm(
-          AlertType.Warning,
-          this.msgService.getMessage(
-            'userManagement.confirmation.assignRoles.title'
-          ),
-          this.msgService.getMessage(
-            'userManagement.confirmation.assignRoles.message'
-          ),
-          this.msgService.getMessage(
-            'userManagement.confirmation.assignRoles.action'
-          )
+        .confirmWithMessageService(
+          'warning',
+          'userManagement.confirmation.assignRoles.title',
+          'userManagement.confirmation.assignRoles.message',
+          'userManagement.confirmation.assignRoles.action'
         )
         .subscribe((accepted) => {
           if (accepted) {

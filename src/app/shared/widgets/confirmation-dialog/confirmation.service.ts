@@ -41,10 +41,11 @@ export class ConfirmationService {
     type: ConfirmationType,
     title: MessagePath<Messages>,
     message: MessagePath<Messages>,
-    action: MessagePath<Messages>
+    action: MessagePath<Messages>,
+    placeholdersForMessage: Record<string, string> = {}
   ): Observable<boolean> {
     const titleResolved = this.messagService.getMessage(title);
-    const messageResolved = this.messagService.getMessage(message);
+    const messageResolved = this.messagService.getMessage(message, placeholdersForMessage);
     const actionResolved = this.messagService.getMessage(action);
 
     const data: ConfirmatioDialog = {

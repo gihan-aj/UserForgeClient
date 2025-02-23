@@ -93,18 +93,13 @@ export class UserProfileComponent implements OnInit, OnDestroy {
   }
 
   editProfile() {
-    const title = this.msgService.getMessage(
-      'user.confirmation.editUserDetails.title'
-    );
-    const message = this.msgService.getMessage(
-      'user.confirmation.editUserDetails.message'
-    );
-    const action = this.msgService.getMessage(
-      'user.confirmation.editUserDetails.action'
-    );
-
     this.confirmEditSubscription = this.confirmationService
-      .confirm(AlertType.Warning, title, message, action)
+      .confirmWithMessageService(
+        'warning',
+        'user.confirmation.editUserDetails.title',
+        'user.confirmation.editUserDetails.message',
+        'user.confirmation.editUserDetails.action'
+      )
       .subscribe((accepted) => {
         if (accepted) {
           this.openDialog();
