@@ -43,7 +43,6 @@ import { DialogMode } from '../../shared/enums/dialog-mode.enum';
 import { PERMISSIONS } from '../../shared/constants/permissions';
 import { HasPermissionDirective } from '../../shared/directives/has-permission.directive';
 import { ConfirmationService } from '../../shared/widgets/confirmation-dialog/confirmation.service';
-import { AlertType } from '../../shared/widgets/alert/alert-type.enum';
 import { UserDetails } from '../interfaces/user-details.interface';
 
 const moment = _rollupMoment || _moment;

@@ -22,21 +22,28 @@ import { BreadcrumbService } from './shared/breadcrumb/breadcrumb.service';
 import { AuthService } from './shared/services/auth.service';
 import { APP_TITLE } from './shared/constants/app-title';
 import { PermissionService } from './shared/services/permission.service';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { LoadingService } from './shared/services/loading.service';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-root',
   imports: [
+    CommonModule,
     RouterOutlet,
     TopBarComponent,
     SideNavComponent,
     FooterComponent,
     MatSidenavModule,
+    MatProgressBarModule,
   ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
 })
 export class AppComponent implements OnInit, OnDestroy {
   sideNavService = inject(SideNavService);
+  loadingService = inject(LoadingService);
   screenWidth = signal<number>(window.innerWidth);
 
   title = APP_TITLE;

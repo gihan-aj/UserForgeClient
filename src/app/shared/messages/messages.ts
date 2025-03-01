@@ -243,4 +243,42 @@ export const MESSAGES: Messages = {
       },
     },
   },
+  appManagement: {
+    validation: {
+      name: {
+        required: 'App name is required.',
+        minLength:
+          'App name must be at least {appNameMinLnegth} characters long.',
+        maxLength:
+          'App name must be maximum {appNameMaxLnegth} characters long.',
+      },
+      description: {
+        maxLength:
+          'description must be maximum {descriptionMaxLnegth} characters long.',
+      },
+    },
+    confirmation: {
+      editApp: {
+        title: 'Confirm Edit',
+        message: 'Are you sure you want to edit the app: {appName}?',
+        action: 'Edit',
+      },
+    },
+    notification: {
+      create: {
+        success: 'App created successfully.',
+        fail: 'Failed to create the app',
+      },
+      edit: {
+        success: 'App updated successfully.',
+        fail: 'Failed to update the app.',
+      },
+    },
+    alert: {
+      protected: {
+        title: 'Restricted Action',
+        message: 'You cannot {action} this app.',
+      },
+    },
+  },
 };

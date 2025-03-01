@@ -1,5 +1,5 @@
 .filled {
-  min-height: 82vh;
+  min-height: 80vh;
 }
 
 .content-layout {
@@ -12,4 +12,8 @@
   flex: 1; // Pushes footer down when content is short
   display: flex;
   flex-direction: column;
+}
+
+.progress-bar {
+  min-height: 5px;
 }

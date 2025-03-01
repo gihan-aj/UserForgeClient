@@ -27,3 +27,11 @@ body {
   margin: 0;
   font-family: Roboto, "Helvetica Neue", sans-serif;
 }
+
+:root {
+  @include mat.dialog-overrides(
+    (
+      container-min-width: 400px,
+    )
+  );
+}

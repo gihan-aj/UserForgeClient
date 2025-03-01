@@ -219,4 +219,39 @@ export type Messages = {
       };
     };
   };
+  appManagement: {
+    validation: {
+      name: {
+        required: string;
+        minLength: string;
+        maxLength: string;
+      };
+      description: {
+        maxLength: string;
+      };
+    };
+    confirmation: {
+      editApp: {
+        title: string;
+        message: string;
+        action: string;
+      };
+    };
+    notification:{
+      create:{
+        success: string;
+        fail: string;
+      }
+      edit:{
+        success: string;
+        fail: string;
+      }
+    };
+    alert:{
+      protected:{
+        title: string;
+        message: string;
+      }
+    }
+  };
 };

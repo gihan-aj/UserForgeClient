@@ -9,6 +9,7 @@ import { UserManagementComponent } from './user-management/user-management.compo
 import { AccessDeniedComponent } from './shared/components/access-denied/access-denied.component';
 import { PermissionsComponent } from './permissions/permissions.component';
 import { RoleManagementComponent } from './role-management/role-management.component';
+import { AppManagementComponent } from './app-management/app-management.component';
 
 export const routes: Routes = [
   {
@@ -28,6 +29,15 @@ export const routes: Routes = [
     data: {
       breadcrumb: 'Dashboard',
       permission: 'dashboard.access',
+    },
+  },
+  {
+    path: 'app-management',
+    component: AppManagementComponent,
+    canActivate: [authGuard, permissionGuard],
+    data: {
+      breadcrumb: 'Apps Management',
+      permission: 'apps.access',
     },
   },
   {
@@ -76,6 +86,7 @@ export const routes: Routes = [
     component: UserComponent,
     loadChildren: () => import('./user/user.routes').then((u) => u.routes),
   },
+
   {
     path: '**',
     component: NotFoundComponent,

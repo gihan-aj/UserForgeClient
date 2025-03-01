@@ -26,6 +26,7 @@
     </div>
   </mat-drawer-content>
 </mat-drawer-container> -->
+
 <mat-drawer-container class="h-100">
   <mat-drawer
     class="w-auto"
@@ -39,6 +40,12 @@
   </mat-drawer>
 
   <mat-drawer-content>
+    <div class="progress-bar">
+      <ng-container *ngIf="loadingService.loading$ | async">
+        <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+      </ng-container>
+    </div>
+
     <div class="p-1">
       <app-top-bar></app-top-bar>
     </div>
