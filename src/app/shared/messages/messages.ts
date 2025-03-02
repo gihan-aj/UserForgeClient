@@ -263,6 +263,30 @@ export const MESSAGES: Messages = {
         message: 'Are you sure you want to edit the app: {appName}?',
         action: 'Edit',
       },
+      activate: {
+        title: 'Confirm Activation',
+        message: {
+          single: 'Are you sure you want to activate the app: {appName}?',
+          multiple: 'Are you sure you want activate selected apps?',
+        },
+        action: 'Activate',
+      },
+      deactivate: {
+        title: 'Confirm Deactivation',
+        message: {
+          single: 'Are you sure you want to deactivate the app: {appName}?',
+          multiple: 'Are you sure you want deactivate selected apps?',
+        },
+        action: 'Deactivate',
+      },
+      delete: {
+        title: 'Confirm Delete',
+        message: {
+          single: 'Are you sure you want to delete the app: {appName}?',
+          multiple: 'Are you sure you want delete selected apps?',
+        },
+        action: 'Delete',
+      },
     },
     notification: {
       create: {
@@ -273,11 +297,53 @@ export const MESSAGES: Messages = {
         success: 'App updated successfully.',
         fail: 'Failed to update the app.',
       },
+      activate: {
+        success: {
+          single: 'App was activated successfully.',
+          multiple: 'Apps were activated successfully.',
+        },
+        fail: {
+          single: 'Failed to activate the app.',
+          multiple: 'Failed to activate apps.',
+        },
+      },
+      deactivate: {
+        success: {
+          single: 'App was deactivated successfully.',
+          multiple: 'Apps were deactivated successfully.',
+        },
+        fail: {
+          single: 'Failed to deactivate the app.',
+          multiple: 'Failed to deactivate apps.',
+        },
+      },
+      delete: {
+        success: {
+          single: 'App was deleted successfully.',
+          multiple: 'Apps were deleted successfully.',
+        },
+        fail: {
+          single: 'Failed to delete the app.',
+          multiple: 'Failed to delete apps.',
+        },
+      },
     },
     alert: {
       protected: {
         title: 'Restricted Action',
-        message: 'You cannot {action} this app.',
+        message: 'You cannot {action} default apps.',
+      },
+      activate: {
+        title: 'Activation Successful',
+        message: '',
+      },
+      deactivate: {
+        title: 'Deactivation Successful',
+        message: '',
+      },
+      delete: {
+        title: 'Delete Successful',
+        message: '',
       },
     },
   },

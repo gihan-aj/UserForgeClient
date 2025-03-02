@@ -236,22 +236,88 @@ export type Messages = {
         message: string;
         action: string;
       };
+      activate: {
+        title: string;
+        message: {
+          single: string;
+          multiple: string;
+        };
+        action: string;
+      };
+      deactivate: {
+        title: string;
+        message: {
+          single: string;
+          multiple: string;
+        };
+        action: string;
+      };
+      delete: {
+        title: string;
+        message: {
+          single: string;
+          multiple: string;
+        };
+        action: string;
+      };
     };
-    notification:{
-      create:{
+    notification: {
+      create: {
         success: string;
         fail: string;
-      }
-      edit:{
+      };
+      edit: {
         success: string;
         fail: string;
-      }
+      };
+      activate: {
+        success: {
+          single: string;
+          multiple: string;
+        };
+        fail: {
+          single: string;
+          multiple: string;
+        };
+      };
+      deactivate: {
+        success: {
+          single: string;
+          multiple: string;
+        };
+        fail: {
+          single: string;
+          multiple: string;
+        };
+      };
+      delete: {
+        success: {
+          single: string;
+          multiple: string;
+        };
+        fail: {
+          single: string;
+          multiple: string;
+        };
+      };
     };
-    alert:{
-      protected:{
+    alert: {
+      protected: {
         title: string;
         message: string;
-      }
-    }
+      };
+      activate: {
+        title: string;
+        message: string;
+      };
+      deactivate: {
+        title: string;
+        message: string;
+      };
+      delete: {
+        title: string;
+        message: string;
+      };
+    };
   };
 };

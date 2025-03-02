@@ -150,22 +150,9 @@ export class AppManagementComponent implements OnDestroy {
     const appDetails = this.dataSource.items.find((app) => app.id === id);
 
     if (appDetails) {
-      if (this.protectedData.isProtectedApp(appDetails.name)) {
-        this.alertService.fetchMessagesAndAlert(
-          'danger',
-          'appManagement.alert.protected.title',
-          'appManagement.alert.protected.message',
-          { action: 'edit' }
-        );
-      } else {
-        this.confirmationService
-          .fetchMessagesAndConfirm(
-            'warning',
-            'appManagement.confirmation.editApp.title',
-            'appManagement.confirmation.editApp.message',
-            'appManagement.confirmation.editApp.action',
-            { appName: appDetails.name }
-          )
+      if (!this.appManagementService.isProtected(appDetails.name, 'edit')) {
+        this.appManagementService
+          .confirmEdit(appDetails)
           .pipe(takeUntil(this.destroy$))
           .subscribe((accepted) => {
             if (accepted) {
@@ -181,6 +168,67 @@ export class AppManagementComponent implements OnDestroy {
             }
           });
       }
+    }
+  }
+
+  private hasProtectedAppSelected(apps: AppDetails[], action: string) {
+    for (let i = 0; i < apps.length; i++) {
+      if (this.appManagementService.isProtected(apps[i].name, action)) {
+        return true;
+      }
+    }
+
+    return false;
+  }
+
+  activateApps(ids: number[]) {
+    const apps = this.dataSource.items.filter((app) => ids.includes(app.id));
+
+    if (!this.hasProtectedAppSelected(apps, 'activate')) {
+      this.appManagementService
+        .confirmActivation(apps)
+        .pipe(takeUntil(this.destroy$))
+        .subscribe((accepted) => {
+          if (accepted) {
+            this.appManagementService.activate(ids).subscribe(() => {
+              this.fetchTableData();
+            });
+          }
+        });
+    }
+  }
+
+  deactivateApps(ids: number[]) {
+    const apps = this.dataSource.items.filter((app) => ids.includes(app.id));
+
+    if (!this.hasProtectedAppSelected(apps, 'deactivate')) {
+      this.appManagementService
+        .confirmDeactivation(apps)
+        .pipe(takeUntil(this.destroy$))
+        .subscribe((accepted) => {
+          if (accepted) {
+            this.appManagementService.deactivate(ids).subscribe(() => {
+              this.fetchTableData();
+            });
+          }
+        });
+    }
+  }
+
+  deleteApps(ids: number[]) {
+    const apps = this.dataSource.items.filter((app) => ids.includes(app.id));
+
+    if (!this.hasProtectedAppSelected(apps, 'delete')) {
+      this.appManagementService
+        .confirmDelete(apps)
+        .pipe(takeUntil(this.destroy$))
+        .subscribe((accepted) => {
+          if (accepted) {
+            this.appManagementService.delete(ids).subscribe(() => {
+              this.fetchTableData();
+            });
+          }
+        });
     }
   }
 
