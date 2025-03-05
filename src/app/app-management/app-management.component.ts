@@ -88,13 +88,13 @@ export class AppManagementComponent implements OnDestroy {
   }
 
   private fetchTableData() {
-    this.dataSource.loadData(
-      this.page(),
-      this.pageSize(),
-      this.sortColumn(),
-      this.sortOrder(),
-      this.searchTerm()
-    );
+    this.dataSource.loadData({
+      page: this.page(),
+      pageSize: this.pageSize(),
+      sortColumn: this.sortColumn(),
+      sortOrder: this.sortOrder(),
+      searchTerm: this.searchTerm(),
+    });
   }
 
   refreshTable = effect(() => {

@@ -19,8 +19,7 @@ import { ErrorHandlingService } from '../shared/error-handling/error-handling.se
 import { MessageService } from '../shared/messages/message.service';
 import { AlertService } from '../shared/widgets/alert/alert.service';
 import { ConfirmationService } from '../shared/widgets/confirmation-dialog/confirmation.service';
-import { ABSOLUTE_ROUTES } from '../shared/constants/absolute-routes';
-import { RoleFetchOptions } from './interfaces/role-fetch-options.interface';
+import { PaginatedRolesParams } from './interfaces/paginated-roles-params.interface';
 
 const PAGE_TITLE = 'Role Management';
 
@@ -57,7 +56,7 @@ export class RoleManagementComponent {
   );
   pageSizeKey = SETTING_KEYS.pageSize;
 
-  dataSource: TableDataSource<RoleDetails>;
+  dataSource: TableDataSource<RoleDetails, PaginatedRolesParams>;
   fields = FIELDS;
   columns = COLUMNS;
 
@@ -78,20 +77,21 @@ export class RoleManagementComponent {
       }
     );
 
-    this.dataSource = new TableDataSource<RoleDetails>(
+    this.dataSource = new TableDataSource<RoleDetails, PaginatedRolesParams>(
       this.roleManagementService,
       this.errorHandler
     );
   }
 
   private fetchTableData() {
-    this.dataSource.loadData(
-      this.page(),
-      this.pageSize(),
-      this.sortColumn(),
-      this.sortOrder(),
-      this.searchTerm()
-    );
+    this.dataSource.loadData({
+      page: this.page(),
+      pageSize: this.pageSize(),
+      searchTerm: this.searchTerm(),
+      sortColumn: this.sortColumn(),
+      sortOrder: this.sortOrder(),
+      appId: 1,
+    });
   }
 
   refreshTable = effect(() => {

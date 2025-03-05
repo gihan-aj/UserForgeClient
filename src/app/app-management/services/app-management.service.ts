@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { FetchDataSet } from '../../shared/interfaces/fetch-data-set.interface';
 import { AppDetails } from '../app-details.interface';
 import { catchError, Observable, of, tap, throwError } from 'rxjs';
 import { PaginatedList } from '../../shared/interfaces/paginated-list.interface';
@@ -20,11 +19,13 @@ import { BulkIdsRequest } from '../../shared/interfaces/bulk-ids-request.interfa
 import { ConfirmationService } from '../../shared/widgets/confirmation-dialog/confirmation.service';
 import { ProtectedDataService } from '../../shared/protected-data/protected-data.service';
 import { AlertService } from '../../shared/widgets/alert/alert.service';
+import { FetchPaginatedData } from '../../shared/interfaces/fetch-paginated-data.interface';
+import { PaginationParams } from '../../shared/interfaces/pagination-params.interface';
 
 @Injectable({
   providedIn: 'root',
 })
-export class AppManagementService implements FetchDataSet<AppDetails> {
+export class AppManagementService implements FetchPaginatedData<AppDetails> {
   private readonly baseUrl = `${environment.baseUrl}/apps`;
 
   constructor(
@@ -37,26 +38,22 @@ export class AppManagementService implements FetchDataSet<AppDetails> {
   ) {}
 
   fetchDataSet(
-    page: number,
-    pageSize: number,
-    sortColumn?: string,
-    sortOrder?: string,
-    searchTerm?: string
+    params: PaginationParams
   ): Observable<PaginatedList<AppDetails>> {
     const url = this.baseUrl;
 
     let queryParams = new HttpParams();
-    if (searchTerm) {
-      queryParams = queryParams.append(SEARCH_TERM, searchTerm);
+    if (params.searchTerm) {
+      queryParams = queryParams.append(SEARCH_TERM, params.searchTerm);
     }
-    if (sortColumn) {
-      queryParams = queryParams.append(SORT_COLUMN, sortColumn);
+    if (params.sortColumn) {
+      queryParams = queryParams.append(SORT_COLUMN, params.sortColumn);
     }
-    if (sortOrder) {
-      queryParams = queryParams.append(SORT_ORDER, sortOrder);
+    if (params.sortOrder) {
+      queryParams = queryParams.append(SORT_ORDER, params.sortOrder);
     }
-    queryParams = queryParams.append(PAGE, page.toString());
-    queryParams = queryParams.append(PAGE_SIZE, pageSize.toString());
+    queryParams = queryParams.append(PAGE, params.page.toString());
+    queryParams = queryParams.append(PAGE_SIZE, params.pageSize.toString());
 
     return this.http.get<PaginatedList<AppDetails>>(url, {
       params: queryParams,
@@ -222,11 +219,11 @@ export class AppManagementService implements FetchDataSet<AppDetails> {
               'appManagement.notification.deactivate.success.multiple'
             );
 
-            this.alertService.fetchMessagesAndAlertWithBackendMessage(
-              'success',
-              'appManagement.alert.deactivate.title',
-              res.message
-            );
+        this.alertService.fetchMessagesAndAlertWithBackendMessage(
+          'success',
+          'appManagement.alert.deactivate.title',
+          res.message
+        );
       }),
       catchError((error) => {
         ids.length === 1
@@ -280,11 +277,11 @@ export class AppManagementService implements FetchDataSet<AppDetails> {
               'appManagement.notification.delete.success.multiple'
             );
 
-            this.alertService.fetchMessagesAndAlertWithBackendMessage(
-              'success',
-              'appManagement.alert.delete.title',
-              res.message
-            );
+        this.alertService.fetchMessagesAndAlertWithBackendMessage(
+          'success',
+          'appManagement.alert.delete.title',
+          res.message
+        );
       }),
       catchError((error) => {
         ids.length === 1

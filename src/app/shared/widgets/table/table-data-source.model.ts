@@ -3,9 +3,9 @@ import { BehaviorSubject, Observable } from 'rxjs';
 
 import { PaginatedList } from '../../interfaces/paginated-list.interface';
 import { ErrorHandlingService } from '../../error-handling/error-handling.service';
-import { SortOrder } from './sort-order.enum';
+import { PaginationParams } from '../../interfaces/pagination-params.interface';
 
-export class TableDataSource<T> implements DataSource<T> {
+export class TableDataSource<T, U = PaginationParams> implements DataSource<T> {
   private dataSubject = new BehaviorSubject<T[]>([]);
   dataStream$ = this.dataSubject.asObservable();
 
@@ -20,13 +20,7 @@ export class TableDataSource<T> implements DataSource<T> {
 
   constructor(
     private dataService: {
-      fetchDataSet: (
-        page: number,
-        pageSize: number,
-        sortColumn?: string,
-        sortOrder?: SortOrder,
-        searchTerm?: string
-      ) => Observable<PaginatedList<T>>;
+      fetchDataSet: (params: U) => Observable<PaginatedList<T>>;
     },
     private errorHandling: ErrorHandlingService
   ) {}
@@ -40,33 +34,25 @@ export class TableDataSource<T> implements DataSource<T> {
     this.loadingSubject.complete();
   }
 
-  loadData(
-    page: number,
-    pageSize: number,
-    sortColumn?: string,
-    sortOrder?: SortOrder,
-    searchTerm?: string
-  ): void {
+  loadData(params: U): void {
     this.loadingSubject.next(true);
 
-    this.dataService
-      .fetchDataSet(page, pageSize, sortColumn, sortOrder, searchTerm)
-      .subscribe({
-        next: (response) => {
-          this.page = response.page;
-          this.pageSize = response.pageSize;
-          this.items = response.items;
-          this.itemCount = response.items.length;
-          this.totalCount = response.totalCount;
-          this.dataSubject.next(response.items);
-        },
-        error: (error) => {
-          this.errorHandling.handle(error);
-          this.totalCount = 0;
-        },
-        complete: () => {
-          this.loadingSubject.next(false);
-        },
-      });
+    this.dataService.fetchDataSet(params).subscribe({
+      next: (response) => {
+        this.page = response.page;
+        this.pageSize = response.pageSize;
+        this.items = response.items;
+        this.itemCount = response.items.length;
+        this.totalCount = response.totalCount;
+        this.dataSubject.next(response.items);
+      },
+      error: (error) => {
+        this.errorHandling.handle(error);
+        this.totalCount = 0;
+      },
+      complete: () => {
+        this.loadingSubject.next(false);
+      },
+    });
   }
 }

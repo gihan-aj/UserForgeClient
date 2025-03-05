@@ -18,36 +18,34 @@ import { BulkIdsRequest } from '../../shared/interfaces/bulk-ids-request.interfa
 import { HttpSuccessResponse } from '../../shared/interfaces/http-success-response.interface';
 import { AssignRolesRequest } from '../interfaces/assign-roles.interface';
 import { BulkAssignRolesRequest } from '../interfaces/bulk-assign-roles-request.interface';
+import { FetchPaginatedData } from '../../shared/interfaces/fetch-paginated-data.interface';
+import { PaginationParams } from '../../shared/interfaces/pagination-params.interface';
 
 @Injectable({
   providedIn: 'root',
 })
-export class UserManagementService implements FetchDataSet<UserDetails> {
+export class UserManagementService implements FetchPaginatedData<UserDetails> {
   private readonly baseUrl = `${environment.baseUrl}/users`;
 
   constructor(private http: HttpClient) {}
 
   fetchDataSet(
-    page: number,
-    pageSize: number,
-    sortColumn?: string,
-    sortOrder?: string,
-    searchTerm?: string
+    params: PaginationParams
   ): Observable<PaginatedList<UserDetails>> {
     const url = this.baseUrl;
 
     let queryParams = new HttpParams();
-    if (searchTerm) {
-      queryParams = queryParams.append(SEARCH_TERM, searchTerm);
+    if (params.searchTerm) {
+      queryParams = queryParams.append(SEARCH_TERM, params.searchTerm);
     }
-    if (sortColumn) {
-      queryParams = queryParams.append(SORT_COLUMN, sortColumn);
+    if (params.sortColumn) {
+      queryParams = queryParams.append(SORT_COLUMN, params.sortColumn);
     }
-    if (sortOrder) {
-      queryParams = queryParams.append(SORT_ORDER, sortOrder);
+    if (params.sortOrder) {
+      queryParams = queryParams.append(SORT_ORDER, params.sortOrder);
     }
-    queryParams = queryParams.append(PAGE, page.toString());
-    queryParams = queryParams.append(PAGE_SIZE, pageSize.toString());
+    queryParams = queryParams.append(PAGE, params.page.toString());
+    queryParams = queryParams.append(PAGE_SIZE, params.pageSize.toString());
 
     return this.http.get<PaginatedList<UserDetails>>(url, {
       params: queryParams,

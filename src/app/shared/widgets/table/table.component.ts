@@ -29,6 +29,7 @@ import { FormatTitlePipe } from '../../pipes/format-title.pipe';
 import { FormsModule } from '@angular/forms';
 import { PAGE_SIZE_OPTIONS } from './page-size-options';
 import { DEFAULT_COLUMNS } from './default-columns';
+import { PaginationParams } from '../../interfaces/pagination-params.interface';
 
 @Component({
   selector: 'app-table',
@@ -52,8 +53,10 @@ import { DEFAULT_COLUMNS } from './default-columns';
   templateUrl: './table.component.html',
   styleUrl: './table.component.scss',
 })
-export class TableComponent<T extends HasId> implements OnInit, OnDestroy {
-  dataSource = input.required<TableDataSource<T>>();
+export class TableComponent<T extends HasId, U = PaginationParams>
+  implements OnInit, OnDestroy
+{
+  dataSource = input.required<TableDataSource<T, U>>();
   fields = input.required<string[]>();
   columns = model.required<string[]>();
 

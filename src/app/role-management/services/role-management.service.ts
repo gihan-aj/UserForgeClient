@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { FetchDataSet } from '../../shared/interfaces/fetch-data-set.interface';
 import { RoleDetails } from '../interfaces/role-details.interface';
 import { Observable } from 'rxjs';
 import { HttpClient, HttpParams } from '@angular/common/http';
@@ -14,37 +13,36 @@ import {
   SORT_COLUMN,
   SORT_ORDER,
 } from '../../shared/constants/query-params';
-import { RoleFetchOptions } from '../interfaces/role-fetch-options.interface';
+import { FetchPaginatedData } from '../../shared/interfaces/fetch-paginated-data.interface';
+import { PaginatedRolesParams } from '../interfaces/paginated-roles-params.interface';
 
 @Injectable({
   providedIn: 'root',
 })
-export class RoleManagementService implements FetchDataSet<RoleDetails> {
+export class RoleManagementService implements FetchPaginatedData<RoleDetails, PaginatedRolesParams> {
   private readonly baseUrl = `${environment.baseUrl}/roles`;
 
   constructor(private http: HttpClient) {}
 
   fetchDataSet(
-    page: number,
-    pageSize: number,
-    sortColumn?: string,
-    sortOrder?: string,
-    searchTerm?: string
+    params: PaginatedRolesParams
   ): Observable<PaginatedList<RoleDetails>> {
     const url = this.baseUrl;
 
     let queryParams = new HttpParams();
-    if (searchTerm) {
-      queryParams = queryParams.append(SEARCH_TERM, searchTerm);
+    queryParams = queryParams.append(PAGE, params.page.toString());
+    queryParams = queryParams.append(PAGE_SIZE, params.pageSize.toString());
+    if (params.searchTerm) {
+      queryParams = queryParams.append(SEARCH_TERM, params.searchTerm);
     }
-    if (sortColumn) {
-      queryParams = queryParams.append(SORT_COLUMN, sortColumn);
+    if (params.sortColumn) {
+      queryParams = queryParams.append(SORT_COLUMN, params.sortColumn);
     }
-    if (sortOrder) {
-      queryParams = queryParams.append(SORT_ORDER, sortOrder);
+    if (params.sortOrder) {
+      queryParams = queryParams.append(SORT_ORDER, params.sortOrder);
     }
-    queryParams = queryParams.append(PAGE, page.toString());
-    queryParams = queryParams.append(PAGE_SIZE, pageSize.toString());
+    
+    queryParams = queryParams.append(APP_ID, params.appId.toString());
 
     return this.http.get<PaginatedList<RoleDetails>>(url, {
       params: queryParams,
