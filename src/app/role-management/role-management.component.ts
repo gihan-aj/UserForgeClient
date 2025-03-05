@@ -20,6 +20,7 @@ import { MessageService } from '../shared/messages/message.service';
 import { AlertService } from '../shared/widgets/alert/alert.service';
 import { ConfirmationService } from '../shared/widgets/confirmation-dialog/confirmation.service';
 import { ABSOLUTE_ROUTES } from '../shared/constants/absolute-routes';
+import { RoleFetchOptions } from './interfaces/role-fetch-options.interface';
 
 const PAGE_TITLE = 'Role Management';
 

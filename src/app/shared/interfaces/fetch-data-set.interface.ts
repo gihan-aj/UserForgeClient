@@ -7,6 +7,6 @@ export interface FetchDataSet<T> {
     pageSize: number,
     sortColumn?: string,
     sortOrder?: string,
-    searchTerm?: string
+    searchTerm?: string,
   ): Observable<PaginatedList<T>>;
 }

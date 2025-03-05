@@ -7,12 +7,14 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { PaginatedList } from '../../shared/interfaces/paginated-list.interface';
 import { environment } from '../../../environments/environment';
 import {
+  APP_ID,
   PAGE,
   PAGE_SIZE,
   SEARCH_TERM,
   SORT_COLUMN,
   SORT_ORDER,
 } from '../../shared/constants/query-params';
+import { RoleFetchOptions } from '../interfaces/role-fetch-options.interface';
 
 @Injectable({
   providedIn: 'root',
