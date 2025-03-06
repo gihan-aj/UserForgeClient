@@ -60,7 +60,6 @@ export class AppManagementComponent implements OnDestroy {
   pageSize = signal(
     this.settings.defaultSettings[this.settings.settingKeys.pageSize]
   );
-  pageSizeKey = SETTING_KEYS.pageSize;
 
   dataSource: TableDataSource<AppDetails>;
   fields = FIELDS;
@@ -78,7 +77,7 @@ export class AppManagementComponent implements OnDestroy {
     private protectedData: ProtectedDataService
   ) {
     this.settings.settings$.pipe(takeUntilDestroyed()).subscribe((settings) => {
-      this.pageSize.set(settings[this.pageSizeKey]);
+      this.pageSize.set(settings[this.settings.settingKeys.pageSize]);
     });
 
     this.dataSource = new TableDataSource<AppDetails>(

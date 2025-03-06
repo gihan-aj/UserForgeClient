@@ -1,8 +1,10 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject, catchError, Observable, throwError } from 'rxjs';
 import { environment } from '../../../environments/environment';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { PermissionDetails } from '../../permissions/interfaces/permission-details.interface';
+import { ErrorHandlingService } from '../error-handling/error-handling.service';
+import { APP_ID } from '../constants/query-params';
 
 @Injectable({
   providedIn: 'root',
@@ -12,12 +14,25 @@ export class PermissionService {
   permissions$ = this.permissionsSubject.asObservable();
 
   private baseUrl = `${environment.baseUrl}/permissions`;
-  
-  constructor(private http: HttpClient) {}
 
-  getAllPermssions(): Observable<PermissionDetails[]> {
+  constructor(
+    private http: HttpClient,
+    private errorHandler: ErrorHandlingService
+  ) {}
+
+  getAllPermssions(appId: number): Observable<PermissionDetails[]> {
     const url = this.baseUrl;
-    return this.http.get<PermissionDetails[]>(url);
+    let queryParams = new HttpParams();
+    queryParams = queryParams.append(APP_ID, appId.toString());
+
+    return this.http
+      .get<PermissionDetails[]>(url, { params: queryParams })
+      .pipe(
+        catchError((error) => {
+          this.errorHandler.handle(error);
+          return throwError(() => error);
+        })
+      );
   }
 
   setpermissions(permissions: string[]) {

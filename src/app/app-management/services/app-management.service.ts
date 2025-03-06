@@ -57,7 +57,12 @@ export class AppManagementService implements FetchPaginatedData<AppDetails> {
 
     return this.http.get<PaginatedList<AppDetails>>(url, {
       params: queryParams,
-    });
+    }).pipe(
+      catchError((error) => {
+        this.errorHandling.handle(error);
+        return throwError(() => error);
+      })
+    );
   }
 
   create(appDetails: CreateAppRequest) {
