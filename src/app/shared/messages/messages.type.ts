@@ -218,6 +218,99 @@ export type Messages = {
         maxLength: string;
       };
     };
+    confirmation: {
+      edit: {
+        title: string;
+        message: string;
+        action: string;
+      };
+      activate: {
+        title: string;
+        message: {
+          single: string;
+          multiple: string;
+        };
+        action: string;
+      };
+      deactivate: {
+        title: string;
+        message: {
+          single: string;
+          multiple: string;
+        };
+        action: string;
+      };
+      delete: {
+        title: string;
+        message: {
+          single: string;
+          multiple: string;
+        };
+        action: string;
+      };
+    };
+    notification: {
+      create: {
+        success: string;
+        fail: string;
+      };
+      edit: {
+        success: string;
+        fail: string;
+      };
+      activate: {
+        success: {
+          single: string;
+          multiple: string;
+        };
+        fail: {
+          single: string;
+          multiple: string;
+        };
+      };
+      deactivate: {
+        success: {
+          single: string;
+          multiple: string;
+        };
+        fail: {
+          single: string;
+          multiple: string;
+        };
+      };
+      delete: {
+        success: {
+          single: string;
+          multiple: string;
+        };
+        fail: {
+          single: string;
+          multiple: string;
+        };
+      };
+    };
+    alert: {
+      protected: {
+        title: string;
+        message: string;
+      };
+      activate: {
+        title: string;
+        message: string;
+      };
+      deactivate: {
+        title: string;
+        message: string;
+      };
+      delete: {
+        title: string;
+        message: string;
+      };
+      appNotSelected: {
+        title: string;
+        message: string;
+      };
+    };
   };
   appManagement: {
     validation: {

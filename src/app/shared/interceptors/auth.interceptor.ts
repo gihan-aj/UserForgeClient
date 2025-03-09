@@ -28,7 +28,9 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
     req = addToken(req, accessToken);
     console.log('bearer token added to the request');
   }
-
+  if (jwtTokenService.isTokenExpired()) {
+    console.log('access token is expired');
+  }
   return next(req).pipe(
     catchError((error) => {
       if (error.status === 401 && refreshToken) {

@@ -57,6 +57,8 @@ export const routes: Routes = [
       breadcrumb: 'Role Management',
       permission: 'roles.access',
     },
+    loadChildren: () =>
+      import('./role-management/role-management.routes').then((r) => r.routes),
   },
   {
     path: 'permissions',

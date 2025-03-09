@@ -9,7 +9,6 @@ import { PERMISSIONS } from '../shared/constants/permissions';
 import { PermissionService } from '../shared/services/permission.service';
 import { SettingsService } from '../shared/settings/settings.service';
 import { SortOrder } from '../shared/widgets/table/sort-order.enum';
-import { SETTING_KEYS } from '../shared/settings/setting-keys';
 import { TableDataSource } from '../shared/widgets/table/table-data-source.model';
 import { AppDetails } from './app-details.interface';
 import { AppManagementService } from './services/app-management.service';
@@ -71,10 +70,7 @@ export class AppManagementComponent implements OnDestroy {
 
   constructor(
     private appManagementService: AppManagementService,
-    private errorHandler: ErrorHandlingService,
-    private confirmationService: ConfirmationService,
-    private alertService: AlertService,
-    private protectedData: ProtectedDataService
+    private errorHandler: ErrorHandlingService
   ) {
     this.settings.settings$.pipe(takeUntilDestroyed()).subscribe((settings) => {
       this.pageSize.set(settings[this.settings.settingKeys.pageSize]);

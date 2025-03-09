@@ -6,7 +6,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { merge, Subscription } from 'rxjs';
+import { merge, Subject, Subscription, takeUntil } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 import {
@@ -22,7 +22,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 
-import { RoleDetailsDialog } from './role-details-dialog.type';
+import { RoleDetailsDialogType } from './role-details-dialog.type';
 import { RoleDetails } from '../../interfaces/role-details.interface';
 import { RoleDetailsDialogData } from './role-details-dilaog-data.interface';
 import {
@@ -31,6 +31,10 @@ import {
   ROLE_NAME_MIN_LENGTH,
 } from '../../../shared/constants/constraints';
 import { MessageService } from '../../../shared/messages/message.service';
+import { RoleManagementService } from '../../services/role-management.service';
+import { ProtectedDataService } from '../../../shared/protected-data/protected-data.service';
+import { CreateRoleRequest } from '../../interfaces/create-role-request.interface';
+import { EditRoleDetailsRequest } from '../../interfaces/edit-role-details-request.interface';
 
 @Component({
   selector: 'app-role-details-dialog',
@@ -53,16 +57,32 @@ import { MessageService } from '../../../shared/messages/message.service';
 export class RoleDetailsDialogComponent implements OnDestroy {
   readonly dialogRef = inject(MatDialogRef<RoleDetailsDialogComponent>);
   data = inject<RoleDetailsDialogData>(MAT_DIALOG_DATA);
+
   fb = inject(FormBuilder);
 
-  mode = signal<RoleDetailsDialog>('view');
-  role = signal<RoleDetails>({
-    id: '',
-    name: '',
-    description: '',
-    isActive: true,
-  });
+  mode = signal<RoleDetailsDialogType>(this.data.mode);
+
+  selectedApp = this.data.app;
+
+  role = signal<RoleDetails>(
+    this.data.roleDetails
+      ? {
+          id: this.data.roleDetails.id,
+          name: this.data.roleDetails.name,
+          description: this.data.roleDetails.description,
+          isActive: this.data.roleDetails.isActive,
+        }
+      : {
+          id: '',
+          name: '',
+          description: '',
+          isActive: true,
+        }
+  );
+
   viewOnly = computed(() => this.mode() === 'view');
+
+  isProtectedRole = signal(false);
 
   nameMaxLength = ROLE_NAME_MAX_LENGTH;
   nameMinLength = ROLE_NAME_MIN_LENGTH;
@@ -88,26 +108,24 @@ export class RoleDetailsDialogComponent implements OnDestroy {
     isActive: [{ value: this.role().isActive, disabled: true }],
   });
 
-  nameErrorSubscription: Subscription;
-  descriptionErrorSubscription: Subscription;
-
-  constructor(private msgService: MessageService) {
-    this.mode.set(this.data.mode);
-    if (this.data.roleDetails) {
-      this.role.set(this.data.roleDetails);
+  private destroy$: Subject<void> = new Subject<void>();
+  constructor(
+    private msgService: MessageService,
+    private protectedData: ProtectedDataService,
+    private roleManagementService: RoleManagementService
+  ) {
+    if (
+      this.data.roleDetails &&
+      this.protectedData.isProtectedRole(this.data.roleDetails.name)
+    ) {
+      this.isProtectedRole.set(true);
     }
 
-    this.nameErrorSubscription = merge(
-      this.name!.statusChanges,
-      this.name!.valueChanges
-    )
+    merge(this.name!.statusChanges, this.name!.valueChanges)
       .pipe(takeUntilDestroyed())
       .subscribe(() => this.updateNameErrorMessages());
 
-    this.descriptionErrorSubscription = merge(
-      this.description!.statusChanges,
-      this.description!.valueChanges
-    )
+    merge(this.description!.statusChanges, this.description!.valueChanges)
       .pipe(takeUntilDestroyed())
       .subscribe(() => this.updateDescriptionErrorMessages());
   }
@@ -158,9 +176,44 @@ export class RoleDetailsDialogComponent implements OnDestroy {
     }
   }
 
+  onEdit() {
+    this.roleManagementService
+      .confirmEdit(this.role())
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((accepted) => {
+        if (accepted) {
+          this.mode.set('edit');
+        }
+      });
+  }
+
+  onSubmit() {
+    if (this.form.valid) {
+      const data = this.form.getRawValue();
+
+      if (this.mode() === 'create') {
+        const request: CreateRoleRequest = {
+          roleName: data.name!,
+          description: data.description,
+          appId: this.selectedApp.id,
+        };
+
+        this.dialogRef.close(request);
+      } else if (this.mode() === 'edit') {
+        const request: EditRoleDetailsRequest = {
+          roleId: data.id!,
+          roleName: data.name!,
+          description: data.description,
+          appId: this.selectedApp.id,
+        };
+
+        this.dialogRef.close(request);
+      }
+    }
+  }
+
   ngOnDestroy(): void {
-    if (this.nameErrorSubscription) this.nameErrorSubscription.unsubscribe();
-    if (this.descriptionErrorSubscription)
-      this.descriptionErrorSubscription.unsubscribe();
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 }

@@ -8,17 +8,74 @@
   }}
 </h2>
 
-<form [formGroup]="form">
+<form [formGroup]="form" (ngSubmit)="onSubmit()">
   <mat-dialog-content>
-    <h3></h3>
+    <div class="row mb-3">
+      <mat-form-field class="w-100">
+        <mat-label>Name</mat-label>
+        <input
+          matInput
+          type="text"
+          [readonly]="viewOnly()"
+          [minLength]="nameMinLength"
+          [maxLength]="nameMaxLength"
+          formControlName="name"
+        />
+
+        @if (name?.invalid) {
+        <mat-error>{{ nameErrorMessage() }}</mat-error>
+        }
+      </mat-form-field>
+    </div>
+
+    <div class="row mb-3">
+      <mat-form-field class="w-100">
+        <mat-label>Description</mat-label>
+        <textarea
+          matInput
+          type="text"
+          [readonly]="viewOnly()"
+          [maxLength]="descriptionMaxLength"
+          formControlName="description"
+        ></textarea>
+
+        @if (description?.invalid) {
+        <mat-error>{{ descriptionErrorMessage() }}</mat-error>
+        }
+      </mat-form-field>
+    </div>
+
+    <div *ngIf="mode() !== 'create'" class="row">
+      <div class="text-end">
+        <p>
+          <mat-slide-toggle
+            labelPosition="before"
+            formControlName="isActive"
+            aria-label="is active"
+            >Is Active
+          </mat-slide-toggle>
+        </p>
+      </div>
+    </div>
   </mat-dialog-content>
   <mat-dialog-actions align="end">
     <button mat-button [mat-dialog-close]="null">Cancel</button>
-    <button mat-button *ngIf="mode() === 'create' || mode() === 'edit'">
+
+    <button type="submit" mat-flat-button *ngIf="mode() === 'create'">
+      Create
+    </button>
+
+    <button type="submit" mat-flat-button *ngIf="mode() === 'edit'">
       Save
     </button>
-    <button mat-button *ngIf="mode() === 'assignPermissions'">
-      Assign Permissions
+
+    <button
+      type="button"
+      mat-flat-button
+      *ngIf="viewOnly() && !isProtectedRole()"
+      (click)="onEdit()"
+    >
+      Edit
     </button>
   </mat-dialog-actions>
 </form>

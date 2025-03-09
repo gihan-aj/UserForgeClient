@@ -1,6 +1,1 @@
-export type RoleDetailsDialog =
-  | 'create'
-  | 'view'
-  | 'edit'
-  | 'viewPermissions'
-  | 'assignPermissions';
+export type RoleDetailsDialogType = 'create' | 'view' | 'edit';

@@ -10,3 +10,5 @@ export const SORT_COLUMN = 'sortColumn';
 export const SEARCH_TERM = 'searchTerm';
 
 export const APP_ID = 'appId';
+
+export const ROLE_ID = 'roleId';

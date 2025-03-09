@@ -242,6 +242,99 @@ export const MESSAGES: Messages = {
           'description must be maximum {descriptionMaxLnegth} characters long.',
       },
     },
+    confirmation: {
+      edit: {
+        title: 'Confirm Edit',
+        message: 'Are you sure you want to edit the role: {roleName}?',
+        action: 'Edit',
+      },
+      activate: {
+        title: 'Confirm Activation',
+        message: {
+          single: 'Are you sure you want to activate the role: {roleName}?',
+          multiple: 'Are you sure you want activate selected roles?',
+        },
+        action: 'Activate',
+      },
+      deactivate: {
+        title: 'Confirm Deactivation',
+        message: {
+          single: 'Are you sure you want to deactivate the role: {roleName}?',
+          multiple: 'Are you sure you want deactivate selected roles?',
+        },
+        action: 'Deactivate',
+      },
+      delete: {
+        title: 'Confirm Delete',
+        message: {
+          single: 'Are you sure you want to delete the role: {roleName}?',
+          multiple: 'Are you sure you want delete selected roles?',
+        },
+        action: 'Delete',
+      },
+    },
+    notification: {
+      create: {
+        success: 'Role created successfully.',
+        fail: 'Failed to create the role',
+      },
+      edit: {
+        success: 'Role updated successfully.',
+        fail: 'Failed to update the role.',
+      },
+      activate: {
+        success: {
+          single: 'Role was activated successfully.',
+          multiple: 'Roles were activated successfully.',
+        },
+        fail: {
+          single: 'Failed to activate the role.',
+          multiple: 'Failed to activate roles.',
+        },
+      },
+      deactivate: {
+        success: {
+          single: 'Role was deactivated successfully.',
+          multiple: 'Roles were deactivated successfully.',
+        },
+        fail: {
+          single: 'Failed to deactivate the role.',
+          multiple: 'Failed to deactivate roles.',
+        },
+      },
+      delete: {
+        success: {
+          single: 'Role was deleted successfully.',
+          multiple: 'Roles were deleted successfully.',
+        },
+        fail: {
+          single: 'Failed to delete the role.',
+          multiple: 'Failed to delete roles.',
+        },
+      },
+    },
+    alert: {
+      protected: {
+        title: 'Restricted Action',
+        message: 'You cannot {action} default roles.',
+      },
+      activate: {
+        title: 'Activation Successful',
+        message: '',
+      },
+      deactivate: {
+        title: 'Deactivation Successful',
+        message: '',
+      },
+      delete: {
+        title: 'Delete Successful',
+        message: '',
+      },
+      appNotSelected: {
+        title: 'App Not Selected',
+        message: 'Please select an app to proceed',
+      },
+    },
   },
   appManagement: {
     validation: {

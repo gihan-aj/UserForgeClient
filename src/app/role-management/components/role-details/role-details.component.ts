@@ -1,5 +1,8 @@
 import { Component, OnInit, signal } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
+import { RoleDetails } from '../../interfaces/role-details.interface';
+import { RoleManagementService } from '../../services/role-management.service';
+import { RoleDetailsWithPermissions } from '../../interfaces/role-details-with-permissions.interface';
 
 @Component({
   selector: 'app-role-details',
@@ -8,14 +11,28 @@ import { ActivatedRoute } from '@angular/router';
   styleUrl: './role-details.component.scss',
 })
 export class RoleDetailsComponent implements OnInit {
-  roleId = signal<string | null>(null);
+  roleId: string | null;
+  role: RoleDetailsWithPermissions | undefined;
 
-  constructor(private activatedRoute: ActivatedRoute) {}
+  constructor(
+    private route: ActivatedRoute,
+    private router: Router,
+    private roleManagmentService: RoleManagementService
+  ) {
+    this.roleId = this.route.snapshot.paramMap.get('id');
+  }
 
   ngOnInit(): void {
-    this.activatedRoute.params.subscribe((params) => {
-      this.roleId.set(params['roleId']);
-      console.log('role is in role details page: ', this.roleId());
-    });
+    if (!this.roleId) {
+      this.router.navigate(['/role-management']);
+    } else {
+      this.roleManagmentService
+        .fetchRoleWithPermissions(this.roleId)
+        .subscribe((role) => {
+          if (role) {
+            this.role = role;
+          }
+        });
+    }
   }
 }
